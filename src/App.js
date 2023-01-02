@@ -82,7 +82,7 @@ function App() {
             </TabList>
             <TabPanels marginLeft='100px' marginRight='200px'>
               <TabPanel marginTop='280px'>
-                <p><b>What is Man In The Middle Attack?</b><br></br><br></br></p><p>A man-in-the-middle (MiTM) attack is a type of cyber attack in which the attacker secretly intercepts and relays messages between two parties who believe they are communicating directly with each other. The attack is a type of eavesdropping in which the attacker intercepts and then controls the entire conversation. </p>
+                <p><b>What is Man In The Middle Attack?</b><br></br><br></br></p><p>A cyberattack known as a man-in-the-middle (MiTM) attack involves the perpetrator discreetly intercepting and relaying messages between two parties who believe they are speaking directly to one another. The attack is a form of eavesdropping in which the conversation is controlled by the attacker. </p>
               </TabPanel>
               <TabPanel>
               <Tabs>
@@ -98,25 +98,25 @@ function App() {
 
                 <TabPanels>
                   <TabPanel>
-                    <p><b>Internet Protocol Spoofing</b> <br></br> <br></br> Like identity theft, IP spoofing takes place when cybercriminals alter the source IP address of a website, email address or device for the purpose of masking it.</p>
+                    <p><b>Internet Protocol Spoofing</b> <br></br> <br></br> IP spoofing, which is similar to identity theft, occurs when hackers change the source IP address of a website or email address. IP spoofing enables hackers to commit crimes, frequently undetected.</p>
                   </TabPanel>
                   <TabPanel>
-                    <p><b>Domain Name System Spoofing</b> <br></br> <br></br> This is a type of man-in-the-middle attack where cybercriminals alter domain names to redirect traffic to fake websites. Users might think that they are reaching a secure and trusted website, but instead, they land on a website operated by cybercriminals.</p>
+                    <p><b>Domain Name System Spoofing</b> <br></br> <br></br>Cybercriminals change domain names in this kind of man-in-the-middle attack to steer traffic to phony websites. Users may believe they are accessing a safe and reliable website, but they instead arrive at a website run by hackers.</p>
                   </TabPanel>
                   <TabPanel>
-                    <p><b>HTTP Spoofing</b> <br></br> <br></br> During an HTTPS spoofing attack, a browser session is redirected to an unsecured or HTTP-based website without the user's knowledge or consent. Cybercriminals can monitor user interactions and steal shared personal information through this redirection.</p>
+                    <p><b>HTTP Spoofing</b> <br></br> <br></br> An HTTPS spoofing attack redirects a browser session to an insecure or HTTP-based website without the knowledge of user. As a result, hackers can monitor every action and steal personal information with this redirection.</p>
                   </TabPanel>
                   <TabPanel>
-                    <p><b>Secure Sockets Layer Hijacking</b> <br></br> <br></br> SSL is a protocol that establishes an encrypted connection between a browser and the web server. During SSL hijacking, a cybercriminal might use another computer and a secure server to intercept all information traveling between the server and the end user's computer.</p>
+                    <p><b>Secure Sockets Layer Hijacking</b> <br></br> <br></br> SSL is a way of protecting your web browsing data from being intercepted by someone else. If someone else were to get access to the SSL connection between your computer and the website you're visiting, they could see everything you're typing and looking at.</p>
                   </TabPanel>
                   <TabPanel>
-                    <p><b>Email Hijacking</b> <br></br> <br></br> This is a type of MiTM attack where cybercriminals gain control of email accounts of banks and other financial institutions to monitor any transactions that users conduct. Cybercriminals may even spoof the bank's email address and send instructions to customers that lead them to unknowingly transfer their money to the cybercriminals.</p>
+                    <p><b>Email Hijacking</b> <br></br> <br></br> This is a type of attack where cybercriminals hijack email accounts from banks and other financial institutions to spy on any transactions that users make. Cybercriminals can also spoof the email address bank and send fake instructions to customers that steer them towards transferring their money to the hackers.</p>
                   </TabPanel>
                   <TabPanel>
-                    <p><b>Wi-Fi Eavesdropping</b> <br></br> <br></br> This MiTM attack is one of the many risk factors posed by public Wi-Fi. During this attack, public Wi-Fi users get tricked into connecting to malicious Wi-Fi networks and hotspots. Cybercriminals accomplish this by setting up Wi-Fi connections with names that resemble nearby businesses.</p>
+                    <p><b>Wi-Fi Eavesdropping</b> <br></br> <br></br> If you're using public Wi-Fi, be aware of the risks posed by MiTM attacks. These attacks trick people into connecting to malicious networks, which can give hackers access to your personal information.</p>
                   </TabPanel>
                   <TabPanel>
-                    <p><b>Session Hijacking</b> <br></br> <br></br> Also known as stealing browser cookies, this malicious practice takes place when cybercriminals steal personal data and passwords stored inside the cookies of a user's browsing session. Sometimes, cybercriminals can gain endless access to users' saved resources. For example, they might steal users' confidential data and identities, purchase items or steal money from their bank accounts.</p>
+                    <p><b>Session Hijacking</b> <br></br> <br></br> Hackers can steal your personal data and passwords if they get access to your cookies. This can allow them to access your personal resources (like your bank account) without your permission. In addition to that, they can have unlimited chance to reach user's data and resources. </p>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
@@ -133,9 +133,7 @@ function App() {
 
                 <TabPanels>
                   <TabPanel>
-                    <p><b>Interception</b> <br></br> <br></br>The first step intercepts user traffic through the attacker’s network before it reaches its intended destination.
-
-The most common (and simplest) way of doing this is a passive attack in which an attacker makes free, malicious WiFi hotspots available to the public. Typically named in a way that corresponds to their location, they aren’t password protected. Once a victim connects to such a hotspot, the attacker gains full visibility to any online data exchange.
+                    <p><b>Interception</b> <br></br> <br></br>The first step is to intercept user traffic before it goes to its intended destination. This can be done by making public WiFi hotspots available that are unprotected, or by attacking the user's computer directly. Once the victim connects to these hotspots, the attacker can see everything that they are doing online.
 
  </p>
                   </TabPanel>
@@ -162,16 +160,16 @@ The most common (and simplest) way of doing this is a passive attack in which an
 
                 <TabPanels>
                   <TabPanel>
-                    <p><b>Secure Connections</b> <br></br> <br></br> This is the first line of defense against MiTM attacks. Users should only visit websites that show "HTTPS" in the URL bar, instead of just "HTTP". Most browsers display a padlock sign before the URL, which indicates a secure website. Besides ensuring website security, it is also important to avoid using unsecured public Wi-Fi connections, as they are susceptible to attacks and interception by cybercriminals.</p>
+                    <p><b>Secure Connections</b> <br></br> <br></br> This is how you can protect yourself against MiTM attacks. You should only visit websites that have a "HTTPS" (secure) sign in the URL bar. This means that the website is protected against cybercriminals who might be trying to steal your information. Also, be careful about using public Wi-Fi connections - they can be easily hacked and your information can be stolen.</p>
                   </TabPanel>
                   <TabPanel>
-                    <p><b>Avoid Phishing Emails</b> <br></br> <br></br> Cybercriminals purposely craft phishing emails to trick users into opening them. Users should think twice before opening emails coming from unverified or unknown sources. Phishing emails often look like they come from a legit source, such as a bank account or a financial institution. These emails might ask users to click on a link to enter their login credentials or update passwords. Clicking on these links should be avoided, as they might redirect a user to a fake website or download malicious software on their device.</p>
+                    <p><b>Avoid Phishing Emails</b> <br></br> <br></br> When you get an email, don't just open it right away. Think about who sent it and make sure it's a safe source. Some phishing emails look like they come from a trusted source, like your bank or a financial institution. They might ask you to enter your login information or update your password. Don't do this. Instead, contact the sender and ask them to confirm the email is really from them. If they can't provide proof, don't trust the email and don't open it.</p>
                   </TabPanel>
                   <TabPanel>
-                    <p><b>Endpoint Security</b> <br></br> <br></br>Implementing comprehensive endpoint security is paramount when trying to prevent the spread of malware and other cyber attacks. Because MiTM attacks use malware for execution, it is important to have antimalware and internet security products in place.</p>
+                    <p><b>Endpoint Security</b> <br></br> <br></br>Endpoint security is important in order to prevent malware from being used to attack other computers. Because MiTM attacks use malware, you need to have antivirus and internet security programs to prevent these attacks from happening.</p>
                   </TabPanel>
                   <TabPanel>
-                    <p><b>Virtual Private Network Encryption</b> <br></br> <br></br>A VPN encrypts internet connections and online data transfers, such as passwords and credit card information and should be used when connecting to insecure public Wi-Fi networks and hotspots. A VPN can ambush a potential man-in-the-middle attack. Even if a cybercriminal manages to access a network, they will not be successful in deciphering the messages or accessing resources due to the encryption provided by the VPN. Organizations should also ensure their employees are logging into the company through a secure corporate VPN, especially if they are working remotely.</p>
+                    <p><b>Virtual Private Network Encryption</b> <br></br> <br></br>A VPN encrypts your internet connection and keeps your passwords, credit card information, and other confidential information safe. It can help you connect to unsecure public Wi-Fi networks and protect you from man-in-the-middle attacks. Even if a hacker manages to access your network, they won't be able to see your confidential information because of the encryption. Your employer should also make sure that all of your employees are using a secure corporate VPN when working from home.</p>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
