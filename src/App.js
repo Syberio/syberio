@@ -1,4 +1,5 @@
 import React from 'react';
+import { useMediaQuery } from '@chakra-ui/react'
 import user from './user.png';
 import hacker from './hackericon.png';
 import gateway from './gatewayicon.jpeg';
@@ -27,15 +28,13 @@ import { Logo } from './Logo';
 
 function App() {
   
-  const [ imageClicked, setImageClicked ] = React.useState(false);
-  const [ image2Clicked, setImage2Clicked ] = React.useState(false);
-  const [ image3Clicked, setImage3Clicked ] = React.useState(false);
 
   
   const [ isAlertVisible2, setIsAlertVisible2 ] = React.useState(false);
   const [ isAlertVisible3, setIsAlertVisible3 ] = React.useState(false);
   const [ isAlertVisible4, setIsAlertVisible4 ] = React.useState(false);
 
+  
   
   setTimeout(() => {
     setIsAlertVisible2(true);
@@ -47,24 +46,7 @@ function App() {
     setIsAlertVisible4(true);
   }, 9000);
 
-  const onClickHandler3 = (order) => {
-    setImage3Clicked((prevState) => ({
-      ...prevState,
-      [order]: !prevState[order]
-    }));
-  };
-  const onClickHandler = (order) => {
-    setImageClicked((prevState) => ({
-      ...prevState,
-      [order]: !prevState[order]
-    }));
-  };
-  const onClickHandler2 = (order) => {
-    setImage2Clicked((prevState) => ({
-      ...prevState,
-      [order]: !prevState[order]
-    }));
-  };
+ 
   
   return (
     <ChakraProvider theme={theme}>
@@ -243,29 +225,7 @@ function App() {
     {isAlertVisible2 &&<Box id='arrow' className='arrow-4'></Box>}
     </TabPanel>
   </TabPanels>
-</Tabs>
-              
-
-
-              {/* <Button onClick={() => onClickHandler2("arrow")} colorScheme='blue' position='absolute' marginLeft='600px' marginTop='600px'>Step 3</Button>
-              <Button onClick={() => onClickHandler("hacker")} colorScheme='blue' position='absolute' marginLeft='400px' marginTop='600px'>Step 2</Button>
-              <Button onClick={() => onClickHandler3("arrow1")} colorScheme='blue' position='absolute' marginLeft='200px' marginTop='600px'>Step 1</Button> */}
-              {/* <Box className='box' boxSize='sm' position='absolute' color='white' width='200px'>
-                <Image src={dwayarrow} alt='' />
-              </Box> */}
-              {image3Clicked &&<Box id='arrow1' className='arrow-9'></Box>}
-              {image2Clicked &&<Box id='arrow' className='arrow-1'></Box>}
-              {image2Clicked &&<Box id='arrow' className='arrow-2'></Box>}
-
-              {/* <Box className='user' boxSize='sm' position='absolute' width='90px' marginLeft='600px' marginTop='250px'>
-                <Image src={user} alt='' />
-              </Box>
-              <Box id='hacker' boxSize='sm' position='absolute' width='90px' marginLeft='400px' marginTop='450px'>
-                {imageClicked && <Image src={hacker} alt=''/>}
-              </Box>
-              <Box className='gateway' boxSize='sm' position='absolute' width='150px' marginLeft='140px' marginTop='220px'>
-                { <Image src={gateway} alt='' />}
-              </Box> */}
+</Tabs>  
               </TabPanel>
                
             </TabPanels>
