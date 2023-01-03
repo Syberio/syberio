@@ -19,7 +19,9 @@ import {
   Grid,
   theme,
   Image,
-  Button
+  Button,
+  Flex,
+  Container
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { Logo } from './Logo';
@@ -51,7 +53,7 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       
-      
+    <Box className='bodybox' h='100vh' py={[0,10,20]} position='absolute'>
       <Box marginLeft='150px' marginTop='150px' position='absolute' fontSize='29px' color='rgb(71, 129, 200)'><b>Man In The Middle Attack</b></Box>
       
             <Tabs variant='soft-rounded' colorScheme='blue' orientation='vertical'>
@@ -231,7 +233,7 @@ function App() {
             </TabPanels>
           </Tabs>
            
-          
+          </Box>      
     </ChakraProvider>
   );
 }
