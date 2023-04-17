@@ -12,6 +12,13 @@ import img from '../../components/assets/Data_security_24.jpg';
 import img2 from '../../components/assets/Data_security_28.jpg';
 import encry from '../../components/assets/encry.jpg';
 import step3_3 from '../../components/assets/step3-3.png';
+import imp from '../../components/assets/importing.png';
+import getmac from '../../components/assets/getmac.png';
+import rearp from '../../components/assets/rearp.png';
+import trick from '../../components/assets/trick.png';
+import mitm from '../../components/assets/mitm.png';
+import step6_1 from '../../components/assets/step6-1.png';
+import step6_2 from '../../components/assets/step6-2.png';
 import dwayarrow from '../../components/assets/twowayarrow.png';
 import redx from '../../components/assets/reddx.png';
 import '../../utils/ManInMiddle.css';
@@ -378,7 +385,7 @@ function ManInMiddle() {
                                     </Box>
                                     <br></br><br></br>
                                     <div class="typewriter">
-                                        <h1>The cat and the hat.</h1>
+                                        <h1>t.</h1>
                                     </div>
                                 </TabPanel>
                                 <TabPanel>
@@ -521,7 +528,146 @@ function ManInMiddle() {
                                     </Accordion>
                                 </TabPanel>
                                 <TabPanel>
-                                   
+                                <p><b>How to imply Python? </b> <br></br>Now, we are going to write some python codes... <br></br><br></br><br></br></p>
+                                    <Accordion allowToggle>
+                                        <AccordionItem>
+                                            <h2>
+                                                <AccordionButton>
+                                                    <Box as="span" flex='1' textAlign='left'>
+                                                        <b>Step 1</b>
+                                                    </Box>
+                                                    <AccordionIcon />
+                                                </AccordionButton>
+                                            </h2>
+                                            <AccordionPanel pb={4}>
+                                                First of all, we will import some modules and get input.
+
+                                            
+                                                <Box className='image' id='imageimp' width='300px' marginLeft='140px' marginTop='10px'>
+                                                    {<Image src={imp} alt='' onClick={handleClick} />}
+
+                                                </Box>
+
+
+
+                                            </AccordionPanel>
+                                        </AccordionItem>
+
+                                        <AccordionItem>
+                                            <h2>
+                                                <AccordionButton>
+                                                    <Box as="span" flex='1' textAlign='left'>
+                                                        <b>Step 2</b>
+                                                    </Box>
+                                                    <AccordionIcon />
+                                                </AccordionButton>
+                                            </h2>
+                                            <AccordionPanel pb={4}>
+                                            In order to properly create our ARP responses, we'll need the victim and router MAC addresses. We can do this by making ARP requests and returning the result...
+                                                
+                                                <br></br> <br></br>
+                                                
+                                                <Box className='image' id='image2' width='500px' marginLeft='20px' marginTop='10px'>
+                                                    {<Image src={getmac} alt='' onClick={handleClick2} />}
+
+                                                </Box>
+
+                                            </AccordionPanel>
+                                        </AccordionItem>
+                                        <AccordionItem>
+                                            <h2>
+                                                <AccordionButton>
+                                                    <Box as="span" flex='1' textAlign='left'>
+                                                        <b>Step 3</b>
+                                                    </Box>
+                                                    <AccordionIcon />
+                                                </AccordionButton>
+                                            </h2>
+                                            <AccordionPanel pb={4}>
+                                            Once our attack is over, we need to re-assign the target's addresses so they know where to send their information properly. If we don't do this than it will be very obvious that something has happened.
+                                                
+                                                <br></br>
+                                               
+                                                
+                                                <br></br>
+                                                <Box className='image' id='image3' width='500px' marginLeft='50px' marginTop='10px'>
+                                                    {<Image src={rearp} alt='' onClick={handleClick3} />}
+
+                                                </Box>
+                                                <br></br><br></br>
+                                                In this function, we call our get-mac() function that we created earlier to find the MAC addresses. Once we have those it'll send replies out telling the systems where the other system is. We'll send each reply seven times for good measure. Once we've done that we'll disable IP forwarding for the user.
+                                            </AccordionPanel>
+                                        </AccordionItem>
+                                        <AccordionItem>
+                                            <h2>
+                                                <AccordionButton>
+                                                    <Box as="span" flex='1' textAlign='left'>
+                                                        <b>Step 4</b>
+                                                    </Box>
+                                                    <AccordionIcon />
+                                                </AccordionButton>
+                                            </h2>
+                                            <AccordionPanel pb={4}>
+                                            This function simply sends a single ARP reply to each of the targets telling them that we are the other target, placing ourselves in between them.<br></br><br></br>
+                                                
+
+                                                <Box className='image' id='image4' width='500px' marginLeft='20px' marginTop='10px'>
+                                                    {<Image src={trick} alt='' onClick={handleClick4} />}
+                                                </Box>
+                                                
+
+                                            </AccordionPanel>
+                                        </AccordionItem>
+                                        <AccordionItem>
+                                            <h2>
+                                                <AccordionButton>
+                                                    <Box as="span" flex='1' textAlign='left'>
+                                                        <b>Step 5</b>
+                                                    </Box>
+                                                    <AccordionIcon />
+                                                </AccordionButton>
+                                            </h2>
+                                            <AccordionPanel pb={4}>
+                                            Here, we try to get the victim and router MAC addresses, this is in case of failure. We don't want to send packets to one and not the other, so in the case that we can't find one of them, we disable IP forwarding and shut down the script. If we are able to get the MAC address then we can start sending our replies. We do this by making a while loop and sending another set of replies every 1.5 seconds. Once the user gives a keyboard interrupt (Control + C), we call the reARP() function to re-assign the targets and shut the script down.
+                                                
+                                                <br></br>
+                                                <Box className='image' id='image3' width='500px' marginLeft='20px' marginTop='10px'>
+                                                    {<Image src={mitm} alt='' onClick={handleClick3} />}
+
+                                                </Box>
+                                                <br></br><br></br>
+                                                
+                                            </AccordionPanel>
+                                        </AccordionItem>
+                                        <AccordionItem>
+                                            <h2>
+                                                <AccordionButton>
+                                                    <Box as="span" flex='1' textAlign='left'>
+                                                        <b>Step 6</b>
+                                                    </Box>
+                                                    <AccordionIcon />
+                                                </AccordionButton>
+                                            </h2>
+                                            <AccordionPanel pb={4}>
+                                            Navigate to your script and fire it up! I'll be entering "wlan0" as my desired interface, 10.0.0.7 as the victim IP, and 10.0.0.1 as my router IP.
+                                                
+                                                <br></br>
+                                                <Box className='image' id='image3' width='500px' marginLeft='20px' marginTop='10px'>
+                                                    {<Image src={step6_1} alt='' onClick={handleClick3} />}
+
+                                                </Box>
+                                                <br></br>
+                                                We can see above that we've begun to send out our replies. Let's open up wireshark and take a look at them!
+
+                                                <br></br>
+                                                <Box className='image' id='image3' width='500px' marginLeft='20px' marginTop='10px'>
+                                                    {<Image src={step6_2} alt='' onClick={handleClick3} />}
+                                                </Box>
+                                                <br></br><br></br>
+                                                
+                                            </AccordionPanel>
+                                        </AccordionItem>
+                                    </Accordion>
                                 </TabPanel>
                                 
                             </TabPanels>
