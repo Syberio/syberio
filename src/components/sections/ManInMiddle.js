@@ -10,6 +10,7 @@ import step3_2 from '../../components/assets/step3-2.png';
 import types from '../../components/assets/types.jpg';
 import img from '../../components/assets/Data_security_24.jpg';
 import img2 from '../../components/assets/Data_security_28.jpg';
+import user2 from '../../components/assets/user2.jpg';
 import encry from '../../components/assets/encry.jpg';
 import step3_3 from '../../components/assets/step3-3.png';
 import imp from '../../components/assets/importing.png';
@@ -51,6 +52,22 @@ function ManInMiddle() {
     const [isAlertVisible2, setIsAlertVisible2] = React.useState(false);
     const [isAlertVisible3, setIsAlertVisible3] = React.useState(false);
     const [isAlertVisible4, setIsAlertVisible4] = React.useState(false);
+
+    const userButton = document.querySelector('.user-button');
+    const userMessage = document.querySelector('.user-input');
+    const chatBox = document.querySelector('.chat-box');
+
+    // userButton.addEventListener('click', () => {
+    //   const userText = userMessage.value;
+    //   if (userText) {
+    //     const chatMessage = document.createElement('div');
+    //     chatMessage.className = 'chat-message';
+    //     chatMessage.innerHTML = `<p class="chat-text">${userText}</p>`;
+    //     chatBox.appendChild(chatMessage);
+    //     userMessage.value = '';
+    //     chatBox.scrollTop = chatBox.scrollHeight;
+    //   }
+    // });
 
     const handleClick = event => {
         const neww = document.getElementById("image1");
@@ -177,7 +194,6 @@ function ManInMiddle() {
 
 
 
-    
 
     return (
 
@@ -375,21 +391,169 @@ function ManInMiddle() {
                             <TabList marginTop='0px'>
                                 <Tab>Step 1</Tab>
                                 <Tab>Step 2</Tab>
+                                <Tab>Step 3</Tab>
+                                <Tab>Step 4</Tab>
 
                             </TabList>
 
                             <TabPanels>
                                 <TabPanel>
+                                    Lets analyze the Man in the Middle attack more detailed..
+                                    <div className="line"></div>
+                                    <br></br><br></br>
+                                    We have two friends who want to communicate.
                                     <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
                                         <Image className='usr' src={user} alt='' />
                                     </Box>
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
+                                    </Box>
                                     <br></br><br></br>
-                                    <div class="typewriter">
-                                        <h1>t.</h1>
+                                    <Box marginTop='150px'>
+                                        First of all they need to share their public keys to each other since the message will be encrypted according to receiver's public key.
+                                    </Box>
+                                    <div className="line"></div>
+                                    <Box marginTop='30px'>
+                                        Now, we assume that Sender has PrivS, PubS and PrivR,PubR. These are the public and private keys of sender and receiver.
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
+                                        <Image className='usr' src={user} alt='' />
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
+                                    </Box>
+                                    <Box position='absolute' className='priv' marginTop='150px'>
+                                        Private Key: PrivS
+                                    </Box>
+                                    <Box position='absolute' className='pub' marginTop='180px'>
+                                        Public Key: PubS
+                                    </Box>
+                                    <Box position='absolute' className='priv' marginLeft='400px' marginTop='150px'>
+                                        Private Key: PrivR
+                                    </Box>
+                                    <Box position='absolute' className='pub' marginLeft='400px' marginTop='180px'>
+                                        Public Key: PubR
+                                    </Box>
+
+                                    {/* <div className="chat-container">
+                                        <div className="chat-bubble bot-chat-bubble">
+                                            <p>Hello! How can I help you today?</p>
+                                        </div>
+                                        <div className="chat-bubble user-chat-bubble">
+                                            <p>Sure! I have a question about my order.</p>
+                                        </div>
+                                        
+                                        
                                     </div>
+                                    <input type="text" className="chat-input" placeholder="Type your message here..."/>
+                                        <Button className="send-button">Send</Button> */}
+
                                 </TabPanel>
                                 <TabPanel>
-                                <div id="typedtext"></div>
+                                    <Box>
+                                        Now, we are in the second step. Lets talk about what will happen..
+                                    </Box>
+                                    <div className="line"></div>
+                                    <Box marginTop='30px'>
+                                        As you remember, we have two friends trying to communicate..
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
+                                        <Image className='usr' src={user} alt='' />
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
+                                    </Box>
+                                    <Box left='450' className='arrow-9'></Box>
+                                    <Box position='absolute' className='pub' marginTop='180px'>
+                                        Public Key: PubR
+                                    </Box>
+                                    <Box position='absolute' className='pub' marginTop='180px' marginLeft='400px'>
+                                        Public Key: PubS
+                                    </Box>
+                                    <Box marginLeft='100px' marginTop='250px' fontStyle='italic'>
+                                        <b>This is the desired way of sharing public keys..</b>
+                                    </Box>
+                                    <div id="typedtext"></div>
+                                </TabPanel>
+                                <TabPanel>
+                                    In this step, Hacker intercepts the communication between Sender and Receiver with exchanging public keys.
+                                    <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
+                                        <Image className='usr' src={user} alt='' />
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginTop='30px' marginLeft='400px'>
+                                        {<Image id='hacker' className='hackeranimate' src={hacker} alt='' />}
+                                    </Box>
+                                    <Box marginLeft='400px'>
+                                        <div className="containerr">
+                                            <div class="boxx">
+                                                <div class="border one"></div>
+                                                <div class="border two"></div>
+                                                <div class="border three"></div>
+                                                <div class="border four"></div>
+
+                                                <div class="linee one"></div>
+                                                <div class="linee two"></div>
+                                                <div class="linee three"></div>
+                                            </div>
+                                        </div>
+                                    </Box>
+                                    <Box marginTop='150px' marginLeft='50px' fontStyle='italic'>
+                                        <b>Sender thought that he sent his public key to the Receiver.</b>
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginTop='100px' >
+                                        {<Image id='hacker' className='hackeranimate' src={hacker} alt='' />}
+                                    </Box>
+                                    <Box marginLeft='400px' top='900px'>
+                                        <div className="containerr2">
+                                            <div class="boxx">
+                                                <div class="border one"></div>
+                                                <div class="border two"></div>
+                                                <div class="border three"></div>
+                                                <div class="border four"></div>
+
+                                                <div class="linee one"></div>
+                                                <div class="linee two"></div>
+                                                <div class="linee three"></div>
+                                            </div>
+                                        </div>
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='90px'>
+                                        <Image className='usr' src={user2} alt='' />
+                                    </Box>
+                                    <Box marginTop='230px' marginLeft='50px' fontStyle='italic'>
+                                        <b>Receiver thought that Sender sent his public key to her.</b>
+                                    </Box>
+
+                                </TabPanel>
+                                <TabPanel>
+                                    Now, every time when Sender wants to sen a message to Receiver, he will use Hacker's public key:
+                                    <Box marginTop='10px'>
+                                        <div class="tf">
+                                            <p class="t">PubH</p>
+                                        </div>
+                                    </Box>
+                                    <br></br>
+                                    When the message is encrypted by Sender, it becomes:
+                                    <Box marginTop='10px'>
+                                        <div class="tf">
+                                            <p class="t">EC(M,PubH)</p>
+                                        </div>
+                                    </Box>
+                                    <Box marginTop='20px'>
+                                        In this step, hacker can read and directly forward the message to the receiver or hacker modify the message(M') and send to the receiver:
+                                    </Box>
+                                    <Box marginTop='10px'>
+                                        <div class="tf">
+                                            <p class="t">DC(M,PrivH) -----{'>'} EC(M',PubR)</p>
+                                        </div>
+                                    </Box>
+
+                                    <Box marginTop='20px'>
+                                        Now, as you see that hacker knows the private information between two people. We call it<b> Breach of Confidentiality</b>.
+                                    </Box>
+                                    <Box marginTop='20px'>
+                                        In addition to that if hacker modifies the message and send to the receiver as modified it becomes <b>Breach of Data Integrity</b>.
+                                    </Box>
                                 </TabPanel>
 
                             </TabPanels>
@@ -528,7 +692,7 @@ function ManInMiddle() {
                                     </Accordion>
                                 </TabPanel>
                                 <TabPanel>
-                                <p><b>How to imply Python? </b> <br></br>Now, we are going to write some python codes... <br></br><br></br><br></br></p>
+                                    <p><b>How to imply Python? </b> <br></br>Now, we are going to write some python codes... <br></br><br></br><br></br></p>
                                     <Accordion allowToggle>
                                         <AccordionItem>
                                             <h2>
@@ -542,7 +706,7 @@ function ManInMiddle() {
                                             <AccordionPanel pb={4}>
                                                 First of all, we will import some modules and get input.
 
-                                            
+
                                                 <Box className='image' id='imageimp' width='300px' marginLeft='140px' marginTop='10px'>
                                                     {<Image src={imp} alt='' onClick={handleClick} />}
 
@@ -563,10 +727,10 @@ function ManInMiddle() {
                                                 </AccordionButton>
                                             </h2>
                                             <AccordionPanel pb={4}>
-                                            In order to properly create our ARP responses, we'll need the victim and router MAC addresses. We can do this by making ARP requests and returning the result...
-                                                
+                                                In order to properly create our ARP responses, we'll need the victim and router MAC addresses. We can do this by making ARP requests and returning the result...
+
                                                 <br></br> <br></br>
-                                                
+
                                                 <Box className='image' id='image2' width='500px' marginLeft='20px' marginTop='10px'>
                                                     {<Image src={getmac} alt='' onClick={handleClick2} />}
 
@@ -584,11 +748,11 @@ function ManInMiddle() {
                                                 </AccordionButton>
                                             </h2>
                                             <AccordionPanel pb={4}>
-                                            Once our attack is over, we need to re-assign the target's addresses so they know where to send their information properly. If we don't do this than it will be very obvious that something has happened.
-                                                
+                                                Once our attack is over, we need to re-assign the target's addresses so they know where to send their information properly. If we don't do this than it will be very obvious that something has happened.
+
                                                 <br></br>
-                                               
-                                                
+
+
                                                 <br></br>
                                                 <Box className='image' id='image3' width='500px' marginLeft='50px' marginTop='10px'>
                                                     {<Image src={rearp} alt='' onClick={handleClick3} />}
@@ -608,13 +772,13 @@ function ManInMiddle() {
                                                 </AccordionButton>
                                             </h2>
                                             <AccordionPanel pb={4}>
-                                            This function simply sends a single ARP reply to each of the targets telling them that we are the other target, placing ourselves in between them.<br></br><br></br>
-                                                
+                                                This function simply sends a single ARP reply to each of the targets telling them that we are the other target, placing ourselves in between them.<br></br><br></br>
+
 
                                                 <Box className='image' id='image4' width='500px' marginLeft='20px' marginTop='10px'>
                                                     {<Image src={trick} alt='' onClick={handleClick4} />}
                                                 </Box>
-                                                
+
 
                                             </AccordionPanel>
                                         </AccordionItem>
@@ -628,15 +792,15 @@ function ManInMiddle() {
                                                 </AccordionButton>
                                             </h2>
                                             <AccordionPanel pb={4}>
-                                            Here, we try to get the victim and router MAC addresses, this is in case of failure. We don't want to send packets to one and not the other, so in the case that we can't find one of them, we disable IP forwarding and shut down the script. If we are able to get the MAC address then we can start sending our replies. We do this by making a while loop and sending another set of replies every 1.5 seconds. Once the user gives a keyboard interrupt (Control + C), we call the reARP() function to re-assign the targets and shut the script down.
-                                                
+                                                Here, we try to get the victim and router MAC addresses, this is in case of failure. We don't want to send packets to one and not the other, so in the case that we can't find one of them, we disable IP forwarding and shut down the script. If we are able to get the MAC address then we can start sending our replies. We do this by making a while loop and sending another set of replies every 1.5 seconds. Once the user gives a keyboard interrupt (Control + C), we call the reARP() function to re-assign the targets and shut the script down.
+
                                                 <br></br>
                                                 <Box className='image' id='image3' width='500px' marginLeft='20px' marginTop='10px'>
                                                     {<Image src={mitm} alt='' onClick={handleClick3} />}
 
                                                 </Box>
                                                 <br></br><br></br>
-                                                
+
                                             </AccordionPanel>
                                         </AccordionItem>
                                         <AccordionItem>
@@ -649,8 +813,8 @@ function ManInMiddle() {
                                                 </AccordionButton>
                                             </h2>
                                             <AccordionPanel pb={4}>
-                                            Navigate to your script and fire it up! I'll be entering "wlan0" as my desired interface, 10.0.0.7 as the victim IP, and 10.0.0.1 as my router IP.
-                                                
+                                                Navigate to your script and fire it up! I'll be entering "wlan0" as my desired interface, 10.0.0.7 as the victim IP, and 10.0.0.1 as my router IP.
+
                                                 <br></br>
                                                 <Box className='image' id='image3' width='500px' marginLeft='20px' marginTop='10px'>
                                                     {<Image src={step6_1} alt='' onClick={handleClick3} />}
@@ -664,12 +828,12 @@ function ManInMiddle() {
                                                     {<Image src={step6_2} alt='' onClick={handleClick3} />}
                                                 </Box>
                                                 <br></br><br></br>
-                                                
+
                                             </AccordionPanel>
                                         </AccordionItem>
                                     </Accordion>
                                 </TabPanel>
-                                
+
                             </TabPanels>
                         </Tabs>
 
