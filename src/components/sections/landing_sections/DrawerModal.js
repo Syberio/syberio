@@ -1,3 +1,4 @@
+/*TODO: Update the drawer model according to the authenticatednavbar and fix the buttons in normal navbar*/
 import {
   Drawer,
   DrawerBody,
@@ -49,10 +50,9 @@ function DrawerModal() {
           <DrawerCloseButton />
           <DrawerBody>
             <Stack spacing={'48px'} >
-              <Link>Product</Link>
-              <Link>Pricing</Link>
+              <Link>Dashboard</Link>
+              <Link>Courses</Link>
               <Link>Support</Link>
-              <Link>Resources</Link>
             </Stack>
             <Container></Container>
             <Stack alignItems={'center'} >

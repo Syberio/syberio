@@ -1,13 +1,17 @@
 import { Flex } from "@chakra-ui/react";
-import Navbar from "../sections/Navbar";
 import React from "react";
-import Footer from "../sections/Footer";
-import Register from "../sections/Register";
+import Register from "../sections/login_and_register/Register";
+import CompleteRegistration from "../sections/login_and_register/CompleteRegistration";
+import { useAuth } from "../sections/useAuth";
+import { useState,useEffect } from "react";
+export default function RegisterLayout() {
+    const {isRegistered}=useAuth();
+    console.log(isRegistered+"neymişbu")
 
-export default function RegisterLayout(props) {
     return (
         <Flex align={'center'} direction='column' background={'#fafafa'}>
-            <Register></Register>
+            {isRegistered ? <CompleteRegistration /> : <Register />}
+
         </Flex>
     );
 }

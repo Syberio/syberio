@@ -5,22 +5,21 @@ import {
   Container,
   Flex,
   HStack,
-  IconButton,
   useBreakpointValue,
   useColorModeValue,
-  useDisclosure,
-  Link
 } from '@chakra-ui/react'
 import * as React from 'react'
-import Logo from '../ui/Logo'
-import DrawerModal from './DrawerModal'
+import Logo from '../../ui/Logo'
+import DrawerModal from '../landing_sections/DrawerModal'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
   const isDesktop = useBreakpointValue({
     base: false,
     lg: true,
   })
-
+  const navigate = useNavigate();
   return (
     <>
       <Box
@@ -29,15 +28,12 @@ const Navbar = () => {
           base: '32',
           md: '24',
         }}
+
       ></Box>
       <Box
-        zIndex={999}
+        zIndex={20}
         position={'fixed'}
         as="section"
-        pb={{
-          base: '12',
-          md: '24',
-        }}
       >
         <Box
           as="nav"
@@ -46,6 +42,7 @@ const Navbar = () => {
           background={'#fafafa'}
           opacity='0.9'
           zIndex={10} // Add z-index here
+          width="100%" // Add width here
         >
           <Container
             maxW='-moz-fit-content'
@@ -55,7 +52,7 @@ const Navbar = () => {
             }}
           >
             <HStack spacing="80" justify="space-between">
-              <Link href='/syberio'>
+              <Link to='/'>
                 <Logo />
               </Link>
               {isDesktop ? (
@@ -67,12 +64,14 @@ const Navbar = () => {
                   </ButtonGroup>
                   <Container spacing="3"></Container>
                   <HStack spacing="3">
-                    <Link href={"syberio/login"}>
-                      <Button fontWeight="bold" variant="ghost">Log in</Button>
-                    </Link>
-                    <Link href={"syberio/register"}>
-                      <Button colorScheme={'blue'}>Sign up</Button>
-                    </Link>
+
+                    <Button fontWeight="bold" variant="ghost" onClick={() => {
+                      navigate("/login");
+                    }}>Log in</Button>ß
+                    <Button colorScheme={'blue'} onClick={() => {
+                      navigate("/register");
+                    }}>Sign up</Button>
+
                   </HStack>
                 </Flex>
               ) : (

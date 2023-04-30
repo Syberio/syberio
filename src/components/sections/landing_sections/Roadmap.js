@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import landingfirst from '../../components/assets/landing-first-wo-bg.png'
-import success from '../../components/assets/success.png'
-import industryleading from '../../components/assets/industryleading.png'
-import collab from '../../components/assets/collab.png'
+import landingfirst from '../../../components/assets/landing-first-wo-bg.png'
+import success from '../../../components/assets/success.png'
+import industryleading from '../../../components/assets/industryleading.png'
+import collab from '../../../components/assets/collab.png'
 import {
     Box,
     Button,

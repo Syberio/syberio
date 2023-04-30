@@ -1,30 +1,29 @@
 import React from 'react';
 import { CardBody, useMediaQuery } from '@chakra-ui/react'
-import user from '../../components/assets/user.png';
-import hacker from '../../components/assets/hackericon.png';
-import gateway from '../../components/assets/gatewayicon.png';
-import step2_1 from '../../components/assets/step2-1.png';
-import step2_2 from '../../components/assets/step2-2.png';
-import step3_1 from '../../components/assets/step3-1.png';
-import step3_2 from '../../components/assets/step3-2.png';
-import types from '../../components/assets/types.jpg';
-import img from '../../components/assets/Data_security_24.jpg';
-import img2 from '../../components/assets/Data_security_28.jpg';
-import user2 from '../../components/assets/user2.jpg';
-import encry from '../../components/assets/encry.jpg';
-import step3_3 from '../../components/assets/step3-3.png';
-import imp from '../../components/assets/importing.png';
-import getmac from '../../components/assets/getmac.png';
-import rearp from '../../components/assets/rearp.png';
-import trick from '../../components/assets/trick.png';
-import mitm from '../../components/assets/mitm.png';
-import step6_1 from '../../components/assets/step6-1.png';
-import step6_2 from '../../components/assets/step6-2.png';
-import dwayarrow from '../../components/assets/twowayarrow.png';
-import redx from '../../components/assets/reddx.png';
-import '../../utils/ManInMiddle.css';
+import user from '../../../components/assets/user.png';
+import hacker from '../../../components/assets/hackericon.png';
+import gateway from '../../../components/assets/gatewayicon.png';
+import step2_1 from '../../../components/assets/step2-1.png';
+import step2_2 from '../../../components/assets/step2-2.png';
+import step3_1 from '../../../components/assets/step3-1.png';
+import step3_2 from '../../../components/assets/step3-2.png';
+import types from '../../../components/assets/types.jpg';
+import img from '../../../components/assets/Data_security_24.jpg';
+import img2 from '../../../components/assets/Data_security_28.jpg';
+import user2 from '../../../components/assets/user2.jpg';
+import encry from '../../../components/assets/encry.jpg';
+import step3_3 from '../../../components/assets/step3-3.png';
+import imp from '../../../components/assets/importing.png';
+import getmac from '../../../components/assets/getmac.png';
+import rearp from '../../../components/assets/rearp.png';
+import trick from '../../../components/assets/trick.png';
+import mitm from '../../../components/assets/mitm.png';
+import step6_1 from '../../../components/assets/step6-1.png';
+import step6_2 from '../../../components/assets/step6-2.png';
+import dwayarrow from '../../../components/assets/twowayarrow.png';
+import redx from '../../../components/assets/reddx.png';
+import '../../../utils/ManInMiddle.css';
 import anime from 'animejs/lib/anime.es.js';
-import Footer from './Footer';
 import { PhoneIcon, AddIcon, WarningIcon, ArrowForwardIcon, ArrowBackIcon } from '@chakra-ui/icons'
 import {
     ChakraProvider,
@@ -42,10 +41,11 @@ import {
     Flex,
     Container, useClipboard
 } from '@chakra-ui/react';
+import { useAuth } from '../useAuth';
 
 
 
-function ManInMiddle() {
+export default function ManInMiddle() {
 
 
     const { onCopy, value, setValue, hasCopied } = useClipboard("");
@@ -194,6 +194,26 @@ function ManInMiddle() {
 
 
 
+
+/*
+    useEffect(() => {
+        const { uid } = auth.currentUser;
+        const userDoc = firestore.collection("users").doc(uid);
+        userDoc.get().then((doc) => {
+            if (doc.exists) {
+                setUserData(doc.data());
+                setProgress(doc.data().progress || 0);
+            }
+        });
+    }, []);
+
+    const handleTabClick = (tabIndex) => {
+        if (tabIndex > progress) {
+            handleProgress(tabIndex).then(() => setProgress(tabIndex));
+        }
+        setSelectedTab(tabIndex);
+    };
+    */
 
     return (
 
@@ -845,5 +865,3 @@ function ManInMiddle() {
     );
 
 }
-
-export default ManInMiddle;

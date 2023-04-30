@@ -1,8 +1,7 @@
 import React from "react";
 import landingfirst from '../components/assets/landing-first.png'
-import Hero from "../components/sections/Hero";
+import Hero from "../components/sections/landing_sections/Hero";
 import LandingLayout from "../components/layouts/LandingLayout";
-import ModalCard from "../components/sections/ModalCard";
 
 export default function Landing() {
   return (
@@ -14,7 +13,7 @@ export default function Landing() {
         ctaText="Create your account now"
         ctaLink="/signup"
         ctaTry="Try for free!"
-        ctaTryLink="/try" 
+        ctaTryLink="/try"
       />
     </LandingLayout>
   );

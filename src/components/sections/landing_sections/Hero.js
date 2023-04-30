@@ -1,7 +1,8 @@
+/*TODO: Disable all the landing and redirect to dashboard if logged in */
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import landingfirst from '../../components/assets/landing-first-wo-bg.png'
+import landingfirst from '../../../components/assets/landing-first-wo-bg.png'
 import {
     Box,
     Button,
@@ -40,7 +41,7 @@ export default function Hero({
                 align={["center", "center", "flex-start", "flex-start"]}
             >
                 <Heading
-                position={'absolute'}
+                    position={'absolute'}
                     as="h1"
                     size="xl"
                     fontWeight="bold"
@@ -59,7 +60,7 @@ export default function Hero({
                             1000,
                             'Security concepts, clarified.',
                             1000,
-                            
+
                         ]}
                         speed={50} // Custom Speed from 1-99 - Default Speed: 40
                         repeat={Infinity} // Repeat this Animation Sequence infinitely
@@ -102,7 +103,7 @@ export default function Hero({
                     </Heading>
                     <Link to={"create-public-private-key"}>
                         <Button
-                            
+
                             colorScheme="blue"
                             borderRadius="8px"
                             py="4"

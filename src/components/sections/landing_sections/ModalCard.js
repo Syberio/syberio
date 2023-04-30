@@ -6,9 +6,9 @@ import {
     Text,
     Divider, ButtonGroup, HStack, Flex, SimpleGrid, Fade, useDisclosure, Container
 } from '@chakra-ui/react'
-import interactivepic from '../../components/assets/interactive-pic.png'
-import teaching from '../../components/assets/teaching.png'
-import timemanagement from '../../components/assets/time-management.png'
+import interactivepic from '../../../components/assets/interactive-pic.png'
+import teaching from '../../../components/assets/teaching.png'
+import timemanagement from '../../../components/assets/time-management.png'
 const ModalCard = () => {
     const { isOpen, onOpen } = useDisclosure()
     return (
