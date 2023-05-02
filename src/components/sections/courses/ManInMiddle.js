@@ -888,12 +888,12 @@ export default function ManInMiddle() {
                             </TabList>
                             <TabPanels>
                                 <TabPanel>
-                                    <Box marginTop='10px' position="absolute">
-                                        In this scenario, Person A wants to share some documents with Person B.
+                                    <Box marginTop='5px' position="absolute" width="600px">
+                                        In this scenario, Person A wants to share some documents with Person B. To do that, case shoul be locked all the time for secure transaction. Let's see how two friends are going to do this.
                                     </Box>
-                                    <Image src={usera} alt='' marginLeft="-80px" marginTop="50px" width="200px" position="absolute" zIndex="-1" />
-                                    <Image src={userb} alt='' marginLeft="480px" marginTop="50px" width="200px" position="absolute" />
-                                    <Image src={suitcase} alt='' marginLeft="50px" marginTop="50px" width="200px" />
+                                    <Image src={usera} alt='' marginLeft="-80px" marginTop="70px" width="200px" position="absolute" zIndex="-1" />
+                                    <Image src={userb} alt='' marginLeft="480px" marginTop="70px" width="200px" position="absolute" />
+                                    <Image src={suitcase} alt='' marginLeft="50px" marginTop="70px" width="200px" />
                                 </TabPanel>
                                 <TabPanel>
                                     <Box marginTop='10px' position="absolute">
