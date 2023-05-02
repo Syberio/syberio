@@ -10,6 +10,11 @@ import step3_2 from '../../../components/assets/step3-2.png';
 import types from '../../../components/assets/types.jpg';
 import img from '../../../components/assets/Data_security_24.jpg';
 import img2 from '../../../components/assets/Data_security_28.jpg';
+import bubble from '../../../components/assets/bubble.png';
+import userb from '../../../components/assets/userb.jpg';
+import usera from '../../../components/assets/usera.jpg';
+import { useState } from "react";
+import suitcase from '../../../components/assets/suitcase.jpg';
 import user2 from '../../../components/assets/user2.jpg';
 import encry from '../../../components/assets/encry.jpg';
 import step3_3 from '../../../components/assets/step3-3.png';
@@ -52,6 +57,9 @@ export default function ManInMiddle() {
     const [isAlertVisible2, setIsAlertVisible2] = React.useState(false);
     const [isAlertVisible3, setIsAlertVisible3] = React.useState(false);
     const [isAlertVisible4, setIsAlertVisible4] = React.useState(false);
+    const [isAlertVisible5, setIsAlertVisible5] = React.useState(false);
+    const [isAlertVisible6, setIsAlertVisible6] = React.useState(false);
+
 
     const userButton = document.querySelector('.user-button');
     const userMessage = document.querySelector('.user-input');
@@ -178,13 +186,79 @@ export default function ManInMiddle() {
     setTimeout(() => {
         setIsAlertVisible4(true);
     }, 9000);
+    setTimeout(() => {
+        setIsAlertVisible5(true);
+    }, 6000);
+    setTimeout(() => {
+        setIsAlertVisible6(true);
+    }, 6000);
 
+    // const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
+
+    // const handleTabPanelClick = (position) => {
+    //     setImagePosition(position);
+    // };
+
+    const [activeTab, setActiveTab] = useState(0);
+
+    const handleTabPanelClick = (index) => {
+        setActiveTab(index);
+    };
+
+
+
+    const imageStyle = {
+        position: "absolute",
+        transition: "all 2.1s ease-in-out",
+        marginLeft: activeTab === 0 ? 200 : 200,
+        marginTop: activeTab === 0 ? 100 : -100,
+    };
+    const textStyle = {
+        position: "absolute",
+        transition: "all 0.3s ease-in-out",
+        marginLeft: activeTab === 0 ? 2405 : 245,
+        marginTop: activeTab === 0 ? 100 : 50,
+    };
+    const imageStyle2 = {
+        position: "absolute",
+        transition: "all 2.1s ease-in-out",
+        marginLeft: activeTab === 0 ? 100 : 450,
+
+    };
+    const imageStyle3 = {
+
+        transition: "all 2.1s ease-in-out",
+        marginLeft: activeTab === 0 ? 100 : 350,
+
+    };
+    const imageStyle4 = {
+
+        transition: "all 2.1s ease-in-out",
+        marginLeft: activeTab === 1 ? 350 : 100,
+
+    };
+    const imageStyle5 = {
+
+        transition: "all 2.1s ease-in-out",
+        marginLeft: activeTab === 1 ? 350 : 150,
+
+    };
+    const imageStyle6 = {
+
+        transition: "all 2.1s ease-in-out",
+        marginLeft: activeTab === 1 ? 350 : 50,
+
+    };
     // anime({
-    //     targets: '.image',
-    //     translateX: -250,
-    //     scale: 2,
+    //     targets: '.hackeranimate',
+    //     translateY: -130,
+    //     scale: 1,
     //     turn: 'left',
     //     position: 'absolute'
+
+
+
+
     // });
 
     // if(document.getElementById('tab1').nodeValue == true){
@@ -193,27 +267,16 @@ export default function ManInMiddle() {
 
 
 
+    
+		
 
-
-/*
-    useEffect(() => {
-        const { uid } = auth.currentUser;
-        const userDoc = firestore.collection("users").doc(uid);
-        userDoc.get().then((doc) => {
-            if (doc.exists) {
-                setUserData(doc.data());
-                setProgress(doc.data().progress || 0);
+        
+            function animateImage(event, id) {
+              var targetImage = document.getElementById(id); // Get the target image element
+              targetImage.classList.add("animate"); // Add the animation class to the target image
             }
-        });
-    }, []);
-
-    const handleTabClick = (tabIndex) => {
-        if (tabIndex > progress) {
-            handleProgress(tabIndex).then(() => setProgress(tabIndex));
-        }
-        setSelectedTab(tabIndex);
-    };
-    */
+        
+	
 
     return (
 
@@ -228,6 +291,7 @@ export default function ManInMiddle() {
                     <Tab>How to Prevent It?</Tab>
                     <Tab>Attack Animation</Tab>
                     <Tab>Background of the Attack</Tab>
+                    <Tab>Animation of Diffie Hellman Key Exchange</Tab>
                     <Tab>How to do it?</Tab>
                 </TabList>
                 <TabPanels marginLeft='100px' marginRight='200px'>
@@ -408,11 +472,18 @@ export default function ManInMiddle() {
                     </TabPanel>
                     <TabPanel>
                         <Tabs>
-                            <TabList marginTop='0px'>
+                            <TabList marginTop='0px' width="600px">
                                 <Tab>Step 1</Tab>
                                 <Tab>Step 2</Tab>
-                                <Tab>Step 3</Tab>
+                                <Tab onClick={() => handleTabPanelClick()}>Step 3</Tab>
                                 <Tab>Step 4</Tab>
+                                <Tab>Step 5</Tab>
+                                <Tab>Step 6</Tab>
+                                <Tab>Step 7</Tab>
+                                <Tab>Step 8</Tab>
+                                <Tab>Step 9</Tab>
+                                <Tab>Step 10</Tab>
+
 
                             </TabList>
 
@@ -422,6 +493,12 @@ export default function ManInMiddle() {
                                     <div className="line"></div>
                                     <br></br><br></br>
                                     We have two friends who want to communicate.
+                                    <Box position='absolute' marginLeft="20px" color="blue">
+                                        User A
+                                    </Box>
+                                    <Box position='absolute' marginLeft="430px" color="red">
+                                        User B
+                                    </Box>
                                     <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
                                         <Image className='usr' src={user} alt='' />
                                     </Box>
@@ -477,32 +554,196 @@ export default function ManInMiddle() {
                                     <Box marginTop='30px'>
                                         As you remember, we have two friends trying to communicate..
                                     </Box>
+                                    <Box marginTop='30px'>
+                                        We need seesion key to trust each other. A session key is a unique encryption and decryption key that is generated for a specific communication session between two entities.
+                                    </Box>
+                                    <Box marginTop='30px'>
+                                        Lets share the key!
+                                    </Box>
                                     <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
                                         <Image className='usr' src={user} alt='' />
                                     </Box>
                                     <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
                                         <Image className='usr' src={user2} alt='' />
                                     </Box>
-                                    <Box left='450' className='arrow-9'></Box>
                                     <Box position='absolute' className='pub' marginTop='180px'>
-                                        Public Key: PubR
-                                    </Box>
-                                    <Box position='absolute' className='pub' marginTop='180px' marginLeft='400px'>
                                         Public Key: PubS
                                     </Box>
-                                    <Box marginLeft='100px' marginTop='250px' fontStyle='italic'>
-                                        <b>This is the desired way of sharing public keys..</b>
+                                    <Box position='absolute' className='pub' marginTop='180px' marginLeft='400px'>
+                                        Public Key: PubR
                                     </Box>
-                                    <div id="typedtext"></div>
                                 </TabPanel>
                                 <TabPanel>
-                                    In this step, Hacker intercepts the communication between Sender and Receiver with exchanging public keys.
+                                    <Box marginTop='30px'>
+                                        First of all User B needs User A's public key. However, attacker wants to intercept the communication...
+                                    </Box>
+                                    <Box marginTop='60px' marginLeft="120px" position="absolute" color="red">
+                                        PubS
+                                    </Box>
                                     <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
                                         <Image className='usr' src={user} alt='' />
                                     </Box>
-                                    <Box boxSize='sm' position='absolute' width='90px' marginTop='30px' marginLeft='400px'>
-                                        {<Image id='hacker' className='hackeranimate' src={hacker} alt='' />}
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
                                     </Box>
+                                    <div class="arrow-10"></div>
+                                    <Image id='hacker' className='hackeranimate' src={hacker} alt='' style={imageStyle} />
+                                    {isAlertVisible6 && <Box boxSize='sm' position='absolute' width='120px' marginLeft='245px' marginTop='200px' style={textStyle}>
+                                        <b>PubH</b>
+                                    </Box>}
+                                    <Image id="bubble" src={bubble} alt='' width="150px" marginTop="20px" position="absolute" />
+                                    <Box id="speech" width="120px" marginTop="60px" marginLeft="10px" position="absolute" fontSize="15px">I will share my public key with my friend..</Box>
+                                    <Image id="bubble" src={bubble} alt='' width="150px" marginTop="80px" position="absolute" marginLeft="200px" />
+                                    <Box id="speech" width="130px" marginTop="120px" marginLeft="210px" position="absolute" fontSize="15px">I will intercept the communication by getting the public key of sender..</Box>
+                                </TabPanel>
+                                <TabPanel>
+                                    <Box marginTop='30px'>
+                                        After hacker intercepts the flow of public key, hacker send his public key to User B.
+                                    </Box>
+                                    <Box marginTop='60px' marginLeft="350px" position="absolute">
+                                        <b>PubH</b>
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
+                                        <Image className='usr' src={user} alt='' />
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
+                                    </Box>
+                                    <Box marginLeft="230px">
+                                        <div class="arrow-10"></div>
+                                    </Box>
+
+                                    <Image id='hacker' className='hackeranimate' src={hacker} alt='' marginLeft="200px" marginTop="-100px" />
+                                    <Image id="bubble" src={bubble} alt='' width="150px" marginTop="20px" position="absolute" marginLeft="200px" />
+                                    <Box id="speech" width="130px" marginTop="60px" marginLeft="210px" position="absolute" fontSize="14px">I will send my public key to receiver like I am the original sender..</Box>
+                                    <Image id="bubble" src={bubble} alt='' width="150px" marginTop="10px" position="absolute" marginLeft="450px" />
+                                    <Box id="speech" width="130px" marginTop="50px" marginLeft="460px" position="absolute" fontSize="14px">Okay! I got the public key of User A..</Box>
+                                </TabPanel>
+                                <TabPanel>
+                                    <Box marginTop='30px'>
+                                        In this step, User B creates a session key and Encrypts with hackers public key because User B thinks that it belongs to User A.
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
+                                        <Image className='usr' src={user} alt='' />
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
+                                    </Box>
+                                    <Box marginTop='140px' marginLeft="410px" position="absolute">
+                                        <b>Ks: Session Key</b>
+                                    </Box>
+                                    <Box marginTop='170px' marginLeft="440px" position="absolute" color="red">
+                                        PubR
+                                    </Box>
+                                    <Box marginLeft="-200px">
+                                        <div class="arrow-3"></div>
+                                    </Box>
+                                    <Box marginTop='210px' marginLeft="390px" position="absolute" >
+                                        E(PubH,Ks)
+                                    </Box>
+                                    <Image id='hacker' className='hackeranimate' src={hacker} alt='' marginLeft="180px" marginTop="200px" position="absolute" />
+                                    <Image id="bubble" src={bubble} alt='' width="170px" marginTop="100px" position="absolute" marginLeft="550px" />
+                                    <Box id="speech" width="150px" marginTop="150px" marginLeft="560px" position="absolute" fontSize="14px">I will create a session key and encrypt it with public key i got then send it to User A..</Box>
+                                </TabPanel>
+                                <TabPanel>
+                                    <Box marginTop='30px'>
+                                        Now, hacker can get the session key with decrypting encrypted session key with his own private key.
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
+                                        <Image className='usr' src={user} alt='' />
+                                    </Box>
+
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
+                                    </Box>
+                                    <Image id='hacker' className='hackeranimate' src={hacker} alt='' marginLeft="180px" marginTop="200px" position="absolute" />
+                                    <Box marginTop='350px' marginLeft="130px" position="absolute" >
+                                        <b>Ks = D(PrivH,(E(PubH,Ks))</b>
+                                    </Box>
+                                    <Image id="bubble" src={bubble} alt='' width="150px" marginTop="240px" position="absolute" marginLeft="350px" />
+                                    <Box id="speech" width="130px" marginTop="280px" marginLeft="360px" position="absolute" fontSize="14px">I will decrypt it using my private key, i can get the session key..</Box>
+                                </TabPanel>
+                                <TabPanel>
+                                    <Box marginTop='30px'>
+                                        Finally, hacker sends encrypted session key to User A with his public key and in conlusion, they will trust each other.
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
+                                        <Image className='usr' src={user} alt='' />
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
+                                    </Box>
+
+                                    <Box marginLeft="-200px">
+                                        <div class="arrow-4"></div>
+
+                                    </Box>
+                                    <Box marginTop='200px' marginLeft="0px" position="absolute" >
+                                        <b>E(PubS,Ks)</b>
+                                    </Box>
+                                    <Image id='hacker' className='hackeranimate' src={hacker} alt='' marginLeft="180px" marginTop="200px" position="absolute" />
+                                    <Box marginTop='420px' marginLeft="-50px" position="absolute" fontStyle="italic">
+                                        <b>Now User A, User B and Hacker shares the session key. User A and User B trusts each other</b>
+                                    </Box>
+                                    <Image id="bubble" src={bubble} alt='' width="180px" marginTop="240px" position="absolute" marginLeft="350px" />
+                                    <Box id="speech" width="150px" marginTop="290px" marginLeft="360px" position="absolute" fontSize="14px">I will send the session key to User A. User A will think that it is coming from User B instead of me!</Box>
+                                    <Image id="bubble" src={bubble} alt='' width="150px" marginTop="40px" position="absolute" marginLeft="150px" />
+                                    <Box id="speech" width="130px" marginTop="80px" marginLeft="160px" position="absolute" fontSize="14px">I decrypted it and get the session key from User B. We trust each other..</Box>
+                                </TabPanel>
+                                <TabPanel>
+                                    <Box>
+                                        Now, User A and User B wants to send message to each other.
+                                    </Box>
+                                    <div className="line"></div>
+                                    <Box marginTop='30px'>
+                                        After attacker intercepts the message, there are two options.
+                                    </Box>
+                                    <Box marginTop='30px'>
+                                        1) Only reading the message.
+                                    </Box>
+                                    <Box>
+                                        2) Modifiying the message.
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
+                                        <Image className='usr' src={user} alt='' />
+                                    </Box>
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
+                                    </Box>
+
+                                    {isAlertVisible4 && <Box marginLeft="300px" id='arrow' className='arrow-1'></Box>}
+                                    {isAlertVisible3 && <Box marginLeft="100px" id='arrow' className='arrow-2'></Box>}
+                                    <Box marginLeft="270px" id='arrow' className='arrow-3'></Box>
+                                    {isAlertVisible2 && <Box marginLeft="60px" id='arrow' className='arrow-4'></Box>}
+                                    <Image id='hacker' className='hackeranimate' src={hacker} alt='' marginLeft="180px" marginTop="250px" position="absolute" />
+                                    <Box marginLeft='100px' marginTop='480px' fontStyle='italic' position="absolute">
+                                        <b>Hacker controls the communication</b>
+                                    </Box>
+                                    <div id="typedtext"></div>
+                                    <Image id="bubble" src={bubble} alt='' width="180px" marginTop="300px" position="absolute" marginLeft="350px" />
+                                    <Box id="speech" width="150px" marginTop="350px" marginLeft="360px" position="absolute" fontSize="13px">Now, I have two opportunites. I have to decide between reading messages or modifying them after i read.</Box>
+                                </TabPanel>
+                                <TabPanel>
+                                    <Box marginTop='0px' marginLeft="-70px" position="absolute">
+                                        We know that there are two options. Now, we are going to implement the <b>Only Reading Data</b>.
+                                    </Box>
+                                    <Box marginTop='50px' marginLeft="90px" position="absolute">
+                                        C = EC(M,Ks)
+                                    </Box>
+                                    <Image id="bubble" src={bubble} alt='' width="140px" marginTop="50px" position="absolute" marginLeft="180px" />
+                                    <Box id="speech" width="125px" marginTop="88px" marginLeft="190px" position="absolute" fontSize="12px">I will send a message to User B. To do that, I will encrypt message with session key.</Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
+                                        <Image className='usr' src={user} alt='' />
+                                    </Box>
+
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
+                                    </Box>
+                                    <Box marginTop='50px' marginLeft="550px" position="absolute">
+                                        M = DC(C,Ks)
+                                    </Box>
+                                    <Image id="bubble" src={bubble} alt='' width="140px" marginTop="280px" position="absolute" marginLeft="350px" />
+                                    <Box id="speech" width="125px" marginTop="318px" marginLeft="360px" position="absolute" fontSize="11px">I will decrypt in and read the content of the message, then send it to User B without modification.</Box>
                                     <Box marginLeft='400px'>
                                         <div className="containerr">
                                             <div class="boxx">
@@ -517,13 +758,7 @@ export default function ManInMiddle() {
                                             </div>
                                         </div>
                                     </Box>
-                                    <Box marginTop='150px' marginLeft='50px' fontStyle='italic'>
-                                        <b>Sender thought that he sent his public key to the Receiver.</b>
-                                    </Box>
-                                    <Box boxSize='sm' position='absolute' width='90px' marginTop='100px' >
-                                        {<Image id='hacker' className='hackeranimate' src={hacker} alt='' />}
-                                    </Box>
-                                    <Box marginLeft='400px' top='900px'>
+                                    {isAlertVisible5 && <Box marginLeft='800px'>
                                         <div className="containerr2">
                                             <div class="boxx">
                                                 <div class="border one"></div>
@@ -536,46 +771,283 @@ export default function ManInMiddle() {
                                                 <div class="linee three"></div>
                                             </div>
                                         </div>
+                                    </Box>}
+                                    <Box marginTop='440px' marginLeft="-20px" position="absolute" color="gray">
+                                        EC: Encryption
+                                        <br></br>
+                                        M: Message
+                                        <br></br>
+                                        Ks: Session Key
+                                        <br></br>
+                                        C: Cipher Text
+                                        <br></br>
                                     </Box>
-                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='90px'>
-                                        <Image className='usr' src={user2} alt='' />
+                                    <Image id='hacker' className='hackeranimate' src={hacker} alt='' marginLeft="180px" marginTop="250px" />
+                                    <Box marginTop='10px' marginLeft="200px" position="absolute">
+                                        M = DC(C,Ks)
                                     </Box>
-                                    <Box marginTop='230px' marginLeft='50px' fontStyle='italic'>
-                                        <b>Receiver thought that Sender sent his public key to her.</b>
+                                    <Box marginTop='30px' marginLeft="-40px" position="absolute">
+                                        <b>Reads the message after decryption. Then sends it to the receiver without modification.</b>
+                                    </Box>
+                                    <Box marginTop='200px' marginLeft="-40px" position="absolute">
+                                        This is the example of <b>Breach of Confidentiality</b>. <br></br>Lets remember confidentiality breaches. <br></br>Confidentiality breaches refer to unauthorised access, use or disclosure of confidential information.
                                     </Box>
 
                                 </TabPanel>
                                 <TabPanel>
-                                    Now, every time when Sender wants to sen a message to Receiver, he will use Hacker's public key:
-                                    <Box marginTop='10px'>
-                                        <div class="tf">
-                                            <p class="t">PubH</p>
-                                        </div>
+                                    <Box marginTop='0px' marginLeft="-70px" position="absolute">
+                                        Lets talk about the second option. Now, we are going to implement the <b>Modifying the Message</b>.
                                     </Box>
-                                    <br></br>
-                                    When the message is encrypted by Sender, it becomes:
-                                    <Box marginTop='10px'>
-                                        <div class="tf">
-                                            <p class="t">EC(M,PubH)</p>
-                                        </div>
+                                    <Box marginTop='50px' marginLeft="90px" position="absolute">
+                                        C = EC(M,Ks)
                                     </Box>
-                                    <Box marginTop='20px'>
-                                        In this step, hacker can read and directly forward the message to the receiver or hacker modify the message(M') and send to the receiver:
-                                    </Box>
-                                    <Box marginTop='10px'>
-                                        <div class="tf">
-                                            <p class="t">DC(M,PrivH) -----{'>'} EC(M',PubR)</p>
-                                        </div>
+                                    <Image id="bubble" src={bubble} alt='' width="140px" marginTop="50px" position="absolute" marginLeft="180px" />
+                                    <Box id="speech" width="125px" marginTop="88px" marginLeft="190px" position="absolute" fontSize="12px">I will send a message to User B. To do that, I will encrypt message with session key.</Box>
+                                    <Box boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='30px'>
+                                        <Image className='usr' src={user} alt='' />
                                     </Box>
 
-                                    <Box marginTop='20px'>
-                                        Now, as you see that hacker knows the private information between two people. We call it<b> Breach of Confidentiality</b>.
+                                    <Box boxSize='sm' position='absolute' width='120px' marginLeft='400px' marginTop='20px'>
+                                        <Image className='usr' src={user2} alt='' />
                                     </Box>
-                                    <Box marginTop='20px'>
-                                        In addition to that if hacker modifies the message and send to the receiver as modified it becomes <b>Breach of Data Integrity</b>.
+                                    <Box marginTop='50px' marginLeft="550px" position="absolute">
+                                        M^ = DC(C^,Ks)
                                     </Box>
+                                    <Image id="bubble" src={bubble} alt='' width="140px" marginTop="280px" position="absolute" marginLeft="350px" />
+                                    <Box id="speech" width="125px" marginTop="318px" marginLeft="360px" position="absolute" fontSize="11px">I will decrypt in and read the content of the message, then create or modify the existing message.</Box>
+                                    <Box marginLeft='400px'>
+                                        <div className="containerr">
+                                            <div class="boxx">
+                                                <div class="border one"></div>
+                                                <div class="border two"></div>
+                                                <div class="border three"></div>
+                                                <div class="border four"></div>
+
+                                                <div class="linee one"></div>
+                                                <div class="linee two"></div>
+                                                <div class="linee three"></div>
+                                            </div>
+                                        </div>
+                                    </Box>
+                                    {isAlertVisible5 && <Box marginLeft='800px'>
+                                        <div className="containerr3">
+                                            <div class="boxx">
+                                                <div class="borderr one"></div>
+                                                <div class="borderr two"></div>
+                                                <div class="borderr three"></div>
+                                                <div class="borderr four"></div>
+
+                                                <div class="lineee one"></div>
+                                                <div class="lineee two"></div>
+                                                <div class="lineee three"></div>
+                                            </div>
+                                        </div>
+                                    </Box>}
+                                    <Box marginTop='500px' marginLeft="-20px" position="absolute" color="gray">
+                                        EC: Encryption
+                                        <br></br>
+                                        M: Message
+                                        <br></br>
+                                        Ks: Session Key
+                                        <br></br>
+                                        C: Cipher Text
+                                        <br></br>
+                                    </Box>
+                                    <Image id='hacker' className='hackeranimate' src={hacker} alt='' marginLeft="180px" marginTop="250px" />
+                                    <Box marginTop='10px' marginLeft="200px" position="absolute">
+                                        M = DC(C,Ks)
+                                    </Box>
+                                    <Box marginTop='30px' marginLeft="200px" position="absolute">
+                                        New Message is M^
+                                    </Box>
+                                    <Box marginTop='50px' marginLeft="200px" position="absolute">
+                                        C^ = EC(M^,Ks)
+                                    </Box>
+                                    <Box marginTop='90px' marginLeft="-40px" position="absolute">
+                                        <b>Modify the message after decryption. Then sends it to the receiver with modification.</b>
+                                    </Box>
+                                    <Box marginTop='260px' marginLeft="-40px" position="absolute">
+                                        This is the example of both <b>Breach of Confidentiality</b> and <b>Breach of Data Integrity</b>. <br></br>Lets remember what data integrity is. <br></br>Data integrity is a concept and process that ensures the accuracy, completeness and consistency of a data.
+                                    </Box>
+
                                 </TabPanel>
 
+
+                            </TabPanels>
+                        </Tabs>
+
+                    </TabPanel>
+                    <TabPanel>
+                        <Tabs>
+                            <TabList>
+                                <Tab>Step 1</Tab>
+                                <Tab onClick={() => handleTabPanelClick()}>Step 2</Tab>
+                                <Tab onClick={() => handleTabPanelClick(0)}>Step 3</Tab>
+                                <Tab onClick={() => handleTabPanelClick(1)}>Step 4</Tab>
+                                <Tab onClick={() => handleTabPanelClick()}>Step 5</Tab>
+                            </TabList>
+                            <TabPanels>
+                                <TabPanel>
+                                    <Box marginTop='10px' position="absolute">
+                                        In this scenario, Person A wants to share some documents with Person B.
+                                    </Box>
+                                    <Image src={usera} alt='' marginLeft="-80px" marginTop="50px" width="200px" position="absolute" zIndex="-1" />
+                                    <Image src={userb} alt='' marginLeft="480px" marginTop="50px" width="200px" position="absolute" />
+                                    <Image src={suitcase} alt='' marginLeft="50px" marginTop="50px" width="200px" />
+                                </TabPanel>
+                                <TabPanel>
+                                    <Box marginTop='10px' position="absolute">
+                                        Now, Person A will lock the case then give it to Person B.
+                                    </Box>
+                                    <Image src={usera} alt='' marginLeft="-80px" marginTop="50px" width="200px" position="absolute" zIndex="-1" />
+                                    <Image src={userb} alt='' marginLeft="480px" marginTop="50px" width="200px" position="absolute" zIndex="-1" />
+                                    <Image id='bag' src={suitcase} alt='' marginLeft="50px" marginTop="50px" width="200px"/>
+                                    {/* <Image src={lock1} alt='' marginLeft="130px" marginTop="20px" width="50px" style={imageStyle2} /> */}
+                                    <Box marginLeft="150px" marginTop="90px">
+                                        <div class="wrapper">
+                                            <div class="base">
+                                                <div class="base-bottom">
+                                                </div>
+                                                <div class="lock-inside-top">
+                                                </div>
+                                                <div class="lock-inside-bottom">
+                                                </div>
+                                            </div>
+                                            <div class="lock-cirlce">
+                                                <div class="lock-circle-inside">
+                                                </div>
+                                            </div>
+                                            <div class="lock-box">
+                                            </div>
+                                        </div>
+                                    </Box>
+                                    
+                                    
+
+                                </TabPanel>
+                                <TabPanel>
+                                    <Box marginTop='10px' position="absolute">
+                                        Then, Person B will lock the case then give it to Person A.
+                                    </Box>
+                                    <Image src={usera} alt='' marginLeft="-80px" marginTop="50px" width="200px" position="absolute" zIndex="-1" />
+                                    <Image src={userb} alt='' marginLeft="480px" marginTop="50px" width="200px" position="absolute" zIndex="-1" />
+                                    <Image id='bag2' src={suitcase} alt='' marginLeft="330px" marginTop="50px" width="200px" />
+                                    {/* <Image src={lock1} alt='' marginLeft="400px" marginTop="20px" width="50px" position="absolute" style={imageStyle4} />
+                                    <Image src={lock2} alt='' marginLeft="450px" marginTop="10px" width="70px" style={imageStyle5} /> */}
+                                    <Box marginTop="100px">
+                                        <div class="wrapper">
+                                            <div class="base">
+                                                <div class="base-bottom">
+                                                </div>
+                                                <div class="lock-inside-top">
+                                                </div>
+                                                <div class="lock-inside-bottom">
+                                                </div>
+                                            </div>
+                                            <div class="lock-cirlce2">
+                                                <div class="lock-circle-inside">
+                                                </div>
+                                            </div>
+                                            <div class="lock-box2">
+                                            </div>
+                                        </div>
+                                    </Box>
+                                    <Box marginLeft="300px">
+                                        <div class="wrapper">
+                                            <div class="base2">
+                                                <div class="base-bottom">
+                                                </div>
+                                                <div class="lock-inside-top">
+                                                </div>
+                                                <div class="lock-inside-bottom">
+                                                </div>
+                                            </div>
+                                            <div class="lock-cirlce">
+                                                <div class="lock-circle-inside">
+                                                </div>
+                                            </div>
+                                            <div class="lock-box">
+                                            </div>
+                                        </div>
+                                    </Box>
+
+                                </TabPanel>
+                                <TabPanel>
+                                    <Box marginTop='10px' position="absolute">
+                                        In this step, Person A will unlock its lock and send back to Person B.
+                                    </Box>
+                                    <Image src={usera} alt='' marginLeft="-80px" marginTop="50px" width="200px" position="absolute" zIndex="-1" />
+                                    <Image src={userb} alt='' marginLeft="480px" marginTop="50px" width="200px" position="absolute" zIndex="-1" />
+                                    <Image id='bag' src={suitcase} alt='' marginLeft="50px" marginTop="50px" width="200px" />
+
+                                    {/* <Image src={lock2} alt='' marginLeft="130px" marginTop="10px" width="70px" style={imageStyle2} /> */}
+                                    <Box marginTop="80px">
+                                        <div class="wrapper">
+                                            <div class="base">
+                                                <div class="base-bottom">
+                                                </div>
+                                                <div class="lock-inside-top">
+                                                </div>
+                                                <div class="lock-inside-bottom">
+                                                </div>
+                                            </div>
+                                            <div class="lock-cirlce3">
+                                                <div class="lock-circle-inside">
+                                                </div>
+                                            </div>
+                                            <div class="lock-box3">
+                                            </div>
+                                        </div>
+                                    </Box>
+                                    <Box marginLeft="300px">
+                                        <div class="wrapper">
+                                            <div class="base2">
+                                                <div class="base-bottom">
+                                                </div>
+                                                <div class="lock-inside-top">
+                                                </div>
+                                                <div class="lock-inside-bottom">
+                                                </div>
+                                            </div>
+                                            <div class="lock-cirlce2">
+                                                <div class="lock-circle-inside">
+                                                </div>
+                                            </div>
+                                            <div class="lock-box2">
+                                            </div>
+                                        </div>
+                                    </Box>
+
+                                </TabPanel>
+                                <TabPanel>
+                                    <Box marginTop='10px' position="absolute">
+                                        Finally, Person B can unlock the case with own key and get the documents.
+                                    </Box>
+                                    <Image src={usera} alt='' marginLeft="-80px" marginTop="50px" width="200px" position="absolute" zIndex="-1" />
+                                    <Image src={userb} alt='' marginLeft="480px" marginTop="50px" width="200px" position="absolute" zIndex="-1" />
+                                    <Image src={suitcase} alt='' marginLeft="330px" marginTop="50px" width="200px" style={imageStyle3} />
+                                    <Box marginLeft="300px" marginTop="80px">
+                                        <div class="wrapper">
+                                            <div class="base2">
+                                                <div class="base-bottom">
+                                                </div>
+                                                <div class="lock-inside-top">
+                                                </div>
+                                                <div class="lock-inside-bottom">
+                                                </div>
+                                            </div>
+                                            <div class="lock-cirlce3">
+                                                <div class="lock-circle-inside">
+                                                </div>
+                                            </div>
+                                            <div class="lock-box3">
+                                            </div>
+                                        </div>
+                                    </Box>
+
+
+
+                                </TabPanel>
                             </TabPanels>
                         </Tabs>
 
@@ -863,5 +1335,8 @@ export default function ManInMiddle() {
 
         </Box></>
     );
+
+
+   
 
 }
