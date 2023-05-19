@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .box{
   width: 100px;
   transform: rotate(-45deg);
@@ -29,12 +30,57 @@
   }
   to{
       scale:  1.1;
+=======
+.box {
+  width: 100px;
+  transform: rotate(-45deg);
+}
+
+
+
+
+
+
+
+/* #hacker:hover{
+    transition: 3s ease;
+    transform: scale(1.1);
+} */
+#text1 {
+  position: absolute;
+  margin-left: 365px;
+  margin-top: 110px;
+}
+
+#textbox {
+  position: absolute;
+  width: 300px;
+  height: 120px;
+  margin-top: 300px;
+}
+
+#redx {
+  transition: all .2s ease-in-out;
+  animation: scale 0.9s infinite;
+}
+
+
+@keyframes scale {
+  from {
+    scale: 1;
+  }
+
+  to {
+    scale: 1.1;
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
   }
 }
+
 .arrow-9 {
   position: absolute;
   opacity: 0.5;
   color: rgb(71, 129, 200);
+<<<<<<< HEAD
   margin-left: 14%;
   margin-top: 10%;
   width:15%;
@@ -138,12 +184,221 @@
 @keyframes a8 {
   0%   {transform: translate(-20px)}
   100% {transform: translate( 20px)}
+=======
+  margin-left: 310px;
+  margin-top: 80px;
+  width: 250px;
+  height: 20px;
+  display: flex;
+  background:
+    linear-gradient(currentColor 0 0) center/calc(100% - 30px) 10px,
+    conic-gradient(from -136deg at right, #0000, currentColor 1deg 90deg, #0000 91deg) right/15px 100%,
+    conic-gradient(from 44deg at left, #0000, currentColor 1deg 90deg, #0000 91deg) left /15px 100%;
+  background-repeat: no-repeat;
+  animation: a9 .8s infinite linear alternate;
+
+}
+
+@keyframes a9 {
+  0% {
+    transform: translate(-20px)
+  }
+
+  100% {
+    transform: translate(20px)
+  }
+}
+
+.gateway {
+  z-index: -1;
+
+}
+
+
+#user {
+
+  z-index: -1;
+
+}
+
+
+.arrow-1 {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+  position: absolute;
+  margin-top: 200px;
+  margin-left: 500px;
+  width: 150px;
+  height: 30px;
+  display: flex;
+  transform: rotate(-45deg);
+}
+
+.arrow-1:before {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+  content: "";
+  background: currentColor;
+  width: 15px;
+  clip-path: polygon(0 10px, calc(100% - 15px) 10px, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, calc(100% - 15px) calc(100% - 10px), 0 calc(100% - 10px));
+  animation: a1 1.5s infinite linear;
+}
+
+@keyframes a1 {
+
+  90%,
+  100% {
+    flex-grow: 1
+  }
+}
+
+.arrow-2 {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+  position: absolute;
+  margin-top: 190px;
+  margin-left: 210px;
+  width: 150px;
+  height: 30px;
+  display: flex;
+  transform: rotate(45deg);
+
+}
+
+.arrow-2:before {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+  content: "";
+  background: currentColor;
+  width: 15px;
+  clip-path: polygon(0 10px, calc(100% - 15px) 10px, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, calc(100% - 15px) calc(100% - 10px), 0 calc(100% - 10px));
+  animation: a1 1.5s infinite linear;
+}
+
+@keyframes a2 {
+
+  90%,
+  100% {
+    flex-grow: 1
+  }
+}
+
+.arrow-8 {
+  z-index: -1;
+  position: absolute;
+  opacity: 0.5;
+  color: rgb(71, 129, 200);
+  margin-left: 310px;
+  margin-top: 80px;
+  width: 250px;
+  height: 20px;
+  display: flex;
+  background:
+    linear-gradient(currentColor 0 0) center/calc(100% - 30px) 10px,
+    conic-gradient(from -136deg at right, #0000, currentColor 1deg 90deg, #0000 91deg) right/15px 100%,
+    conic-gradient(from 44deg at left, #0000, currentColor 1deg 90deg, #0000 91deg) left /15px 100%;
+  background-repeat: no-repeat;
+
+
+}
+
+@keyframes a8 {
+  0% {
+    transform: translate(-20px)
+  }
+
+  100% {
+    transform: translate(20px)
+  }
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
 }
 
 
 .arrow-3 {
   opacity: 0.7;
   color: rgb(71, 129, 200);
+<<<<<<< HEAD
+=======
+  position: absolute;
+  margin-top: 190px;
+  margin-left: 480px;
+  width: 150px;
+  height: 30px;
+  display: flex;
+  transform: rotate(-225deg);
+}
+
+.arrow-3:before {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+  content: "";
+  background: currentColor;
+  width: 15px;
+  clip-path: polygon(0 10px, calc(100% - 15px) 10px, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, calc(100% - 15px) calc(100% - 10px), 0 calc(100% - 10px));
+  animation: a1 1.5s infinite linear;
+}
+
+@keyframes a1 {
+
+  90%,
+  100% {
+    flex-grow: 1
+  }
+}
+
+.arrow-4 {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+  position: absolute;
+  margin-top: 180px;
+  margin-left: 230px;
+  width: 150px;
+  height: 30px;
+  display: flex;
+  transform: rotate(225deg);
+
+}
+
+.arrow-4:before {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+  content: "";
+  background: currentColor;
+  width: 15px;
+  clip-path: polygon(0 10px, calc(100% - 15px) 10px, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, calc(100% - 15px) calc(100% - 10px), 0 calc(100% - 10px));
+  animation: a1 1.5s infinite linear;
+}
+
+@keyframes a2 {
+
+  90%,
+  100% {
+    flex-grow: 1
+  }
+}
+
+.tf {
+  border: black solid 0.1mm;
+  border-radius: 0.2cm;
+  height: 50px;
+
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: gray;
+
+}
+
+.t {
+  margin-left: 50px;
+  margin-top: 10px;
+}
+
+.type {
+  position: absolute;
+}
+
+/* .image:hover{
+    width: 500px;
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
     position: absolute;
   margin-top: 13%;
   margin-left: 18%;
@@ -262,6 +517,7 @@
 
 /* DEMO-SPECIFIC STYLES */
 .typewriter h1 {
+<<<<<<< HEAD
 color: rgb(5, 5, 5);
 
 overflow: hidden; /* Ensures the content is not revealed until the animation */
@@ -272,22 +528,65 @@ letter-spacing: 0.1mm; /* Adjust as needed */
 animation: 
   typing 3.5s steps(30, end),
   blink-caret .5s step-end infinite;
+=======
+  color: rgb(5, 5, 5);
+
+  overflow: hidden;
+  /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid orange;
+  /* The typwriter cursor */
+  white-space: nowrap;
+  /* Keeps the content on a single line */
+  margin: 0 auto;
+  /* Gives that scrolling effect as the typing happens */
+  letter-spacing: 0.1mm;
+  /* Adjust as needed */
+  animation:
+    typing 3.5s steps(30, end),
+    blink-caret .5s step-end infinite;
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
 }
 
 /* The typing effect */
 @keyframes typing {
+<<<<<<< HEAD
 from { width: 100% }
 to { width: 0% }
+=======
+  from {
+    width: 100%
+  }
+
+  to {
+    width: 0%
+  }
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
 }
 
 /* The typewriter cursor effect */
 @keyframes blink-caret {
+<<<<<<< HEAD
 from, to { border-color: transparent }
 50% { border-color: white }
 }
 
 .usr{
 transition: ease-out;
+=======
+
+  from,
+  to {
+    border-color: transparent
+  }
+
+  50% {
+    border-color: white
+  }
+}
+
+.usr {
+  transition: ease-out;
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
 }
 
 #wrapper {
@@ -397,6 +696,7 @@ width: 30px;
 text-align: center;
 }
 
+<<<<<<< HEAD
 .spinner > div {
 width: 10px;
 height: 10px;
@@ -405,6 +705,16 @@ display: inline-block;
 -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
 animation: sk-bouncedelay 1.4s infinite ease-in-out both;
 background: rgba(0,0,0,1);
+=======
+.spinner>div {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  background: rgba(0, 0, 0, 1);
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
 }
 
 .spinner .bounce1 {
@@ -418,6 +728,7 @@ animation-delay: -0.16s;
 }
 
 @-webkit-keyframes sk-bouncedelay {
+<<<<<<< HEAD
 0%,
 80%,
 100% {
@@ -439,6 +750,33 @@ animation-delay: -0.16s;
   -webkit-transform: scale(1.0);
   transform: scale(1.0);
 }
+=======
+
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0)
+  }
+
+  40% {
+    -webkit-transform: scale(1.0)
+  }
+}
+
+@keyframes sk-bouncedelay {
+
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+
+  40% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
 }
 
 
@@ -502,16 +840,26 @@ outline: none;
 
 
 .line {
+<<<<<<< HEAD
 position: absolute;
 margin-top: 15px;
 left: 630px;
 right: 300px;
 border-top: 2px solid rgb(121, 124, 127);
 transform-origin: top;
+=======
+  position: absolute;
+  margin-top: 15px;
+  left: 630px;
+  right: 300px;
+  border-top: 2px solid rgb(121, 124, 127);
+  transform-origin: top;
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
 
 }
 
 
+<<<<<<< HEAD
 .priv{
 color: #5ca6fa;
 }
@@ -530,16 +878,46 @@ rotate: 45deg;
 z-index: -1;
 
 margin:auto;
+=======
+.priv {
+  color: #5ca6fa;
 }
+
+.pub {
+  color: red;
+}
+
+.containerr {
+  height: 50px;
+  width: 40px;
+  position: absolute;
+  left: 800px;
+  top: 350px;
+
+
+  margin: auto;
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
+}
+
 .containerr::after {
 
+<<<<<<< HEAD
 color:#007298;
 font-weight:700;
 position:absolute;
 bottom:-50px;
 left:-10px;
+=======
+  color: #007298;
+  font-weight: 700;
+  position: absolute;
+  bottom: -50px;
+  left: -10px;
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
 }
+
 .containerr2 {
+<<<<<<< HEAD
 height:50px;
 width:40px;
 position:absolute;
@@ -549,9 +927,21 @@ rotate: 320deg;
 
 
 margin:auto;
+=======
+  height: 50px;
+  width: 40px;
+  position: absolute;
+  left: 800px;
+  top: 600px;
+
+
+  margin: auto;
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
 }
+
 .containerr2::after {
 
+<<<<<<< HEAD
 color:#007298;
 font-weight:700;
 position:absolute;
@@ -577,8 +967,17 @@ font-weight:700;
 position:absolute;
 bottom:-50px;
 left:-10px;
+=======
+  color: #007298;
+  font-weight: 700;
+  position: absolute;
+  bottom: -50px;
+  left: -10px;
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)
 }
+
 .boxx {
+<<<<<<< HEAD
 position:relative;
 height:50px;
 width:40px;
@@ -1297,3 +1696,279 @@ left: 85px;
 
 
 
+=======
+  position: relative;
+  height: 50px;
+  width: 40px;
+  animation: box 5s infinite linear;
+}
+
+.border {
+  background: #007298;
+  position: absolute;
+}
+
+.border.one {
+  height: 4px;
+  top: 0;
+  left: 0;
+  animation: border-one 5s infinite linear;
+}
+
+.border.two {
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 4px;
+  animation: border-two 5s infinite linear;
+}
+
+.border.three {
+  bottom: 0;
+  right: 0;
+  height: 4px;
+  width: 100%;
+  animation: border-three 5s infinite linear;
+}
+
+.border.four {
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 4px;
+  animation: border-four 5s infinite linear;
+}
+
+.linee {
+  height: 4px;
+  background: #007298;
+  position: absolute;
+  width: 0%;
+  left: 25%;
+}
+
+.linee.one {
+  top: 25%;
+  width: 0%;
+  animation: line-one 5s infinite linear;
+}
+
+.linee.two {
+  top: 45%;
+  animation: line-two 5s infinite linear;
+}
+
+.linee.three {
+  top: 65%;
+  animation: line-three 5s infinite linear;
+}
+
+@keyframes border-one {
+  0% {
+    width: 0;
+  }
+
+  10% {
+    width: 100%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes border-two {
+  0% {
+    height: 0;
+  }
+
+  10% {
+    height: 0%;
+  }
+
+  20% {
+    height: 100%;
+  }
+
+  100% {
+    height: 100%;
+  }
+}
+
+@keyframes border-three {
+  0% {
+    width: 0;
+  }
+
+  20% {
+    width: 0%;
+  }
+
+  30% {
+    width: 100%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes border-four {
+  0% {
+    height: 0;
+  }
+
+  30% {
+    height: 0%;
+  }
+
+  40% {
+    height: 100%;
+  }
+
+  100% {
+    height: 100%;
+  }
+}
+
+@keyframes line-one {
+  0% {
+    left: 25%;
+    width: 0;
+  }
+
+  40% {
+    left: 25%;
+    width: 0%;
+  }
+
+  43% {
+    left: 25%;
+    width: 50%;
+  }
+
+  52% {
+    left: 25%;
+    width: 50%;
+  }
+
+  54% {
+    left: 25%;
+    width: 0%
+  }
+
+  55% {
+    right: 25%;
+    left: auto;
+  }
+
+  63% {
+    width: 10%;
+    right: 25%;
+    left: auto;
+  }
+
+  100% {
+    width: 10%;
+    right: 25%;
+    left: auto;
+  }
+}
+
+@keyframes line-two {
+  0% {
+    width: 0;
+  }
+
+  42% {
+    width: 0%;
+  }
+
+  45% {
+    width: 50%;
+  }
+
+  53% {
+    width: 50%;
+  }
+
+  54% {
+    width: 0%
+  }
+
+  60% {
+    width: 50%
+  }
+
+  100% {
+    width: 50%;
+  }
+}
+
+@keyframes line-three {
+  0% {
+    width: 0;
+  }
+
+  45% {
+    width: 0%;
+  }
+
+  48% {
+    width: 50%;
+  }
+
+  51% {
+    width: 50%;
+  }
+
+  52% {
+    width: 0%
+  }
+
+  100% {
+    width: 0%;
+  }
+}
+
+@keyframes box {
+  0% {
+    opacity: 1;
+    margin-left: 0px;
+    height: 50px;
+    width: 40px;
+  }
+
+  55% {
+    margin-left: 0px;
+    height: 50px;
+    width: 40px;
+  }
+
+  60% {
+    margin-left: 0px;
+    height: 35px;
+    width: 50px;
+  }
+
+  74% {
+    msthin-left: 0;
+  }
+
+  80% {
+    margin-left: -50px;
+    opacity: 1;
+  }
+
+  90% {
+    height: 35px;
+    width: 50px;
+    margin-left: 50px;
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+>>>>>>> 85c7498 (Added Messaging and Added primary key selection in Manage PGP Keys page)

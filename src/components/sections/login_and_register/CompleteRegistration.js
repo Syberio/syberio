@@ -1,5 +1,4 @@
 /*TODO: Change privacy settings of Firestore in firebase.console (before prod)*/
-/*TODO: Connect this with Register.js*/
 /*TODO: Maybe change every onCLick with arrow function? */
 
 import React from 'react';
@@ -28,9 +27,11 @@ import "firebase/compat/firestore";
 import { firebaseConfig } from '../../../utils/Firebase';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../useAuth';
+import { useToast } from '@chakra-ui/react';
 
 firebase.initializeApp(firebaseConfig);
-export default function CompleteRegistration() {
+export default function CompleteRegistration({email}) {
+
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [country, setCountry] = useState("");
@@ -38,8 +39,9 @@ export default function CompleteRegistration() {
     const [isHovered, setIsHovered] = useState(false);
     const [bgColor, setBgColor] = useState("gray.300"); // default background color
     const [isColorOptionsVisible, setIsColorOptionsVisible] = useState(false);
-    const navigate=useNavigate();
-    const {handleCompleteRegister,setIsRegistered,setIsLoggedIn}=useAuth();
+    const navigate = useNavigate();
+    const { handleCompleteRegister, setIsLoggedIn, isLoggedIn } = useAuth();
+    const toast = useToast();
 
 
     const handleHover = () => {
@@ -64,15 +66,30 @@ export default function CompleteRegistration() {
     ]; // list of color options to display on hover
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await handleCompleteRegister(name,surname,country,gender,bgColor);
+        console.log(email);
+        await handleCompleteRegister(email,name, surname, country, gender, bgColor);
         setIsLoggedIn(true);
+        const user = firebase.auth().currentUser;
+        console.log(isLoggedIn + " completeregister içi burası");
+
+        if (user) {
+            firebase.firestore().collection("users").doc(user.uid).update({
+                registrationCompleted: true,
+            });
+        }
         setName('');
         setSurname('');
         setCountry('');
         setGender('');
         setBgColor('');
-        setIsRegistered(false);
-        navigate('/');
+        toast({
+            title: 'Success!.',
+            description: "Welcome to Syberio, Enjoy!",
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+        })
+        navigate("/");
     };
 
     return (
@@ -125,9 +142,9 @@ export default function CompleteRegistration() {
                                     >
                                         {colorOptions.map((color) => (
                                             <Box
+                                                key={color}
                                                 display={'flex'}
                                                 flexDirection={'row'}
-                                                key={color}
                                                 w="20px"
                                                 h="20px"
                                                 bg={color}
@@ -189,22 +206,14 @@ export default function CompleteRegistration() {
                     onChange={(event) => setGender(event.target.value)}
                     size="md"
                 >
-                    {genders.map((gender) => (
-                        <option key={gender.code} value={gender.name}>
+                    {genders.map((gender, index) => (
+                        <option key={index} value={gender.name}>
                             {gender.name}
                         </option>
                     ))}
                 </Select>
                 <Stack spacing={6} direction={['column', 'row']}>
-                    <Button
-                        bg={'red.400'}
-                        color={'white'}
-                        w="full"
-                        _hover={{
-                            bg: 'red.500',
-                        }}>
-                        Cancel
-                    </Button>
+
                     <Button
                         onClick={handleSubmit}
                         bg={'blue.400'}

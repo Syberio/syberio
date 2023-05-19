@@ -12,7 +12,6 @@ import {
   Stack,
   Text,
   FormErrorMessage,
-  useToast,
 } from '@chakra-ui/react';
 import Logo from "../../ui/Logo";
 import "firebase/compat/auth";
@@ -22,44 +21,96 @@ import { useAuth } from "../useAuth";
 import { Link } from "react-router-dom";
 import 'firebase/compat/auth';
 import { useNavigate } from "react-router-dom";
+import CompleteRegistrationPage from "../../../pages/CompleteRegistrationPage";
+import { useLocation } from "react-router-dom";
+import EmailVerificationPage from "../../../pages/EmailVerificationPage";
+import EmailVerification from "./EmailVerification";
+import { useToast } from "@chakra-ui/react";
+import CompleteRegistration from "./CompleteRegistration";
+
 
 firebase.initializeApp(firebaseConfig);
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const {handleRegister,isRegistered,setIsRegistered,setIsLoggedIn} = useAuth();
+  const toast = useToast();
 
-  const { isPasswordTouched, isEmailTouched, handleEmailBlur, handlePasswordBlur } = useAuth();
-  const navigate=useNavigate();
+  const {
+    handleRegister,
+    isPasswordTouched,
+    isEmailTouched,
+    handleEmailBlur,
+    handlePasswordBlur,
+    isLoggedIn,
+  } = useAuth(navigate);
+  const query = useQuery();
+  const showVerification = query.get("showVerification");
 
-
+  const [activetab, setActiveTab] = useState(showVerification === "true" ? "Email Verification" : "Register")
   const isEmailValid = email.trim() !== '';
   const isPasswordValid = password.trim() !== '';
-  
-  const isLoggedIn=JSON.parse(localStorage.getItem("isLoggedIn"));
-  
+
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
+
+  useEffect(() => {
+    if (showVerification === "true") {
+      setActiveTab("Email Verification");
+    }
+  }, [showVerification]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-     handleRegister(email, password);
-     setIsRegistered(true);
-     navigate('/complete-register')
+      const success = await handleRegister(email, password);
+      console.log(isLoggedIn + " register içi burası");
+      if (success) {
+        setActiveTab("Email Verification");
+      }
     } catch (error) {
       console.log(error);
     }
   }
-  
-  const [showPage, setShowPage] = useState(false);
+  const handleEmailVerification = async () => {
+    const user = firebase.auth().currentUser;
+    try {
+      if (user) {
+        await user.reload();
+        if (user.emailVerified) {
+          console.log(isLoggedIn + " verification içi burası");
 
+          setActiveTab("Complete-Register");
+          navigate("/register/complete-register");
+        } else {
+          toast({
+            title: "Email not verified.",
+            description: "Looks like you haven't verified your email (yet).",
+            status: "warning",
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    setShowPage(isLoggedIn !== undefined);
-  }, [isLoggedIn]);
+    if (isLoggedIn) {
+      navigate('/'); // Redirect to the home page or any other page you'd like
+    }
+  }, [isLoggedIn, navigate]);
+
   return (
     <>
-      {showPage ? (
+      {activetab === "Register" && (
         <Container
+          activetab={activetab}
           maxW="lg"
           height={"100vh"}
           py={{
@@ -73,7 +124,6 @@ export default function Register() {
         >
           <Stack spacing="8">
             <Stack spacing="6" align={'center'}>
-
               <Link to="/">
                 <Logo />
               </Link>
@@ -124,9 +174,9 @@ export default function Register() {
                     type="email"
                     placeholder="example@example.com"
                     onChange={(event) => setEmail(event.target.value)}
-                    onBlur={handleEmailBlur} />
+                    onBlur={handleEmailBlur}
+                  />
                   {isEmailValid || !isEmailTouched ? null : <FormErrorMessage>Please enter a valid email</FormErrorMessage>}
-
                 </FormControl>
                 <FormControl isRequired isInvalid={!isPasswordValid && isPasswordTouched}>
                   <FormLabel htmlFor="password">Password</FormLabel>
@@ -140,7 +190,6 @@ export default function Register() {
                     onBlur={handlePasswordBlur}
                   />
                   {isPasswordValid || !isPasswordTouched ? null : <FormErrorMessage>Please enter a valid password</FormErrorMessage>}
-
                 </FormControl>
               </Stack>
               <Checkbox>
@@ -166,7 +215,13 @@ export default function Register() {
             </HStack>
           </Stack>
         </Container>
-      ) : <div>Loading...</div>}
+      )}
+      {activetab === "Email Verification" && (
+        <EmailVerification handleEmailVerification={handleEmailVerification} />
+      )}
+      {activetab === "Complete-Register" && <CompleteRegistration email={email}/>}
+
+
     </>
   );
 }

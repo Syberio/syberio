@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Heading, Stack, Text, Button, Divider, Avatar, HStack, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuDivider, MenuItem, MenuList, CircularProgress, CircularProgressLabel, VStack, Card, CardBody, CardFooter, Image } from "@chakra-ui/react";
-import { FaBell, FaHome, FaUser, FaQuestion, FaBook, FaUserLock, FaSignOutAlt, FaSearch } from "react-icons/fa";
+import { Box, Flex, Heading, Stack, Text, Button, Divider, Avatar, HStack, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuDivider, MenuItem, MenuList, CircularProgress, CircularProgressLabel, VStack, Card, CardBody, CardFooter, Image, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, useToast } from "@chakra-ui/react";
+import { FaBell, FaHome, FaUser, FaQuestion, FaBook, FaUserLock, FaSignOutAlt, FaSearch, FaMailBulk } from "react-icons/fa";
 import Logo from "../../ui/Logo";
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
@@ -9,6 +9,7 @@ import { useAuth } from "../useAuth";
 import { useNavigate } from "react-router-dom";
 import maninmid from "../../assets/mim-img.png"
 import { useLocation } from "react-router-dom";
+import { useDisclosure } from "@chakra-ui/react";
 
 
 import Courses from "./Courses";
@@ -16,17 +17,20 @@ import Notifications from "./Notifications";
 import ManagePGPKeys from "./ManagePGPKeys";
 import Profile from "./Profile";
 import Support from "./Support";
+import Messaging from "./Messaging";
 
-firebase.initializeApp(firebaseConfig);
+
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 
 export default function Dashboard() {
-    /*TODO: Actually implement this */
     const [userData, setUserData] = useState({ name: "", surname: "", bgColor: "", progress: "" });
+    const [password, setPassword] = useState("");
     const [activeTab, setActiveTab] = useState("Dashboard");
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const { handleLogout } = useAuth();
     const navigate = useNavigate();
+    const toast = useToast();
     useEffect(() => {
         const handleUserInfo = async () => {
             const { uid } = auth.currentUser;
@@ -50,6 +54,30 @@ export default function Dashboard() {
 
         return () => unsubscribe();
     }, []);
+
+    const checkPassword = async () => {
+        try {
+            const user = auth.currentUser;
+            const credential = firebase.auth.EmailAuthProvider.credential(
+                user.email,
+                password
+            );
+            await user.reauthenticateWithCredential(credential);
+
+            handleTabChange("Manage PGP Keys");
+            navigate("/dashboard/manage-pgp-keys");
+            onClose();
+        } catch (error) {
+            toast({
+                title: 'An error occured.',
+                description: "Incorrect password.",
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            })
+        }
+    };
+
     const location = useLocation();
     useEffect(() => {
         const path = location.pathname;
@@ -64,7 +92,6 @@ export default function Dashboard() {
     }
 
     return (
-
         <Flex
             h="100vh"
             px={{ base: "6", md: "5" }}
@@ -73,6 +100,39 @@ export default function Dashboard() {
             bg="gray.100"
             gap={5}
         >
+            <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={undefined}
+                onClose={onClose}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Manage PGP Keys
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                            Please enter your password to proceed.
+                            <Input
+                                mt={4}
+                                placeholder="Password"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                            <Button onClick={onClose}>
+                                Cancel
+                            </Button>
+                            <Button colorScheme="blue" onClick={checkPassword} ml={3}>
+                                Confirm
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
             {/* Sidebar */}
             <Box
                 w={{ base: "full", md: "72" }}
@@ -171,16 +231,33 @@ export default function Dashboard() {
                             _hover={{ bg: "gray.100" }}
                             onClick={() => {
                                 if (activeTab !== "Manage PGP Keys") {
-                                    handleTabChange("Manage PGP Keys");
-                                    navigate("/dashboard/manage-pgp-keys");
+                                    onOpen();
                                 }
                             }}
                             bg={activeTab === "Manage PGP Keys" ? "gray.200" : ""}
-
-
                         >
                             <FaUserLock />
-                            <Text ml="3" fontWeight={'bold'}>Manage PGP Keys</Text>
+                            <Text ml="3" fontWeight={"bold"}>Manage PGP Keys</Text>
+                        </Box>
+                        <Box
+                            as="button"
+                            display="flex"
+                            alignItems="center"
+                            px="3"
+                            py="2"
+                            rounded="md"
+                            _hover={{ bg: "gray.100" }}
+                            onClick={() => {
+                                if (activeTab !== "Messaging") {
+                                    handleTabChange("Messaging");
+                                    navigate("/dashboard/messaging");
+                                }
+                            }}
+                            bg={activeTab === "Messaging" ? "gray.200" : ""}
+
+                        >
+                            <FaMailBulk />
+                            <Text ml="3" fontWeight={'bold'}>Messaging</Text>
                         </Box>
                         <Box
                             as="button"
@@ -258,7 +335,7 @@ export default function Dashboard() {
                                 pointerEvents="none"
                                 children={<FaSearch color="gray.300" />}
                             />
-                            <Input borderRadius={20} type="search" placeholder="Search..." />
+                            <Input borderRadius={20} placeholder="Search..." />
                         </InputGroup>
                         <FaBell />
                         <Menu placement="bottom-start">
@@ -330,6 +407,8 @@ export default function Dashboard() {
                 {activeTab === "Manage PGP Keys" && <ManagePGPKeys />}
                 {activeTab === "Notifications" && <Notifications />}
                 {activeTab === "Support" && <Support />}
+                {activeTab === "Messaging" && <Messaging />}
+
             </Stack>
 
         </Flex>

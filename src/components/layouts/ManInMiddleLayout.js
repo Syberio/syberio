@@ -1,12 +1,15 @@
 import React from "react";
-import { Flex, Stack } from "@chakra-ui/react";
+import { Flex, Stack, Spinner } from "@chakra-ui/react";
 import Navbar from "../sections/navbars/Navbar";
 import Footer from "../sections/landing_sections/Footer";
 import ManInMiddle from "../sections/courses/ManInMiddle";
 import AuthenticatedNavbar from "../sections/navbars/AuthenticatedNavbar";
 import { useAuth } from "../sections/useAuth";
 export default function ManInMiddleLayout() {
-    const { isLoggedIn} = useAuth();
+    const { isLoggedIn, authLoading } = useAuth();
+    if (authLoading) {
+        return <Flex justifyContent={"center"} alignItems={'center'} height={"100vh"}><Spinner /> </Flex>
+    }
 
     return (
 

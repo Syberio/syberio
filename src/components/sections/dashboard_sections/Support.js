@@ -4,10 +4,9 @@ import { Box, Flex, Heading, IconButton, Stack, Text, Button, Divider, Avatar, H
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
 import { firebaseConfig } from "../../../utils/Firebase";
+import { auth, firestore } from "../../../utils/Firebase"
 
-firebase.initializeApp(firebaseConfig);
-const firestore = firebase.firestore();
-const auth = firebase.auth();
+
 
 export default function Support() {
     return (

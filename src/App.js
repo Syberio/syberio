@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, Flex } from '@chakra-ui/react'
 import Landing from "./pages/Landing";
 import ManInMiddlePage from "./pages/ManInMiddlePage";
 import CreatePGPKeysPage from "./pages/CreatePGPKeysPage";
@@ -9,24 +9,13 @@ import RegisterPage from "./pages/RegisterPage";
 import { useAuth } from "./components/sections/useAuth";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
-import CompleteRegistrationPage from "./pages/CompleteRegistrationPage";
 import DashboardPage from "./pages/DashboardPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import EmailVerificationPage from "./pages/EmailVerificationPage";
+import { Spinner } from "@chakra-ui/react";
 
 export default function App() {
-  const auth = useAuth();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(JSON.parse(localStorage.getItem("isLoggedIn")));
-  }, []);
-
-  const requireAuth = (component) => {
-    const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
-
-    return isLoggedIn ? component : <Navigate to="/login" />;
-  };
-
-  console.log(isLoggedIn + "neymiş");
+  const [loading, setLoading] = useState(true);
 
   return (
     <ChakraProvider>
@@ -34,16 +23,19 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="create-public-private-key" element={<CreatePGPKeysPage />} />
-          <Route path="login" element={isLoggedIn ? <Navigate to="/" /> : <LoginPage />} />
-          <Route path="register" element={isLoggedIn ? <Navigate to="/" /> : <RegisterPage />} />
-          <Route path="dashboard" element={requireAuth(<DashboardPage auth={auth} />)} />
-          <Route path="/dashboard/courses" element={requireAuth(<DashboardPage auth={auth} />)} />
-          <Route path="/dashboard/profile" element={requireAuth(<DashboardPage auth={auth} />)} />
-          <Route path="/dashboard/manage-pgp-keys" element={requireAuth(<DashboardPage auth={auth} />)} />
-          <Route path="/dashboard/notifications" element={requireAuth(<DashboardPage auth={auth} />)} />
-          <Route path="/dashboard/support" element={requireAuth(<DashboardPage auth={auth} />)} />
-          <Route path="complete-register" element={<CompleteRegistrationPage />} />
-          <Route path="man-in-middle-attack" element={requireAuth(<ManInMiddlePage auth={auth} />)} />
+          <Route path="login" element={<AuthWrapper> <LoginPage /> </AuthWrapper>} />
+          <Route path="register" element={<AuthWrapper><RegisterPage/></AuthWrapper>} />
+          <Route path="/register/complete-register" element={<AuthWrapper><RegisterPage/></AuthWrapper>} />
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/register/email-verification" element={<AuthWrapper><EmailVerificationPage /></AuthWrapper>} />
+          <Route path="dashboard" element={<DashboardPageWrapper />} />
+          <Route path="/dashboard/courses" element={<DashboardPageWrapper />} />
+          <Route path="/dashboard/profile" element={<DashboardPageWrapper />} />
+          <Route path="/dashboard/manage-pgp-keys" element={<DashboardPageWrapper />} />
+          <Route path="/dashboard/messaging" element={<DashboardPageWrapper />} />
+          <Route path="/dashboard/notifications" element={<DashboardPageWrapper />} />
+          <Route path="/dashboard/support" element={<DashboardPageWrapper />} />
+          <Route path="man-in-middle-attack" element={<ManInMiddlePage />} />
           <Route path="terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="*" element={<Navigate to="/" />} />
@@ -51,5 +43,46 @@ export default function App() {
       </Router>
     </ChakraProvider>
   );
-}
 
+  function DashboardPageWrapper() {
+    const auth = useAuth({ loading, setLoading });
+
+    if (auth.authLoading) {
+      return <Flex justifyContent={"center"} alignItems={'center'} height={"100vh"}>
+        <Spinner thickness='4px'
+          speed='0.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='xl' />
+      </Flex>;
+    }
+
+    const requireAuth = (component) => {
+      if (!auth.isLoggedIn || !auth.isEmailVerified) {
+        return <Navigate to="/login" />;
+      }
+      return component;
+    };
+
+    return requireAuth(<DashboardPage auth={auth} />);
+  }
+  function AuthWrapper({ children }) {
+    const auth = useAuth();
+
+    if (auth.authLoading) {
+      return <Flex justifyContent={"center"} alignItems={'center'} height={"100vh"}>
+        <Spinner thickness='4px'
+          speed='0.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='xl' />
+      </Flex>
+    }
+
+    if (auth.isLoggedIn) {
+      return <Navigate to="/" />;
+    }
+
+    return children;
+  }
+}

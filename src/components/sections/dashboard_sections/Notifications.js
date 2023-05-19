@@ -9,7 +9,6 @@ import { useToast } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import sleepingCat from "../../assets/sleeping-cat.png"
 
-firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 
@@ -104,7 +103,7 @@ export default function Notifications() {
                             .collection("notifications")
                             .add({
                                 title: "For everyone",
-                                message: "Babayız",
+                                message: "Message sent to every user.",
                                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                             });
                     });
@@ -117,7 +116,7 @@ export default function Notifications() {
                     .collection("notifications")
                     .add({
                         title: "For the user",
-                        message: "Babayım",
+                        message: "Message sent to only current user.",
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     })
             }}>Send message to current user</Button>

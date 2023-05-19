@@ -6,7 +6,10 @@ import PGPKeys from "../sections/courses/PGPKeys";
 import AuthenticatedNavbar from "../sections/navbars/AuthenticatedNavbar";
 import { useAuth } from "../sections/useAuth";
 export default function CreatePGPKeysLayout() {
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn,authLoading } = useAuth();
+    if (authLoading) {
+        return null; // or return a loading spinner
+      }
 
     return (
         <><><Flex background={'#fafafa'} align={'center'} direction='column'  >

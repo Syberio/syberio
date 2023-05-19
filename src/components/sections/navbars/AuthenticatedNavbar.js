@@ -15,6 +15,7 @@ import {
     MenuItem,
     Text,
     MenuDivider,
+    Alert, AlertIcon, AlertTitle, AlertDescription
 } from "@chakra-ui/react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
@@ -40,6 +41,7 @@ const AuthenticatedNavbar = () => {
     const [userData, setUserData] = useState({ name: "", surname: "", bgColor: "" });
     const { handleLogout } = useAuth();
     const navigate = useNavigate();
+    const [showBar, setShowBar] = useState(false);
 
     useEffect(() => {
         const handleUserInfo = async () => {
@@ -48,6 +50,12 @@ const AuthenticatedNavbar = () => {
 
             if (userDoc.exists) {
                 const { name, surname, bgColor } = userDoc.data();
+                if ((name === "John" && surname === "Doe")||(name === "" && surname === "")) {
+                    setShowBar(true);
+                }
+                else{
+                    setShowBar(false);
+                }
                 setUserData({ name, surname, bgColor });
             } else {
                 console.log("User document doesn't exist!");
@@ -66,6 +74,7 @@ const AuthenticatedNavbar = () => {
     }, []);
     return (
         <>
+
             <Box
                 as="section"
                 pb={{
@@ -78,6 +87,15 @@ const AuthenticatedNavbar = () => {
                 position={"fixed"}
                 as="section"
             >
+                {showBar ? <Alert status="warning" mb={4}>
+                    <AlertIcon />
+                    <AlertTitle mr={2}>Registration Incomplete</AlertTitle>
+                    <AlertDescription>
+                        Seems like you haven't completed your registration. Please update your information at {<Button variant={"link"} colorScheme="blue" onClick={() => {
+                            navigate("/dashboard/profile");
+                        }} >Dashboard{">"}Profile</Button>}
+                    </AlertDescription>
+                </Alert> : ""}
                 <Box
                     as="nav"
                     bg="bg-surface"

@@ -14,6 +14,8 @@ import {
   Stack,
   Text,
   FormErrorMessage,
+  Spinner,
+  Flex,
 } from '@chakra-ui/react'
 import Logo from "../../ui/Logo";
 import firebase from 'firebase/compat/app';
@@ -30,18 +32,23 @@ export default function Login() {
   const isEmailValid = email.trim() !== '';
   const isPasswordValid = password.trim() !== '';
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-  const { isPasswordTouched, isEmailTouched, handleEmailBlur, handlePasswordBlur } = useAuth();
-  const { handleLogin, setIsLoggedIn } = useAuth();
+  const { isPasswordTouched, isEmailTouched, handleEmailBlur, handlePasswordBlur, handleLogin, setIsLoggedIn, isLoggedIn,isEmailVerified } = useAuth();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await handleLogin(email, password);
-    setIsLoggedIn(true);
-    navigate("/");
+    const success = await handleLogin(email, password);
+    setIsLoggedIn(success);
+    if (success) {
+      navigate("/");
+    }
   };
   const [showPage, setShowPage] = useState(false);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/'); // Redirect to the home page or any other page you'd like
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     setShowPage(isLoggedIn !== undefined);
@@ -120,7 +127,7 @@ export default function Login() {
             >
               <Stack spacing="6">
                 <Stack spacing="5">
-                  <FormControl isInvalid={!isPasswordValid && isPasswordTouched}>
+                  <FormControl isRequired isInvalid={!isEmailValid && isEmailTouched}>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input
                       id="email"
@@ -147,7 +154,7 @@ export default function Login() {
                 </Stack>
                 <HStack justify="space-between">
                   <Checkbox defaultChecked>Remember me</Checkbox>
-                  <Button variant="link" colorScheme="blue" size="sm">
+                  <Button variant="link" colorScheme="blue" size="sm" onClick={() => { navigate("/forgot-password") }}>
                     Forgot password?
                   </Button>
                 </HStack>
@@ -159,7 +166,13 @@ export default function Login() {
           </Stack>
         </Container>
 
-      ) : <div>Loading...</div>}
+      ) : < Flex justifyContent={"center"} alignItems={'center'} height={"100vh"}>
+      <Spinner thickness='4px'
+        speed='0.65s'
+        emptyColor='gray.200'
+        color='blue.500'
+        size='xl' />
+    </Flex >}
     </>
 
   );

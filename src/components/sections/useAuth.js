@@ -3,46 +3,44 @@ import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
 import { firebaseConfig } from "../../utils/Firebase";
 import { useToast } from "@chakra-ui/react";
+import { useLoading } from "./useLoading";
 import "firebase/compat/firestore";
-
 
 firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 
 export const useAuth = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    JSON.parse(localStorage.getItem("isLoggedIn")) || false
-  );
-  const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { loading, showLoader } = useLoading();
   const [isEmailTouched, setIsEmailTouched] = useState(false);
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const toast = useToast();
+  const [authLoading, setAuthLoading] = useState(true);
+
+
 
   useEffect(() => {
-    const storedAuthStatus = localStorage.getItem('isLoggedIn');
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      setIsLoggedIn(!!user);
-      setLoading(false);
-      localStorage.setItem('isLoggedIn', JSON.stringify(!!user));
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsLoggedIn(!!user && user.emailVerified);
+      setAuthLoading(false);
+
+      // Update the email verification status here
+      if (user) {
+        setIsEmailVerified(user.emailVerified);
+      } else {
+        setIsEmailVerified(false);
+      }
     }, (error) => {
       console.error(error);
-      setLoading(false);
+      setAuthLoading(false);
     });
-    setIsLoggedIn(JSON.parse(storedAuthStatus) ?? !!firebase.auth().currentUser);
-    setLoading(false);
+
+    console.log(`isLoggedIn updated: ${isLoggedIn}`);
+
     return unsubscribe;
   }, []);
-
-  /*useEffect(() => {
-    // Check local storage for isRegistered status
-    const storedRegisterStatus = localStorage.getItem('isRegistered');
-    if (storedRegisterStatus) {
-      setIsRegistered(true);
-    }
-  }, []);
-  */
 
   const handleEmailBlur = () => {
     setIsEmailTouched(true);
@@ -53,10 +51,25 @@ export const useAuth = () => {
   };
 
   const handleLogin = async (email, password) => {
+    showLoader(true);
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
-      setIsLoggedIn(true);
-      localStorage.setItem("isLoggedIn", true);
+      const user = firebase.auth().currentUser;
+      if (user.emailVerified) {
+        setIsLoggedIn(true);
+        return true;
+      } else {
+        toast({
+          title: "Email not verified.",
+          description: "Please verify your email address before logging in.",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+        });
+        await handleLogout();
+        showLoader(false);
+        return false;
+      }
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
         toast({
@@ -85,62 +98,110 @@ export const useAuth = () => {
           isClosable: true,
         })
       }
+      showLoader(false);
+      return false;
     }
   }
-
 
   const handleRegister = async (email, password) => {
     try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
-      setIsRegistered(true);
-      await handleLogin(email, password);
-      //localStorage.setItem('isRegistered', true); // add this line
-    } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
+      const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      await user.sendEmailVerification();
+      if (user) {
+        setIsLoggedIn(false); // Set the user to be logged out until they verify their email
         toast({
-          title: 'An error occured.',
-          description: "Email already in use.",
-          status: 'error',
-          duration: 5000,
+          title: "Registration successful.",
+          description: "A verification email has been sent to your email address. Please verify your email to log in.",
+          status: "success",
+          duration: 7000,
           isClosable: true,
-        })
-      } else if (error.code === 'auth/weak-password') {
-        toast({
-          title: 'An error occured.',
-          description: "Password is too short.",
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        })
+        });
+        return true;
       }
-      //console.error(error);
+    } catch (error) {
+      if (error.code === "auth/email-already-in-use") {
+        toast({
+          title: "An error occured.",
+          description: "Email already in use.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else if (error.code === "auth/weak-password") {
+        toast({
+          title: "An error occured.",
+          description: "Password is too short.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else if (error.code === "auth/invalid-email") {
+        toast({
+          title: "An error occured.",
+          description: "Please enter a valid email.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+      return false;
     }
-  }
+  };
 
-
-  const handleCompleteRegister = async (name, surname, country, gender, bgColor) => {
+  const handleCompleteRegister = async (email,name, surname, country, gender, bgColor) => {
     // Get the current user's ID
     const { uid } = auth.currentUser;
-    setIsRegistered(false);
-    setIsLoggedIn(true)
+    setIsLoggedIn(true);
+
     // Create a new user document in Firestore
     await firestore.collection('users').doc(uid).set({
+      email,
       name,
       surname,
       country,
       gender,
       bgColor,
+      progress: 0,
+      registrationCompleted: true, // Add this field
     });
+  };
 
-    toast({
-      title: 'Success!.',
-      description: "Welcome to Syberio, Enjoy!",
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    })
-    localStorage.removeItem('isRegistered');
+  const isRegistrationCompleted = async () => {
+    const user = firebase.auth().currentUser;
+    if (!user) return false;
+
+    const userDoc = await firebase.firestore().collection("users").doc(user.uid).get();
+    const userData = userDoc.data();
+    return userData.registrationCompleted || false;
+  };
+
+  const handlePasswordReset = async (email) => {
+    try {
+      console.log(email + "email ne geldi");
+      await firebase.auth().sendPasswordResetEmail(email);
+      console.log('Password reset email sent successfully!');
+      return true;
+    } catch (error) {
+      if (error.code === "auth/invalid-email") {
+        toast({
+          title: "An error occured.",
+          description: "Please enter a valid email.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+        return false;
+      }
+    }
   }
+
+  const checkEmailVerified = () => {
+    const user = firebase.auth().currentUser;
+    if (user) {
+      return user.emailVerified;
+    }
+    return false;
+  };
 
   const handleProgress = async (progress) => {
     // Get the current user's ID
@@ -157,16 +218,31 @@ export const useAuth = () => {
       await firebase.auth().signOut();
       setIsLoggedIn(false);
       // Remove authentication status from local storage
-      localStorage.removeItem('isLoggedIn');
-      window.location.reload();
     } catch (error) {
       console.error(error);
     }
+    return false;
   };
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  return { isLoggedIn, handleLogin, handleLogout, isEmailTouched, isPasswordTouched, handleEmailBlur, handlePasswordBlur, handleRegister, isRegistered, handleCompleteRegister, setIsLoggedIn, setLoading, setIsRegistered, handleProgress,loading};
+  return {
+    isLoggedIn,
+    isEmailVerified,
+    handleLogin,
+    handleLogout,
+    isEmailTouched,
+    isPasswordTouched,
+    handleEmailBlur,
+    handlePasswordBlur,
+    handleRegister,
+    handleCompleteRegister,
+    setIsLoggedIn,
+    handleProgress,
+    handlePasswordReset,
+    checkEmailVerified,
+    authLoading,
+  };
 };

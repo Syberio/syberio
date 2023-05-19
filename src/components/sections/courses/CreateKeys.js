@@ -6,7 +6,8 @@ import * as openpgp from 'openpgp';
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
 import { firebaseConfig } from "../../../utils/Firebase";
-
+import { useToast } from '@chakra-ui/react';
+import CryptoJS from 'crypto-js';
 
 
 import {
@@ -33,6 +34,7 @@ const CreateKeys = () => {
     const [keySize, setKeySize] = useState("");
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
+    const toast = useToast();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -66,6 +68,7 @@ const CreateKeys = () => {
         }
         return errors;
     };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setFormErrors(validate(formValues));
@@ -88,9 +91,6 @@ const CreateKeys = () => {
             createDSAKeys(formValues.username, formValues.email, formValues.password);
 
         }
-
-
-
     };
     const initialValues = { username: "", email: "", password: "" };
     const [formValues, setFormValues] = useState(initialValues);
@@ -121,19 +121,32 @@ const CreateKeys = () => {
             console.log("---------------DSA----------------")
             console.log("Username:", userName);
             console.log("Email:", email);
-            downloadFile(privateKey, "privateKey.txt");
-            downloadFile(publicKey, "publicKey.txt");
-
-
 
             console.log(privateKey);     // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
             console.log(publicKey);      // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
             console.log(revocationCertificate); // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
 
+
+            firestore
+                .collection("users")
+                .doc(auth.currentUser.uid)
+                .collection("keyring")
+                .add({
+                    userName: userName,
+                    email: email,
+                    publicKey: publicKey,
+                    privateKey: privateKey,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                })
+            toast({
+                title: 'Success!.',
+                description: "Now you can find your Public and Private key inside Dashboard!",
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            })
+
         })();
-
-
-
     }
     function downloadFile(data, name) {
         const blob = new Blob([data], { type: "octet-stream" });
@@ -168,49 +181,70 @@ const CreateKeys = () => {
             console.log("Email:", email);
 
 
-            downloadFile(privateKey, "privateKey.txt");
-            downloadFile(publicKey, "publicKey.txt");
+
 
             console.log(privateKey);     // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
             console.log(publicKey);      // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
             console.log(revocationCertificate); // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+
+
+            firestore
+                .collection("users")
+                .doc(auth.currentUser.uid)
+                .collection("keyring")
+                .add({
+                    userName: userName,
+                    email: email,
+                    publicKey: publicKey,
+                    privateKey: privateKey,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                })
+
+            toast({
+                title: 'Success!.',
+                description: "Now you can find your Public and Private key inside Dashboard!",
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            })
         })();
-
-
     }
     const handleHidden = () => setShow(!show)
 
-    function createRSAKeys(userName, email, password) {
-        (async () => {
-            const { privateKey, publicKey, revocationCertificate } = await openpgp.generateKey({
-                type: 'rsa', // Type of the key
-                rsaBits: 4096, // RSA key size (defaults to 4096 bits)
-                userIDs: [{ name: userName, email: email }], // you can pass multiple user IDs
-                passphrase: password // protects the private key
+    async function createRSAKeys(userName, email, password) {
+        const { privateKey, publicKey, revocationCertificate } = await openpgp.generateKey({
+            type: 'rsa',
+            rsaBits: 4096,
+            userIDs: [{ name: userName, email: email }],
+            passphrase: password,
+        });
+
+        // Encrypt the private key using CryptoJS AES
+        const encryptedPrivateKey = CryptoJS.AES.encrypt(privateKey, password).toString();
+        console.log(encryptedPrivateKey + " ne geldi hacı");
+
+        const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, password);
+        const decryptedPrivateKey = bytes.toString(CryptoJS.enc.Utf8);
+        console.log(decryptedPrivateKey+" en son ne geldi peki");
+        await firestore
+            .collection("users")
+            .doc(auth.currentUser.uid)
+            .collection("keyring")
+            .add({
+                userName: userName,
+                email: email,
+                publicKey: publicKey,
+                privateKey: encryptedPrivateKey,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             });
-            console.log("---------------RSA----------------")
-            console.log("username", userName);
-            console.log(email);
-            downloadFile(privateKey, "privateKey.txt");
-            downloadFile(publicKey, "publicKey.txt");
 
-            console.log(privateKey);     // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
-            console.log(publicKey);      // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
-            console.log(revocationCertificate);
-
-            firestore
-                    .collection("users")
-                    .doc(auth.currentUser.uid)
-                    .collection("keyring")
-                    .add({
-                        userName: userName,
-                        email: email,
-                        publicKey: publicKey,
-                        privateKey: privateKey,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    })
-
-        })();
+        toast({
+            title: 'Success!.',
+            description: "Now you can find your Public and Private key inside Dashboard!",
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+        });
     }
 
 
