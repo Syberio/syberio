@@ -101,7 +101,7 @@ export default function Hero({
                     >
                         or
                     </Heading>
-                    <Link to={"create-public-private-key"}>
+                    <Link to={"/courses/create-public-private-key"}>
                         <Button
 
                             colorScheme="blue"

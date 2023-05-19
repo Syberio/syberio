@@ -3,7 +3,6 @@ import { Box, Flex, Text, Button, Table, Thead, Tr, Th, Tbody, Td, Modal, ModalB
 
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
-import { firebaseConfig } from "../../../utils/Firebase";
 import { useNotifications } from "../useNotifications";
 import { useToast } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";

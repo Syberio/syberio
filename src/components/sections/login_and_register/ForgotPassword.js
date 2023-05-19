@@ -14,7 +14,6 @@ import {
     Text,
     FormErrorMessage,
 } from "@chakra-ui/react";
-import firebase from "firebase/app";
 import "firebase/auth";
 import { useAuth } from "../useAuth";
 import { useNavigate } from "react-router-dom";

@@ -1,8 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 import Register from "../sections/login_and_register/Register";
-import { useAuth } from "../sections/useAuth";
-
 
 export default function RegisterLayout() {
 

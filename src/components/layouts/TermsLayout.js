@@ -1,6 +1,6 @@
 import Navbar from "../sections/navbars/Navbar";
 import React from "react";
-import { Flex, Stack, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import Footer from "../sections/landing_sections/Footer";
 import Terms from "../sections/terms_and_privacy/Terms"
 import { useAuth } from "../sections/useAuth";

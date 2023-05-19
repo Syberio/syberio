@@ -1,9 +1,7 @@
 import { Container, Stack, Text, Button, Input, Divider } from '@chakra-ui/react'
-import { Link } from 'react-router-dom';
 import * as React from 'react'
 import Logo from '../../ui/Logo';
 import { useNavigate } from 'react-router-dom'
-import { Navigate } from 'react-router-dom';
 
 const Footer = () => {
   const navigate = useNavigate();;

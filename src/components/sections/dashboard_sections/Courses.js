@@ -63,7 +63,7 @@ export default function Courses() {
 
                         <CardFooter>
                             <Button variant='solid' colorScheme='blue' onClick={() => {
-                                navigate("/create-public-private-key")
+                                navigate("/courses/create-public-private-key")
                             }}>
                                 Go to Course
                             </Button>
@@ -91,7 +91,7 @@ export default function Courses() {
 
                         <CardFooter>
                             <Button variant='solid' colorScheme='blue' onClick={() => {
-                                navigate("/man-in-middle-attack")
+                                navigate("/courses/pgp-main")
                             }}>
                                 Go to Course
                             </Button>
@@ -145,7 +145,8 @@ export default function Courses() {
 
                         <CardFooter>
                             <Button variant='solid' colorScheme='blue' onClick={() => {
-                                navigate("/man-in-middle-attack")
+                                navigate("/courses/x509")
+
                             }}>
                                 Go to Course
                             </Button>
@@ -172,7 +173,7 @@ export default function Courses() {
 
                         <CardFooter>
                             <Button variant='solid' colorScheme='blue' onClick={() => {
-                                navigate("/man-in-middle-attack")
+                                navigate("/courses/ipfs")
                             }}>
                                 Go to Course
                             </Button>

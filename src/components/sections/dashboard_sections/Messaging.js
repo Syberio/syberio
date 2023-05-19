@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Image, Flex, Container, Heading, IconButton, Stack, Text, Button, Divider, Avatar, HStack, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuDivider, MenuItem, MenuList, VStack, useColorModeValue, Spinner, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, useDisclosure } from "@chakra-ui/react";
+import { Box, Image, Flex, Heading, Stack, Text, Button, Divider, Avatar, HStack, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuDivider, MenuItem, MenuList, VStack, useColorModeValue, Spinner, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, AlertDialogCloseButton, useDisclosure } from "@chakra-ui/react";
 
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
@@ -142,7 +142,7 @@ export default function Messaging() {
                     isSentByMe: messageData.sender === email,
                 };
             });
-    
+
             const decryptedMessages = await Promise.all(
                 newMessages.map(async messageData => {
                     const decryptedMessage = await decryptMessage(privateKey, passphrase, messageData.message);
@@ -153,11 +153,11 @@ export default function Messaging() {
                     };
                 })
             );
-    
+
             setMessages(decryptedMessages);
             setLoading(false);
         });
-    
+
         return () => unsubscribe();
     }, [selectedChat, keyring, passphrase]);
 
@@ -334,14 +334,14 @@ export default function Messaging() {
                                 </HStack>
                             </VStack>
                         </Box>
-                    ):<Flex justify="center" align="center" h="100%">
-                    <VStack>
-                        <Text fontSize={20} fontWeight="bold">
-                            Select or start a new chat to message with people!
-                        </Text>
-                        <Image maxW={{ base: "100%", sm: "40%" }} src={sleepingCat} />
-                    </VStack>
-                </Flex>}
+                    ) : <Flex justify="center" align="center" h="100%">
+                        <VStack>
+                            <Text fontSize={20} fontWeight="bold">
+                                Select or start a new chat to message with people!
+                            </Text>
+                            <Image maxW={{ base: "100%", sm: "40%" }} src={sleepingCat} />
+                        </VStack>
+                    </Flex>}
                 </Box>
             </Stack>
         </>

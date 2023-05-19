@@ -50,10 +50,10 @@ const AuthenticatedNavbar = () => {
 
             if (userDoc.exists) {
                 const { name, surname, bgColor } = userDoc.data();
-                if ((name === "John" && surname === "Doe")||(name === "" && surname === "")) {
+                if ((name === "John" && surname === "Doe") || (name === "" && surname === "")) {
                     setShowBar(true);
                 }
-                else{
+                else {
                     setShowBar(false);
                 }
                 setUserData({ name, surname, bgColor });
@@ -118,11 +118,15 @@ const AuthenticatedNavbar = () => {
                             {isDesktop ? (
                                 <Flex justify="space-between" flex="1">
                                     <ButtonGroup variant="ghost" spacing="12">
-                                        {["Dashboard", "Courses", "Support"].map((item, index) => (
-                                            <Button key={index} onClick={() => navigate("/" + item.toLowerCase())}>
-                                                {item}
-                                            </Button>
-                                        ))}
+                                        <Button onClick={() => navigate("/dashboard")}>
+                                            Dashboard
+                                        </Button>
+                                        <Button onClick={() => navigate("/dashboard/courses")}>
+                                            Courses
+                                        </Button>
+                                        <Button onClick={() => navigate("/dashboard/support")}>
+                                            Support
+                                        </Button>
                                     </ButtonGroup>
                                     <Divider orientation="vertical"></Divider>
                                     <Container spacing="3"></Container>

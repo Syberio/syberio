@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Stack, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import Navbar from "../sections/navbars/Navbar";
 import Footer from "../sections/landing_sections/Footer";
 import ManInMiddle from "../sections/courses/ManInMiddle";

@@ -2,7 +2,6 @@ import { Box, Flex, Heading, Text, Table, Thead, Tr, Th, Td, TableContainer, Tbo
 
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
-import { firebaseConfig } from "../../../utils/Firebase";
 import sleepingCat from "../../assets/sleeping-cat.png"
 import { useManagePGP } from "../useManagePGP";
 import { useToast, } from "@chakra-ui/react";

@@ -1,6 +1,6 @@
 import React from 'react';
 import CreateKeys from './CreateKeys';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import '../../../utils/GenerateKeys.css';
 import {
     Box,

@@ -4,7 +4,6 @@ import { FaBell, FaHome, FaUser, FaQuestion, FaBook, FaUserLock, FaSignOutAlt, F
 import Logo from "../../ui/Logo";
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
-import { firebaseConfig } from "../../../utils/Firebase";
 import { useAuth } from "../useAuth";
 import { useNavigate } from "react-router-dom";
 import maninmid from "../../assets/mim-img.png"

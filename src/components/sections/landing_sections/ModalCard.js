@@ -1,16 +1,18 @@
 import {
-    Card, CardBody, CardFooter, Button,
+    Card,
+    CardBody,
     Image,
     Heading,
     Stack,
     Text,
-    Divider, ButtonGroup, HStack, Flex, SimpleGrid, Fade, useDisclosure, Container
+    Divider,
+    HStack,
+    Flex
 } from '@chakra-ui/react'
 import interactivepic from '../../../components/assets/interactive-pic.png'
 import teaching from '../../../components/assets/teaching.png'
 import timemanagement from '../../../components/assets/time-management.png'
 const ModalCard = () => {
-    const { isOpen, onOpen } = useDisclosure()
     return (
         <Flex
             align="center"

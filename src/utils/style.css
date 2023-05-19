@@ -1,0 +1,299 @@
+.fade-out {
+    animation: fade-out 2s linear forwards;
+  }
+  .fade-out-4s {
+    animation: fade-out 5s linear forwards;
+  }
+
+  .fade-out-key {
+    animation: fade-out-key 5s linear forwards;
+  }
+  @keyframes fade-out-key {
+    0% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .fade-in {
+    animation-name: fade-in;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  .fade-in-4s {
+    animation-name: fade-in;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+  .fade-in-5s {
+    animation-name: fade-in;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+  .fade-in-6s {
+    animation-name: fade-in;
+    animation-duration: 6s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+  .fade-in-8s {
+    animation-name: fade-in;
+    animation-duration: 8s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+    
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    80% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+    
+  }
+  .arrow-1 {
+    opacity: 0.7;
+    color: rgb(71, 129, 200);
+    position: absolute;
+    width:250px;
+    height:30px;
+    display: flex;
+    transform: rotate(0deg);
+    
+  }
+
+  .fade-in-key {
+    animation-name: fade-in-key;
+    animation-duration: 8s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+  @keyframes fade-in-key {
+    0% {
+      opacity: 0;
+    }
+    80% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+    
+  }
+  .move-box-Right {
+    animation-name: moveBoxRight;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes moveBoxRight {
+    0% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    66.67% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(300px);
+    }
+  } 
+  
+  .move-key-Right {
+    animation-name: moveKeyRight;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes moveKeyRight {
+    0% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    56.67% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    85% {
+      opacity: 1;
+      transform: translateX(300px);
+    }
+    100% {
+      opacity:0;
+      transform: translateX(300px);
+    }
+  } 
+
+  .move-key-Right {
+    animation-name: moveKeyRight;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes moveLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(300px);
+    }
+    56.67% {
+      opacity: 0;
+      transform: translateX(300px);
+    }
+    85% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity:0;
+      transform: translateX(0);
+    }
+  } 
+  
+  .move-box-left {
+    animation-name: moveLeft;
+    animation-duration: 8s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes moveBoxDown {
+    0% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    50% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    80% {
+      opacity: 1;
+      transform: translateY(300px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(300px);
+    }
+  }
+
+  .move-box-Down {
+    animation-name: moveBoxDown;
+    animation-duration: 7s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes moveKeyDown {
+    0% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    70% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    80% {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+  }
+  .move-Key-Down {
+    animation-name: moveKeyDown;
+    animation-duration: 5.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  
+
+  .highlighted-item {
+    background-color: yellow;
+  }
+
+  .fade-in-move-1s {
+    opacity: 0;
+    animation: fade-in-move var(--animation-duration, 1s) forwards;
+    position: relative;
+  }
+  .fade-in-move-2s {
+    opacity: 0;
+    animation: fade-in-move var(--animation-duration, 1s) forwards;
+    animation-delay: 1s;
+    position: relative;
+  }
+  
+  .fade-in-move-3s {
+    opacity: 0;
+    animation: fade-in-move var(--animation-duration, 1s) forwards;
+    animation-delay: 2s;
+    position: relative;
+  }
+  
+  .fade-in-move-4s {
+    opacity: 0;
+    animation: fade-in-move var(--animation-duration, 1s) forwards;
+    animation-delay: 3s;
+    position: relative;
+  }
+  
+  
+  @keyframes fade-in-move {
+    0% {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+    80% {
+      opacity: 1;
+      transform: translate(var(--move-x, 0), var(--move-y, 0));
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--move-x, 0), var(--move-y, 0));
+    }
+  }
+  
+  
