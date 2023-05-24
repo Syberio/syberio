@@ -6,7 +6,7 @@ import * as openpgp from 'openpgp';
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
 import { firebaseConfig } from "../../../utils/Firebase";
-import { useToast } from '@chakra-ui/react';
+import { Container, useToast } from '@chakra-ui/react';
 import CryptoJS from 'crypto-js';
 
 
@@ -225,7 +225,7 @@ const CreateKeys = () => {
 
         const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, password);
         const decryptedPrivateKey = bytes.toString(CryptoJS.enc.Utf8);
-        console.log(decryptedPrivateKey+" en son ne geldi peki");
+        console.log(decryptedPrivateKey + " en son ne geldi peki");
         await firestore
             .collection("users")
             .doc(auth.currentUser.uid)
@@ -253,78 +253,83 @@ const CreateKeys = () => {
         setKeyType(e.target.value)
     }
     return (
-        <><Stack
-            as="form"
-            spacing={5}
-            align="stretch"
-            pb={3}
-        >
-            <Center>
-                <p>
-                    <b>Create your key with SYBERIO</b>
-                </p>
-            </Center>
-            <FormControl onSubmit={handleSubmit}>
-                <Text fontSize='sd' textAlign="center">Let's create public and private key pair step by step!</Text>
+        <>
+            <Container>
+                <Stack
+                    as="form"
+                    spacing={5}
+                    align="stretch"
+                    pb={3}
+                >
+                    <Center>
+                        <p>
+                            <b>Create your key with SYBERIO</b>
+                        </p>
+                    </Center>
+                    <FormControl onSubmit={handleSubmit}>
+                        <Text fontSize='sd' textAlign="center">Let's create public and private key pair step by step!</Text>
 
-                <FormLabel marginTop='2vh'>Key Type</FormLabel>
-                <Select size='sm' required onChange={handleChangeKey} marginTop='1vh' value={keyType}>
-                    <option disabled={true} value="">
-                        Choose Key Type
-                    </option>
-                    <option value='rsa'>RSA</option>
-                    <option value='dsa'>DSA</option>
-                    <option value='ecc'>ECC</option>
-                </Select>
-                <FormLabel marginTop='2vh'>Key Size</FormLabel>
-                <KeySizeSelector value={keySize} keyType={keyType}></KeySizeSelector>
-                <br />
+                        <FormLabel marginTop='2vh'>Key Type</FormLabel>
+                        <Select size='sm' required onChange={handleChangeKey} marginTop='1vh' value={keyType}>
+                            <option disabled={true} value="">
+                                Choose Key Type
+                            </option>
+                            <option value='rsa'>RSA</option>
+                            <option value='dsa'>DSA</option>
+                            <option value='ecc'>ECC</option>
+                        </Select>
+                        <FormLabel marginTop='2vh'>Key Size</FormLabel>
+                        <KeySizeSelector value={keySize} keyType={keyType}></KeySizeSelector>
+                        <br />
 
-                <div className="container">
-                    {/* {Object.keys(formErrors).length === 0 && isSubmit ? (
+                        <div className="container">
+                            {/* {Object.keys(formErrors).length === 0 && isSubmit ? (
         <div className="ui message success">Signed in successfully</div>
     ) : (
         <pre>{JSON.stringify(formValues, undefined, 2)}</pre>
     )
     } */}
 
-                    <div className="ui divider"></div>
-                    <div className="ui form">
-                        <div className="field">
-                            <FormLabel marginTop='2vh'>Name</FormLabel>
-                            <Input placeholder='Name'
-                                name="username"
-                                value={formValues.username}
-                                onChange={handleChange} />
+                            <div className="ui divider"></div>
+                            <div className="ui form">
+                                <div className="field">
+                                    <FormLabel marginTop='2vh'>Name</FormLabel>
+                                    <Input placeholder='Name'
+                                        name="username"
+                                        value={formValues.username}
+                                        onChange={handleChange} />
+                                </div>
+                                <div className="field">
+                                    <FormLabel marginTop='2vh'>Email</FormLabel>
+                                    <Input type='email'
+                                        name="email"
+                                        placeholder="Email"
+                                        value={formValues.email}
+                                        onChange={handleChange} />
+                                </div>
+                                <div className="field">
+                                    <FormLabel marginTop='2vh'>Passphrase</FormLabel>
+                                    <InputGroup>
+                                        <Input
+                                            name="password"
+                                            placeholder="Password"
+                                            value={formValues.password}
+                                            onChange={handleChange}
+                                            type={show ? 'text' : 'password'} />
+                                        <InputRightElement width='4.5rem'>
+                                            <Button h='1.75rem' size='sm' onClick={handleHidden}>
+                                                {show ? 'Hide' : 'Show'}
+                                            </Button>
+                                        </InputRightElement>
+                                    </InputGroup>
+                                </div>
+                            </div>
                         </div>
-                        <div className="field">
-                            <FormLabel marginTop='2vh'>Email</FormLabel>
-                            <Input type='email'
-                                name="email"
-                                placeholder="Email"
-                                value={formValues.email}
-                                onChange={handleChange} />
-                        </div>
-                        <div className="field">
-                            <FormLabel marginTop='2vh'>Passphrase</FormLabel>
-                            <InputGroup>
-                                <Input
-                                    name="password"
-                                    placeholder="Password"
-                                    value={formValues.password}
-                                    onChange={handleChange}
-                                    type={show ? 'text' : 'password'} />
-                                <InputRightElement width='4.5rem'>
-                                    <Button h='1.75rem' size='sm' onClick={handleHidden}>
-                                        {show ? 'Hide' : 'Show'}
-                                    </Button>
-                                </InputRightElement>
-                            </InputGroup>
-                        </div>
-                    </div>
-                </div>
-            </FormControl>
-        </Stack><Button type="submit" onClick={handleSubmit}>Download Keys</Button></>
+                    </FormControl>
+                </Stack><Button type="submit" onClick={handleSubmit}>Download Keys</Button>
+
+            </Container>
+        </>
     );
 }
 

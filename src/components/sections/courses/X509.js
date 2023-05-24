@@ -23,17 +23,46 @@ import {
     AccordionButton, Card, CardBody, AccordionPanel, AccordionIcon, AccordionItem,
     Flex,
 } from '@chakra-ui/react';
-
+import { useAuth } from '../useAuth';
+import { useState, useEffect } from 'react';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 function X509() {
+    const [currentTab, setCurrentTab] = useState(0);
+    const totalTabs = 5;
+    const auth = useAuth();
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (auth.currentUser) {
+                const { uid } = auth.currentUser;
+                console.log(uid);
+                const courseName = "Manage and Check X.509 Certificates";
+                const progress = (currentTab / totalTabs) * 100;
 
+                const userDocRef = firebase.firestore().collection("users").doc(uid);
+
+                userDocRef.set({
+                    lastVisitedCourse: courseName,
+                    progress: {
+                        [courseName]: progress
+                    }
+                }, { merge: true })
+                    .then(() => console.log("User progress updated"))
+                    .catch(error => console.log("Error updating user progress: ", error));
+            }
+        }, 500); // 100 ms delay
+
+        // This cleanup function will be called if the component unmounts before the timeout
+        return () => clearTimeout(timeoutId);
+    }, [currentTab, auth]);
     return (
 
         <><Box className='bodybox' h='100vh' py={[0, 10, 20]} position='center'>
-            <Box marginLeft='150px' marginTop='150px' position='absolute' fontSize='29px' color='rgb(71, 129, 200)'><b>X.509 Certificate</b></Box>
+            <Box marginLeft='150px' marginTop='50px' position='absolute' fontSize='29px' color='rgb(71, 129, 200)'><b>X.509 Certificates</b></Box>
 
-            <Tabs variant='soft-rounded' colorScheme='blue' orientation='vertical'>
-                <TabList marginLeft='100px' marginTop='300px' orientation='vertical'>
+            <Tabs variant='soft-rounded' colorScheme='blue' orientation='vertical' onChange={(index) => setCurrentTab(index + 1)}>
+                <TabList marginLeft='100px' marginTop='150px' orientation='vertical'>
                     <Tab width='400px'>What is an X.509 certificate?</Tab>
                     <Tab width='400px'>Structure of X.509 Certificate.</Tab>
                     <Tab>How do X.509 certificates work?</Tab>
@@ -41,7 +70,7 @@ function X509() {
                     <Tab>X.509 certificate best practices</Tab>
                 </TabList>
                 <TabPanels marginLeft='100px' marginRight='200px'>
-                    <TabPanel marginTop='280px'>
+                    <TabPanel marginTop='50px'>
                         <p><b>What is X509 Certificate?</b> <br></br> <br></br> An X.509 certificate is a digital
                             certificate that is used to verify the identity of a user or entity in online communication.
                             It contains information about the certificate holder, such as their name, organization,
@@ -57,7 +86,7 @@ function X509() {
                             <Image src={certificate2} alt='' />
                         </Box>
                     </TabPanel>
-                    <TabPanel marginTop='280px'>
+                    <TabPanel marginTop='-50px'>
                         <Box w="100%">
                             <Flex bg="gray.200" fontWeight="bold">
                                 <Box p="2" flex="1">
@@ -299,7 +328,7 @@ function X509() {
                     </TabPanel>
 
                     <TabPanel>
-                        <TabPanel marginTop='0px'>
+                        <TabPanel marginTop='-70px'>
                             <Tabs>
 
 
@@ -491,15 +520,15 @@ function X509() {
 
                                                     <Box p="4" border="1px solid gray" borderRadius="md" mt="4">
                                                         <Text>Once your identity is verified and your payment is processed, the CA will issue a signed X.509 certificate to you. This certificate can be installed on your server or other systems as needed. The installation process may vary depending on your operating system and software, but typically involves importing the certificate and private key into a keystore or similar container.</Text>
-                                                        <Box id='user' boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='200px'>
+                                                        <Box id='user' boxSize='sm' position='absolute' width='90px' marginLeft='0px' marginTop='100px'>
                                                             <Image src={user} alt='' />
                                                         </Box>
 
-                                                        <Box id='request' boxSize='sm' position='absolute' width='90px' marginLeft='100px' marginTop='260px' style={{ transform: 'scaleX(-1)' }}>
+                                                        <Box id='request' boxSize='sm' position='absolute' width='90px' marginLeft='100px' marginTop='160px' style={{ transform: 'scaleX(-1)' }}>
                                                             <Image src={request} alt='' />
                                                         </Box>
 
-                                                        <Box id='CA' boxSize='sm' position='absolute' width='90px' marginLeft='400px' marginTop='200px'>
+                                                        <Box id='CA' boxSize='sm' position='absolute' width='90px' marginLeft='400px' marginTop='100px'>
                                                             <Image src={CA} alt='' />
                                                         </Box>
 

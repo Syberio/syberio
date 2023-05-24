@@ -9,6 +9,7 @@ import {
   Stack,
   Divider,
   VStack,
+  theme,
   Code,
   Container,
   Button,
@@ -27,7 +28,9 @@ import { useNavigate } from "react-router-dom";
 const PgPAuthentication = () => {
   const navigate = useNavigate();
   const [isContainerVisible, setIsContainerVisible] = useState(false);
-
+  const bgColor = theme.colors.blue[200];
+  const StepsContainerColor = theme.colors.blue[300];
+  const ContainerColor = theme.colors.blue[400];
 
   const handleButtonClick = () => {
     setIsContainerVisible(!isContainerVisible);
@@ -47,17 +50,22 @@ const PgPAuthentication = () => {
     setIsHovered(false);
     setHighlightedItem(null);
     setHoveredItem(null);
-    RemoveHighlightStepItems(null)
+    RemoveHighlightStepItems(null);
+    RemoveHighlightallItems(null);
   };
 
   const [highlightedItem, setHighlightedItem] = useState(null);
 
   const MouseEnterHightLight = (item) => {
+    setIsHovered(true);
+    setHoveredItem(item);
     setHighlightedItem(item);
     HighlightStepItems(item);
   };
 
   const MouseExitHightLight = (item) => {
+    setIsHovered(false);
+    setHighlightedItem(null);
     setHighlightedItem(null);
     RemoveHighlightStepItems(item);
   };
@@ -65,45 +73,53 @@ const PgPAuthentication = () => {
   const HighlightStepItems = (item) => {
     const element = document.getElementById(item);
     if (element) {
-      element.style.backgroundColor = 'blue';
+      element.style.backgroundColor = theme.colors.blue[300];
     }
   };
   const RemoveHighlightStepItems = (item) => {
     const element = document.getElementById(item);
     if (element) {
       element.style.backgroundColor = '';
+      element.style.borderRadius = '10px';
     }
   };
 
+  const RemoveHighlightallItems = () => {
+    const items = document.querySelectorAll('[id]');
 
+    items.forEach((item) => {
+      item.style.backgroundColor = '';
+      item.style.borderRadius = '10px';
+    });
+  };
   const items = [
     {
       id: 1,
       code: "compose",
       title: "Create Hash Code of the message",
       description:
-        " The Hash code of the function H is created using PGP) services.",
+        "Hash value of the message H(M) created by using hash function. (H)",
     },
     {
       id: 2,
       code: "public-key-encryption",
       title: "Encrypt the generated hash code using our private key KPa",
       description:
-        " Encrpyted hash code of the message is created using Public-Key Encryption EP",
+        " Encrpyted hash code of the message (Signature of the message) is created using Public-Key Encryption EP",
     },
     {
       id: 3,
       code: "Concatanate",
       title: " Concatanate the Message M with the hash code H.",
       description:
-        " The message M is concatanated with the hash code H using PGP Concatenation utility.",
+        " The message M is concatanated with the signature of the message using PGP Concatenation utility.",
     },
     {
       id: 4,
       code: "Zip",
-      title: "Zip the message",
+      title: "Compress both message and its signature",
       description:
-        "Generated message is zipped Z to reduce transmission size over the internet.",
+        "Generated message is compressed by using  to reduce transmission size over the internet.",
     },
 
 
@@ -115,9 +131,9 @@ const PgPAuthentication = () => {
     {
       id: 5,
       code: "Get Hash Code",
-      title: "Decompress the message",
+      title: "Recovering message and the signature",
       description:
-        "Message part of the packet is Decompressed Z⁻¹",
+        "Decompressing  Z⁻¹ the compressed message and signature.",
 
     },
     {
@@ -131,9 +147,9 @@ const PgPAuthentication = () => {
     {
       id: 7,
       code: "Compare",
-      title: "Compare hash values H/H",
+      title: "Compare calculated hash values of the message with the decrypted signature.",
       description:
-        "  In this last step Hash value H obtained from decrypted signatureis compared with the obtained message's M hash code H.If The hash codes are identical Process is completed and Reciever can assume that themessage is authentic and has not been tampered with.",
+        "In this last step Hash value H obtained from decrypted signature is compared with the calculated Hash code of the incoming message(M).If The hash codes are identical Process is completed and Reciever can assume that the message is authentic and has not been tampered with.",
 
     },
   ];
@@ -237,9 +253,9 @@ const PgPAuthentication = () => {
         </Box>
 
         <Button variant='solid' colorScheme='blue' onClick={() => {
-          navigate("/courses/pgp-main")
+          navigate("/PgP-Main")
         }}>
-          Back to PGP Main Page
+          Back to pgp main page
         </Button>
 
 
@@ -253,7 +269,7 @@ const PgPAuthentication = () => {
         <Flex justify="center">
 
 
-          <Container width="16%" h="330" borderRadius="md" borderColor="gray.200" bg="blue.500" border="1px solid black" style=
+          <Container width="16%" h="330" style=
             {{ position: 'absolute', top: '220px', left: '750px' }}>
 
             <Box style=
@@ -261,13 +277,25 @@ const PgPAuthentication = () => {
             >
               <Flex justify="space-between" w="80%" mx="auto" my="10">
 
-                <Flex id='compose' code='item' style={{ position: 'absolute', top: "60px", left: "160px", transform: 'translate(-50%, -50%)' }}
-                  onMouseEnter={() => handleMouseEnter("compose")}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                <Flex id='compose' code='item' style={{ position: 'absolute', top: "60px", left: "160px", transform: 'translate(-50%, -50%)' }}>
+                  <Box
+                    onMouseEnter={() => {
+                      handleMouseEnter("compose");
+
+                    }}
+                    onMouseLeave={handleMouseLeave}
+                    w={50}
+                    h={50}
+                    bgColor={bgColor}
+                    display="center"
+                    alignItems="center"
+                    justifyContent="center"
+                    style={{ borderRadius: '80%' }}
+
+                  >
                     <Icon as={FiEdit} w="8" h="8" />
                   </Box>
+
                 </Flex>
 
 
@@ -301,7 +329,7 @@ const PgPAuthentication = () => {
                 <Flex id='public-key-encryption' style={{ position: 'absolute', top: "130px", left: "255px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("public-key-encryption")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <Icon as={FiLock} w="8" h="8" pointerEvents="none" />
                   </Box>
                 </Flex>
@@ -313,7 +341,7 @@ const PgPAuthentication = () => {
                   onMouseEnter={() => handleMouseEnter("private-key-sender")}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <Icon as={IoMdKey} w="8" h="8" style={{ pointerEvents: "none" }} />
                   </Box>
                 </Flex>
@@ -336,7 +364,7 @@ const PgPAuthentication = () => {
                 <Flex id='Concatanate' style={{ position: 'absolute', top: "220px", left: "254px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Concatanate")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <img src={ConcatIcon} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -397,7 +425,7 @@ const PgPAuthentication = () => {
                 <Flex id='Zip' style={{ position: 'absolute', top: "305px", left: "254px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Zip")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <img src={ZipIcon} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -409,7 +437,7 @@ const PgPAuthentication = () => {
 
       </Box>
 
-      <Container width="16%" h="330" borderRadius="md" borderColor="gray.200" bg="blue.500" border="1px solid black" style=
+      <Container width="16%" h="330" style=
         {{ position: 'absolute', top: '620px', left: '750px' }}>
         <Box style=
           {{ position: 'absolute', top: '-350px', left: '-160px' }}
@@ -419,14 +447,14 @@ const PgPAuthentication = () => {
           <Flex direction="row" style={{ position: 'absolute', top: "415px", left: "304px", transform: 'translate(-50%, -50%)' }}
             onMouseEnter={() => handleMouseEnter("Message")}
             onMouseLeave={handleMouseLeave}>
-            <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center">
+            <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center">
               <img src={Text_Icon} width="30" height="30" />
             </Box>
           </Flex>
           <Flex direction="row" style={{ position: 'absolute', top: "415px", left: "355px", transform: 'translate(-50%, -50%)' }}
             onMouseEnter={() => handleMouseEnter("Signature")}
             onMouseLeave={handleMouseLeave}>
-            <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center">
+            <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center">
               <img src={Certificate_Icon} alt="dezip-icon" width="30" height="30" />
             </Box>
           </Flex>
@@ -459,7 +487,7 @@ const PgPAuthentication = () => {
           <Flex id='Get Hash Code' style={{ position: 'absolute', top: "520px", left: "305px", transform: 'translate(-50%, -50%)' }}
             onMouseEnter={() => handleMouseEnter("Get Hash Code")}
             onMouseLeave={handleMouseLeave}>
-            <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+            <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
               <Icon as={UnlockIcon} width="30" height="30" />
             </Box>
           </Flex>
@@ -470,7 +498,7 @@ const PgPAuthentication = () => {
           <Flex id='Asymmetric Decryption Algorithm' style={{ position: 'absolute', top: "520px", left: "355px", transform: 'translate(-50%, -50%)' }}
             onMouseEnter={() => handleMouseEnter("Asymmetric Decryption Algorithm")}
             onMouseLeave={handleMouseLeave}>
-            <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+            <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
               <Icon as={UnlockIcon} width="30" height="30" />
             </Box>
           </Flex>
@@ -503,7 +531,7 @@ const PgPAuthentication = () => {
           <Flex id='Compare' style={{ position: 'absolute', top: "606px", left: "330px", transform: 'translate(-50%, -50%)' }}
             onMouseEnter={() => handleMouseEnter("Compare")}
             onMouseLeave={handleMouseLeave}>
-            <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+            <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
               <Icon as={FiCheckCircle} width="30" height="30" />
             </Box>
           </Flex>
@@ -531,47 +559,35 @@ const PgPAuthentication = () => {
           >
             <Icon as={FaMinus} w="100px" h="10px" />
           </Flex>
-
-
-
-
-
-
           <Flex direction="row" style={{ position: 'absolute', top: "415px", left: "330px", transform: 'translate(-50%, -50%)' }}>
-
-
-
-
           </Flex>
 
-
         </Box>
+        {isHovered && (
+          <Box
+            position="fixed"
+            top="12%"
+            left="65%"
+            width="10%"
+            height="auto"
+            bg={ContainerColor}
+            borderRadius="md"
+            borderColor="gray.200"
+            border="1px solid black"
+            opacity={0.9}
+            pointerEvents="auto"
+          >
+            <Box p="1rem">{getHoveredItemInfo()}</Box>
+          </Box>
+        )}
 
       </Container>
 
-      {isHovered && (
-        <Box
-          position="fixed"
-          top="25%"
-          left="60%"
-
-          width="10%"
-          height="100px"
-          bg="blue.600"
-          borderRadius="md"
-          borderColor="gray.200"
-          border="1px solid black"
-          opacity={0.9}
-          pointerEvents="auto"
-        >
-          <Box p="1rem">{getHoveredItemInfo()}</Box>
-        </Box>
-      )}
 
       <Button onClick={handleButtonClick} marginLeft style={{ position: 'absolute', top: '210px', left: '620px' }}>Show Steps</Button>
       {isContainerVisible && (
-        <Container maxW="sm" borderRadius="md" borderColor="gray.200" bg="blue.800" border="1px solid black" marginLeft
-          style={{ position: 'relative', top: '-700px', left: '350px' }}>
+        <Container maxW="sm" borderRadius="md" borderColor="gray.200" background={StepsContainerColor} border="1px solid black" marginLeft
+          style={{ position: 'fixed', top: "25%", left: "65%" }}>
           <Text color="white" fontSize="lg">M – Message</Text>
           <Text color="white" fontSize="lg">H – Hash Function</Text>
           <Text color="white" fontSize="lg">Ks – A random Session Key created for Symmetric Encryption purpose</Text>
@@ -597,4 +613,3 @@ const PgPAuthentication = () => {
 
 
 export default PgPAuthentication;
-

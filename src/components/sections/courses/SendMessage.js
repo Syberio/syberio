@@ -344,6 +344,7 @@ function SendMessage() {
                                 <Tab>Step 2: Key Distribution</Tab>
                                 <Tab>Step 3: Encryption</Tab>
                                 <Tab>Step 4: Digital Signatures</Tab>
+                                <Tab> Try Syberio's messaging</Tab>
                             </TabList>
                             <TabPanels>
                                 <TabPanel>
@@ -460,6 +461,22 @@ function SendMessage() {
                                     >
                                         <p>A digital signature is a way of verifying the authenticity of a message. The sender uses their private key to create a signature that is attached to the message. The recipient can use the sender's public key to verify the signature and ensure that the message has not been tampered with.</p>
 
+                                    </Container>
+                                </TabPanel>
+                                <TabPanel>
+                                    <Container marginLeft="0px"
+                                        maxW="lg"
+
+                                    >
+                                        <p>Syberio enctypts and decrypts messages automatically if the public key of a user is added to your keyring.</p>
+                                        <br></br>
+                                        <p>When you are directed to messaging tab you will have to enter your password.</p>
+                                        <Button variant='solid' colorScheme='blue' onClick={() => {
+                                            navigate("/dashboard/messaging")
+                                        }}>
+                                            Syberio Messaging
+                                        </Button>
+                                   
                                     </Container>
                                 </TabPanel>
                             </TabPanels>

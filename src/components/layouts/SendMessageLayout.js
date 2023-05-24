@@ -8,6 +8,6 @@ export default function SendMessageLayout() {
     return (
         <><><Flex align={'center'} direction='column' >
             <AuthenticatedNavbar />
-        </Flex><SendMessage></SendMessage></><Footer></Footer></>
+        </Flex><SendMessage></SendMessage></></>
     );
 }

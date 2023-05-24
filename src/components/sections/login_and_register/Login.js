@@ -24,7 +24,9 @@ import { firebaseConfig } from "../../../utils/Firebase";
 import { useAuth } from "../useAuth";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-firebase.initializeApp(firebaseConfig);
+import WaveBackground from "../../../utils/WaveBackground";
+
+const firestore = firebase.firestore();
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -33,13 +35,21 @@ export default function Login() {
   const isPasswordValid = password.trim() !== '';
   const navigate = useNavigate();
 
-  const { isPasswordTouched, isEmailTouched, handleEmailBlur, handlePasswordBlur, handleLogin, setIsLoggedIn, isLoggedIn,isEmailVerified } = useAuth();
+  const { isPasswordTouched, isEmailTouched, handleEmailBlur, handlePasswordBlur, handleLogin, setIsLoggedIn, isLoggedIn } = useAuth();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const success = await handleLogin(email, password);
     setIsLoggedIn(success);
     if (success) {
-      navigate("/");
+      const userDoc = await firestore.collection('users').doc(firebase.auth().currentUser.uid).get();
+      const userData = userDoc.data();
+
+      // check if registrationCompleted field exists and is true
+      if (userData && userData.registrationCompleted) {
+        navigate("/");
+      } else {
+        navigate("/register/complete-register");
+      }
     }
   };
   const [showPage, setShowPage] = useState(false);
@@ -161,18 +171,19 @@ export default function Login() {
                 <Stack spacing="6">
                   <Button colorScheme="blue" onClick={handleSubmit}>Sign in</Button>
                 </Stack>
+
               </Stack>
             </Box>
           </Stack>
         </Container>
 
       ) : < Flex justifyContent={"center"} alignItems={'center'} height={"100vh"}>
-      <Spinner thickness='4px'
-        speed='0.65s'
-        emptyColor='gray.200'
-        color='blue.500'
-        size='xl' />
-    </Flex >}
+        <Spinner thickness='4px'
+          speed='0.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='xl' />
+      </Flex >}
     </>
 
   );

@@ -18,19 +18,17 @@ import {
     Center,
     Box,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import countries from '../../../utils/countries.json';
 import genders from '../../../utils/genders.json';
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
-import { firebaseConfig } from '../../../utils/Firebase';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../useAuth';
 import { useToast } from '@chakra-ui/react';
 
-firebase.initializeApp(firebaseConfig);
-export default function CompleteRegistration({email}) {
+export default function CompleteRegistration({ email, preUid, password }) {
 
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -40,9 +38,8 @@ export default function CompleteRegistration({email}) {
     const [bgColor, setBgColor] = useState("gray.300"); // default background color
     const [isColorOptionsVisible, setIsColorOptionsVisible] = useState(false);
     const navigate = useNavigate();
-    const { handleCompleteRegister, setIsLoggedIn, isLoggedIn } = useAuth();
+    const { handleCompleteRegister, setIsLoggedIn, handleLogout } = useAuth();
     const toast = useToast();
-
 
     const handleHover = () => {
         setIsHovered(true);
@@ -55,7 +52,7 @@ export default function CompleteRegistration({email}) {
 
     const handleClick = (newColor) => setBgColor(newColor);
 
-    const bg = useColorModeValue(() => bgColor); // adjust background color for dark mode
+    const bg = useColorModeValue(() => bgColor);
 
     const colorOptions = [
         "gray.300",
@@ -63,33 +60,43 @@ export default function CompleteRegistration({email}) {
         "green.200",
         "blue.200",
         "purple.200",
-    ]; // list of color options to display on hover
+    ];
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(email);
-        await handleCompleteRegister(email,name, surname, country, gender, bgColor);
-        setIsLoggedIn(true);
-        const user = firebase.auth().currentUser;
-        console.log(isLoggedIn + " completeregister içi burası");
+        if (name && surname && country) {
 
-        if (user) {
-            firebase.firestore().collection("users").doc(user.uid).update({
-                registrationCompleted: true,
-            });
+            await handleCompleteRegister(email, name, surname, country, gender, bgColor, preUid, password);
+            setIsLoggedIn(true);
+            const user = firebase.auth().currentUser;
+
+            if (user) {
+                firebase.firestore().collection("users").doc(preUid).update({
+                    registrationCompleted: true,
+                });
+            }
+            setName('');
+            setSurname('');
+            setCountry('');
+            setGender('');
+            setBgColor('');
+            toast({
+                title: 'Success!.',
+                description: "Welcome to Syberio, Enjoy!",
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            })
+            navigate("/");
         }
-        setName('');
-        setSurname('');
-        setCountry('');
-        setGender('');
-        setBgColor('');
-        toast({
-            title: 'Success!.',
-            description: "Welcome to Syberio, Enjoy!",
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-        })
-        navigate("/");
+        else {
+            toast({
+                title: 'An error occured!.',
+                description: "You need to fill out the required fields!",
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            })
+        }
     };
 
     return (

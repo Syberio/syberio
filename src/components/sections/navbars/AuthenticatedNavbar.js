@@ -124,7 +124,7 @@ const AuthenticatedNavbar = () => {
                                         <Button onClick={() => navigate("/dashboard/courses")}>
                                             Courses
                                         </Button>
-                                        <Button onClick={() => navigate("/dashboard/support")}>
+                                        <Button onClick={() => navigate("/support")}>
                                             Support
                                         </Button>
                                     </ButtonGroup>
@@ -137,8 +137,9 @@ const AuthenticatedNavbar = () => {
                                         <MenuList >
                                             <Text align={'center'}>Welcome, {userData.name}!</Text>
                                             <MenuDivider />
-                                            <MenuItem>Settings</MenuItem>
-                                            <MenuItem>Preferences</MenuItem>
+                                            <MenuItem onClick={() => {
+                                                navigate("/dashboard/profile");
+                                            }}>Profile</MenuItem>
                                             <MenuItem onClick={handleLogout}>Log Out</MenuItem>
                                         </MenuList>
                                     </Menu>

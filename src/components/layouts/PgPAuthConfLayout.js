@@ -8,6 +8,6 @@ export default function PgPAuthConfLayout() {
     return (
         <><><Flex align={'center'} direction='column' >
             <AuthenticatedNavbar />
-        </Flex><PgPAuthConf></PgPAuthConf></><Footer></Footer></>
+        </Flex><PgPAuthConf></PgPAuthConf></></>
     );
 }

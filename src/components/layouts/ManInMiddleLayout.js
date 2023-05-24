@@ -12,10 +12,9 @@ export default function ManInMiddleLayout() {
     }
 
     return (
-
         <><><Flex align={'center'} direction='column' >
             {isLoggedIn ? <AuthenticatedNavbar /> : <Navbar></Navbar>}
-        </Flex><ManInMiddle></ManInMiddle></><Footer></Footer></>
+        </Flex><ManInMiddle></ManInMiddle></></>
 
     );
 }

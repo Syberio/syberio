@@ -18,15 +18,14 @@ export const useAuth = () => {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const toast = useToast();
   const [authLoading, setAuthLoading] = useState(true);
-
+  const [currentUser, setCurrentUser] = useState(null);
 
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setIsLoggedIn(!!user && user.emailVerified);
       setAuthLoading(false);
-
-      // Update the email verification status here
+      setCurrentUser(user);
       if (user) {
         setIsEmailVerified(user.emailVerified);
       } else {
@@ -106,9 +105,13 @@ export const useAuth = () => {
   const handleRegister = async (email, password) => {
     try {
       const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      const { uid } = auth.currentUser;
+      await firestore.collection('users').doc(uid).set({
+        isVerified: false,
+      });
       await user.sendEmailVerification();
       if (user) {
-        setIsLoggedIn(false); // Set the user to be logged out until they verify their email
+        setIsLoggedIn(false);
         toast({
           title: "Registration successful.",
           description: "A verification email has been sent to your email address. Please verify your email to log in.",
@@ -148,13 +151,12 @@ export const useAuth = () => {
     }
   };
 
-  const handleCompleteRegister = async (email,name, surname, country, gender, bgColor) => {
-    // Get the current user's ID
-    const { uid } = auth.currentUser;
+
+  const handleCompleteRegister = async (email, name, surname, country, gender, bgColor, preUid, password) => {
+    //const { uid } = auth.currentUser;
     setIsLoggedIn(true);
 
-    // Create a new user document in Firestore
-    await firestore.collection('users').doc(uid).set({
+    await firestore.collection('users').doc(preUid).set({
       email,
       name,
       surname,
@@ -162,17 +164,10 @@ export const useAuth = () => {
       gender,
       bgColor,
       progress: 0,
-      registrationCompleted: true, // Add this field
+      registrationCompleted: true,
+      isVerified: true,
     });
-  };
-
-  const isRegistrationCompleted = async () => {
-    const user = firebase.auth().currentUser;
-    if (!user) return false;
-
-    const userDoc = await firebase.firestore().collection("users").doc(user.uid).get();
-    const userData = userDoc.data();
-    return userData.registrationCompleted || false;
+    await handleLogin(email, password);
   };
 
   const handlePasswordReset = async (email) => {
@@ -204,10 +199,8 @@ export const useAuth = () => {
   };
 
   const handleProgress = async (progress) => {
-    // Get the current user's ID
     const { uid } = auth.currentUser;
 
-    // Update the user document in Firestore with the new progress value
     await firestore.collection('users').doc(uid).set({
       progress,
     }, { merge: true });
@@ -217,7 +210,6 @@ export const useAuth = () => {
     try {
       await firebase.auth().signOut();
       setIsLoggedIn(false);
-      // Remove authentication status from local storage
     } catch (error) {
       console.error(error);
     }
@@ -244,5 +236,6 @@ export const useAuth = () => {
     handlePasswordReset,
     checkEmailVerified,
     authLoading,
+    currentUser,
   };
 };

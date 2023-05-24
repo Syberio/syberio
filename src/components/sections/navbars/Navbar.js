@@ -58,16 +58,25 @@ const Navbar = () => {
               {isDesktop ? (
                 <Flex justify="space-between" flex="1">
                   <ButtonGroup variant="ghost" spacing="12">
-                    {['Product', 'Pricing', 'Resources', 'Support'].map((item) => (
-                      <Button key={item}>{item}</Button>
-                    ))}
+
+                    <Button onClick={() => {
+                      navigate("/");
+                    }}>Product</Button>
+                    <Button onClick={() => {
+                      navigate("/terms");
+                    }}>Legal</Button>
+                    <Button onClick={() => {
+                      navigate("/support");
+                    }}>Support</Button>
+
+
                   </ButtonGroup>
                   <Container spacing="3"></Container>
                   <HStack spacing="3">
 
                     <Button fontWeight="bold" variant="ghost" onClick={() => {
                       navigate("/login");
-                    }}>Log in</Button>ß
+                    }}>Log in</Button>
                     <Button colorScheme={'blue'} onClick={() => {
                       navigate("/register");
                     }}>Sign up</Button>

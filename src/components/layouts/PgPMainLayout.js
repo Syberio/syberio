@@ -8,7 +8,7 @@ export default function PgPMainLayout() {
 
         <><><Flex align={'center'} direction='column' >
             <AuthenticatedNavbar />
-        </Flex><PgPMain></PgPMain></><Footer></Footer></>
+        </Flex><PgPMain></PgPMain></></>
 
     );
 }

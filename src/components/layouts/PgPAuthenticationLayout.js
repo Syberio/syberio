@@ -8,7 +8,7 @@ export default function PgPAuthenticationLayout() {
 
         <><><Flex align={'center'} direction='column' >
             <AuthenticatedNavbar />
-        </Flex><PgPAuthentication></PgPAuthentication></><Footer></Footer></>
+        </Flex><PgPAuthentication></PgPAuthentication></></>
 
     );
 }

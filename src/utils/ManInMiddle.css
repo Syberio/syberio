@@ -162,6 +162,26 @@
   clip-path: polygon(0 10px,calc(100% - 15px) 10px,calc(100% - 15px) 0,100% 50%,calc(100% - 15px) 100%,calc(100% - 15px) calc(100% - 10px),0 calc(100% - 10px));
   animation: a1 1.5s infinite linear;
 }
+.arrow-333 {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+    position: absolute;
+  margin-top: 14%;
+  margin-left: 26%;
+  width:150px;
+  height:34px;
+  display: flex;
+  transform: rotate(-45deg);
+}
+.arrow-333:before {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+  content: "";
+  background: currentColor;
+  width:0px;
+  clip-path: polygon(0 10px,calc(100% - 15px) 10px,calc(100% - 15px) 0,100% 50%,calc(100% - 15px) 100%,calc(100% - 15px) calc(100% - 10px),0 calc(100% - 10px));
+  animation: a1 1.5s infinite linear;
+}
 .arrow-33 {
   opacity: 0.7;
   color: rgb(71, 129, 200);
@@ -184,6 +204,28 @@
 }
 @keyframes a1 {
   90%,100%{flex-grow: 1}
+}
+
+.arrow-4 {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+  position: absolute;
+  margin-top: 13%;
+  margin-left: 5%;
+  width:11%;
+  height:1.9%;
+  display: flex;
+  transform: rotate(225deg);
+  
+}
+.arrow-4:before {
+  opacity: 0.7;
+  color: rgb(71, 129, 200);
+  content: "";
+  background: currentColor;
+  width:0px;
+  clip-path: polygon(0 10px,calc(100% - 15px) 10px,calc(100% - 15px) 0,100% 50%,calc(100% - 15px) 100%,calc(100% - 15px) calc(100% - 10px),0 calc(100% - 10px));
+  animation: a1 1.5s infinite linear;
 }
 
 .arrow-4 {
@@ -809,9 +851,9 @@ filter: drop-shadow(-1.5px 1.5px 1.5px rgb(70, 68, 68));
 }
 
 #bubble {
-opacity: 0;
-animation-name: fade-out;
-animation-duration: 5s;
+opacity: 1;
+animation-name: fade-in;
+animation-duration: 2s;
 animation-delay: 0s;
 animation-fill-mode: forwards;
 }
@@ -824,16 +866,16 @@ animation-fill-mode: forwards;
   }
   
   #bubble2 {
-  opacity: 0;
-  animation-name: fade-out;
-  animation-duration: 5s;
+  opacity: 1;
+  animation-name: fade-in;
+  animation-duration: 2s;
   animation-delay: 0s;
   animation-fill-mode: forwards;
   }
 
 @keyframes fade-out {
 from {
-  opacity: 0;
+  opacity: 1;
 }
 to {
   opacity: 1;
@@ -841,26 +883,20 @@ to {
 }
 
 #speech {
-opacity: 0;
-animation-name: fade-out;
-animation-duration: 5s;
+opacity: 1;
+animation-name: fade-in;
+animation-duration: 2s;
 animation-delay: 0s;
 animation-fill-mode: forwards;
 }
 
-@keyframes fade-out {
-from {
-  opacity: 0;
-}
-to {
-  opacity: 1;
-}
-}
+
 
 #bag {
 position: relative;
 animation: move-right 5s forwards;
 animation-delay: 3s;
+background-color: transparent;
 
 }
 

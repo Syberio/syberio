@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ChakraProvider, Flex } from '@chakra-ui/react'
 import { useAuth } from "./components/sections/useAuth";
@@ -20,6 +20,12 @@ import PgPConfidentialityPage from "./pages/PgPConfidentialityPage";
 import SendMessagePage from "./pages/SendMessagePage";
 import IPFSPage from "./pages/IPFSPage";
 import X509Page from "./pages/X509Page";
+import EncryptCheckFilesPage from "./pages/EncryptCheckFilesPage";
+import AdminPanelPage from "./pages/AdminPanelPage";
+import firebase from 'firebase/compat/app';
+import "firebase/compat/auth";
+import SupportPage from "./pages/SupportPage";
+
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -30,8 +36,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="login" element={<AuthWrapper> <LoginPage /> </AuthWrapper>} />
-          <Route path="register" element={<AuthWrapper><RegisterPage/></AuthWrapper>} />
-          <Route path="/register/complete-register" element={<AuthWrapper><RegisterPage/></AuthWrapper>} />
+          <Route path="register" element={<AuthWrapper><RegisterPage /></AuthWrapper>} />
+          <Route path="/register/complete-register" element={<AuthWrapper><RegisterPage /></AuthWrapper>} />
           <Route path="forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/register/email-verification" element={<AuthWrapper><EmailVerificationPage /></AuthWrapper>} />
           <Route path="dashboard" element={<DashboardPageWrapper />} />
@@ -49,9 +55,12 @@ export default function App() {
           <Route path="/courses/pgp-confidentiality" element={<AuthenticatedRoute element={<PgPConfidentialityPage />} />} />
           <Route path="/courses/pgp-auth-conf" element={<AuthenticatedRoute element={<PgPAuthConfPage />} />} />
           <Route path="/courses/send-message" element={<AuthenticatedRoute element={<SendMessagePage />} />} />
+          <Route path="/courses/encrypt-and-check-files" element={<AuthenticatedRoute element={<EncryptCheckFilesPage />} />} />
           <Route path="/courses/ipfs" element={<AuthenticatedRoute element={<IPFSPage />} />} />
           <Route path="terms" element={<TermsPage />} />
+          <Route path="support" element={<SupportPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/adminpanel" element={<AdminRoute element={<AdminPanelPage />} />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
@@ -60,7 +69,7 @@ export default function App() {
 
   function AuthenticatedRoute({ element }) {
     const auth = useAuth({ loading, setLoading });
-  
+
     if (auth.authLoading) {
       return <Flex justifyContent={"center"} alignItems={'center'} height={"100vh"}>
         <Spinner thickness='4px'
@@ -70,11 +79,11 @@ export default function App() {
           size='xl' />
       </Flex>;
     }
-  
+
     if (!auth.isLoggedIn || !auth.isEmailVerified) {
       return <Navigate to="/login" />;
     }
-  
+
     return element;
   }
 
@@ -115,9 +124,47 @@ export default function App() {
     }
 
     if (auth.isLoggedIn) {
-      return <Navigate to="/" />;
+      if (window.location.pathname === "/register/complete-register") {
+        return children;
+      } else {
+        return <Navigate to="/" />;
+      }
     }
 
     return children;
+  }
+
+  function AdminRoute({ element }) {
+    const auth = useAuth({ loading, setLoading });
+
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+      const loadAdminStatus = async () => {
+        if (auth.currentUser) {
+          await auth.currentUser.getIdToken(true);
+          const tokenResult = await auth.currentUser.getIdTokenResult();
+          setIsAdmin(tokenResult.claims.isAdmin);
+        }
+      };
+
+      loadAdminStatus();
+    }, [auth.currentUser]);
+
+    if (auth.authLoading || !isAdmin) {
+      return <Flex justifyContent={"center"} alignItems={'center'} height={"100vh"}>
+        <Spinner thickness='4px'
+          speed='0.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='xl' />
+      </Flex>;
+    }
+
+    if (!auth.isLoggedIn || !auth.isEmailVerified || !isAdmin) {
+      return <Navigate to="/login" />;
+    }
+
+    return element;
   }
 }

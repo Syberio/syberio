@@ -15,6 +15,6 @@ export default function CreatePGPKeysLayout() {
         <><><Flex background={'#fafafa'} align={'center'} direction='column'  >
             {isLoggedIn ? <AuthenticatedNavbar /> : <Navbar></Navbar>}
 
-        </Flex><PGPKeys></PGPKeys></><Footer></Footer></>
+        </Flex><PGPKeys></PGPKeys></></>
     );
 }

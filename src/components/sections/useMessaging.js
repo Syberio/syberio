@@ -51,13 +51,14 @@ export const sendMessage = async (senderEmail, recipientEmail, senderPublicKey, 
             message: encryptedMessage,
             timestamp: new Date(),
             senderEncryptedPrivateKey: encryptedPrivateKey,
+            read: false,
         };
-
         return messagesRef.add(message);
     } else {
-        console.log('Recipient not found or has no public key.');
+        throw new Error('Recipient does not have any key pairs.');
     }
 }
+
 
 export const decryptPrivateKey = (encryptedPrivateKey, secret) => {
     if (!secret) {

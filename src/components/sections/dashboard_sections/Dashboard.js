@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Heading, Stack, Text, Button, Divider, Avatar, HStack, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuDivider, MenuItem, MenuList, CircularProgress, CircularProgressLabel, VStack, Card, CardBody, CardFooter, Image, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, useToast } from "@chakra-ui/react";
+import { Box, Flex, Heading, Stack, Text, Button, Divider, Avatar, HStack, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuDivider, MenuItem, MenuList, CircularProgress, CircularProgressLabel, VStack, Card, CardBody, CardFooter, Image, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, useToast, Popover, PopoverTrigger, PopoverBody, PopoverArrow, PopoverContent, PopoverHeader, PopoverCloseButton } from "@chakra-ui/react";
 import { FaBell, FaHome, FaUser, FaQuestion, FaBook, FaUserLock, FaSignOutAlt, FaSearch, FaMailBulk } from "react-icons/fa";
 import Logo from "../../ui/Logo";
 import firebase from 'firebase/compat/app';
@@ -9,14 +9,19 @@ import { useNavigate } from "react-router-dom";
 import maninmid from "../../assets/mim-img.png"
 import { useLocation } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
-
-
+import sleepingCat from "../../assets/sleeping-cat.png"
 import Courses from "./Courses";
 import Notifications from "./Notifications";
 import ManagePGPKeys from "./ManagePGPKeys";
 import Profile from "./Profile";
 import Support from "./Support";
 import Messaging from "./Messaging";
+import { useManagePGP } from "../useManagePGP";
+import pkeyprivkey from "../../assets/pkey-privkey.png"
+import pgpimg from "../../assets/pgp-img.png"
+import encryptimg from "../../assets/encrypt-img.png"
+import certimg from "../../assets/certificate-img.png"
+import envelopeimg from "../../assets/envelope-img.png"
 
 
 const firestore = firebase.firestore();
@@ -30,29 +35,96 @@ export default function Dashboard() {
     const { handleLogout } = useAuth();
     const navigate = useNavigate();
     const toast = useToast();
-    useEffect(() => {
-        const handleUserInfo = async () => {
-            const { uid } = auth.currentUser;
-            const userDoc = await firestore.collection("users").doc(uid).get();
+    const { keyring } = useManagePGP();
+    const [totalUnreadMessages, setTotalUnreadMessages] = useState(0);
 
-            if (userDoc.exists) {
-                const { name, surname, bgColor, progress, gender, country } = userDoc.data();
-                setUserData({ name, surname, bgColor, progress });
+    const courses = {
+        "Man in Middle Attack": {
+            imageSrc: maninmid,
+            description: "A man-in-the-middle attack is a type of cyber attack where an attacker intercepts and alters communications between two parties who believe they are directly communicating with each other.",
+            navigatePath: "/man-in-middle-attack"
+        },
+        "Create Public and Private Key": {
+            imageSrc: pkeyprivkey,
+            description: "Public key and private key are two mathematically related cryptographic keys that are used in asymmetric cryptography to secure communication by encrypting and decrypting data, where the public key is freely available to anyone while the private key is kept secret by the owner.",
+            navigatePath: "/courses/create-public-private-key"
+        },
+        "Use PGP Services": {
+            imageSrc: pgpimg,
+            description: "PGP (Pretty Good Privacy) is a software encryption program that uses public-key cryptography to provide end-to-end encryption for email messages and files, allowing secure communication over insecure channels such as the internet.",
+            navigatePath: "/courses/pgp-main"
+        },
+        "Encrypt and Check Files": {
+            imageSrc: encryptimg,
+            description: "Encrypting files is the process of encoding data to prevent unauthorized access, while checking files involves verifying the integrity and authenticity of the data to ensure it has not been tampered with.",
+            navigatePath: "/courses/encrypt-and-check-files"
+        },
+        "Manage and Check X.509 Certificates": {
+            imageSrc: certimg,
+            description: "X.509 certificates are digital documents used to authenticate the identity of an entity in a network, and they can be managed and checked to ensure that they have not been tampered with and are still valid.",
+            navigatePath: "/courses/x509"
+        },
+        "Share Messages with IPFS": {
+            imageSrc: envelopeimg,
+            description: "InterPlanetary File System (IPFS) allows for decentralized sharing of messages by storing the message on a distributed network of nodes rather than a centralized server, and the message can be accessed by its hash value.",
+            navigatePath: "/courses/ipfs"
+        }
+    };
+    const { imageSrc, description, navigatePath } = courses[userData.lastVisitedCourse] || {};
+
+    var isKeyPairExists = keyring.find(key => key.isPrimary);
+
+    useEffect(() => {
+        const { uid } = auth.currentUser;
+
+        const handleUserInfo = firestore.collection("users").doc(uid).onSnapshot((doc) => {
+            if (doc.exists) {
+                const { name, surname, bgColor, lastVisitedCourse, progress, gender, country, uid } = doc.data();
+                const lastVisitedCourseProgress = progress[lastVisitedCourse] || "";
+                setUserData({ name, surname, bgColor, lastVisitedCourse, lastVisitedCourseProgress, gender, country, uid });
             } else {
                 console.log("User document doesn't exist!");
             }
-        };
+        }, (error) => console.log("Error fetching user data: ", error));
+
 
         const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (user) {
-                handleUserInfo();
-            } else {
+            if (!user) {
                 console.log("User not logged in");
             }
         });
 
+        return () => {
+            handleUserInfo();
+            unsubscribe();
+        };
+    }, []);
+
+    useEffect(() => {
+        const email = auth.currentUser.email;
+        const messagesRef = firestore.collection('messages');
+
+        const unsubscribe = messagesRef
+            .where('recipient', '==', email)
+            .where('read', '==', false)
+            .onSnapshot(snapshot => {
+                const unreadMessageGroups = snapshot.docs.reduce((groups, doc) => {
+                    const senderEmail = doc.data().sender;
+                    if (!groups[senderEmail]) {
+                        groups[senderEmail] = 1;
+                    } else {
+                        groups[senderEmail]++;
+                    }
+                    return groups;
+                }, {});
+
+                const newTotalUnreadMessages = Object.values(unreadMessageGroups).reduce((a, b) => a + b, 0);
+                setTotalUnreadMessages(newTotalUnreadMessages); // set state
+            });
+
         return () => unsubscribe();
     }, []);
+
 
     const checkPassword = async () => {
         try {
@@ -290,12 +362,10 @@ export default function Dashboard() {
                             onClick={() => {
                                 if (activeTab !== "Support") {
                                     handleTabChange("Support");
-                                    navigate("/dashboard/support");
+                                    navigate("/support");
                                 }
                             }}
                             bg={activeTab === "Support" ? "gray.200" : ""}
-
-
                         >
                             <FaQuestion />
                             <Text ml="3" fontWeight={'bold'}>Support</Text>
@@ -336,7 +406,21 @@ export default function Dashboard() {
                             />
                             <Input borderRadius={20} placeholder="Search..." />
                         </InputGroup>
-                        <FaBell />
+                        <Popover>
+                            <PopoverTrigger>
+                                <Button bg={'white'}>
+                                    <FaBell size={28} />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <PopoverArrow />
+                                <PopoverCloseButton />
+                                <PopoverHeader fontWeight={'bold'}>Messages</PopoverHeader>
+                                <PopoverBody>
+                                    You have {totalUnreadMessages} new message{totalUnreadMessages > 1 ? 's' : ''}.
+                                </PopoverBody>
+                            </PopoverContent>
+                        </Popover>
                         <Menu placement="bottom-start">
                             <MenuButton>
                                 <Avatar ml="3" name={userData.name + " " + userData.surname} bg={userData.bgColor} color="white" />
@@ -363,42 +447,43 @@ export default function Dashboard() {
                     </Heading>
                     <HStack align={'center'} spacing="5" py={'12'}>
                         <VStack>
-                            <CircularProgress value={userData.progress * 20} color='green.400' size={'40'} >
+                            <CircularProgress value={userData.lastVisitedCourseProgress} color='green.400' size={'40'} >
                                 <CircularProgressLabel fontSize={'20'}>
-                                    {userData.progress * 20 + "%"}
+                                    {userData.lastVisitedCourseProgress ? userData.lastVisitedCourseProgress + "%" : "0%"}
 
                                 </CircularProgressLabel>
                             </CircularProgress>
-                            <Text>{userData.progress * 20 === 100 ? "Completed" : "In Progress"}</Text>
+                            <Text>{userData.lastVisitedCourseProgress === 100 ? "Completed" : "In Progress"}</Text>
                         </VStack>
-                        <Card
-                            direction={{ base: 'column', sm: 'row' }}
-                            overflow='hidden'
-                            variant='outline'
-                            borderRadius={20}
-                        >
-                            <Image
-                                objectFit='cover'
-                                maxW={{ base: '100%', sm: '40%' }}
-                                src={maninmid}
-                            />
-                            <Stack>
-                                <CardBody>
-                                    <Heading size='md'>Man in Middle Attack</Heading>
-                                    <Text py='2'>
-                                        A man-in-the-middle attack is a type of cyber attack where an attacker intercepts and alters communications between two parties who believe they are directly communicating with each other.
-                                    </Text>
-                                </CardBody>
+                        {userData.lastVisitedCourse && (
+                            <Card
+                                direction={{ base: 'column', sm: 'row' }}
+                                overflow='hidden'
+                                variant='outline'
+                                borderRadius={20}
+                            >
+                                <Image
+                                    objectFit='cover'
+                                    maxW={{ base: '100%', sm: '40%' }}
+                                    src={imageSrc}
+                                />
+                                <Stack>
+                                    <CardBody>
+                                        <Heading size='md'>{userData.lastVisitedCourse}</Heading>
+                                        <Text py='2'>{description}</Text>
+                                    </CardBody>
 
-                                <CardFooter>
-                                    <Button variant='solid' colorScheme='blue' onClick={() => {
-                                        navigate("/man-in-middle-attack")
-                                    }}>
-                                        Go to Course
-                                    </Button>
-                                </CardFooter>
-                            </Stack>
-                        </Card>
+                                    <CardFooter>
+                                        <Button variant='solid' colorScheme='blue' onClick={() => {
+                                            navigate(navigatePath)
+                                        }}>
+                                            Go to Course
+                                        </Button>
+                                    </CardFooter>
+                                </Stack>
+                            </Card>
+                        )}
+
                     </HStack>
                 </Box>}
                 {activeTab === "Courses" && <Courses />}
@@ -406,7 +491,19 @@ export default function Dashboard() {
                 {activeTab === "Manage PGP Keys" && <ManagePGPKeys />}
                 {activeTab === "Notifications" && <Notifications />}
                 {activeTab === "Support" && <Support />}
-                {activeTab === "Messaging" && <Messaging />}
+                {activeTab === "Messaging" ? (isKeyPairExists ? <Messaging /> :
+                    <Box flex="1" bg="white" borderRadius={"20"} p="6" borderRightWidth={{ md: "1px" }}>
+
+                        <Flex justify="center" align="center" h="100%">
+                            <VStack>
+                                <Text fontSize={20} fontWeight="bold">
+                                    You need to create key pairs to use this feature.
+                                </Text>
+                                <Image maxW={{ base: "100%", sm: "40%" }} src={sleepingCat} />
+                            </VStack>
+                        </Flex>
+                    </Box>
+                ) : null}
 
             </Stack>
 

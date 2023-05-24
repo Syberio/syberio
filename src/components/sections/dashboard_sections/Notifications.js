@@ -8,8 +8,6 @@ import { useToast } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import sleepingCat from "../../assets/sleeping-cat.png"
 
-const firestore = firebase.firestore();
-const auth = firebase.auth();
 
 export default function Notifications() {
     const { notifications, deleteNotification, loading } = useNotifications();
@@ -93,32 +91,6 @@ export default function Notifications() {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <Button onClick={() => {
-                firestore.collection("users").get().then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        firestore
-                            .collection("users")
-                            .doc(doc.id)
-                            .collection("notifications")
-                            .add({
-                                title: "For everyone",
-                                message: "Message sent to every user.",
-                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            });
-                    });
-                });
-            }}>Send message to all users</Button>
-            <Button onClick={() => {
-                firestore
-                    .collection("users")
-                    .doc(auth.currentUser.uid)
-                    .collection("notifications")
-                    .add({
-                        title: "For the user",
-                        message: "Message sent to only current user.",
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    })
-            }}>Send message to current user</Button>
         </Box>
     );
 }

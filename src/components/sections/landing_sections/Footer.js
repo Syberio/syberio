@@ -7,7 +7,7 @@ const Footer = () => {
   const navigate = useNavigate();;
 
   return (
-    <Container as="footer" role="contentinfo" maxW='-webkit-fit-content' >
+    <Container as="footer" role="contentinfo" maxW='-webkit-fit-content'  >
       <Stack
         spacing="8"
         direction={{ base: 'column', md: 'row' }}
@@ -29,21 +29,15 @@ const Footer = () => {
                 Company
               </Text>
               <Stack spacing="3" shouldWrapChildren>
-                <Button variant="link">Our Story</Button>
-                <Button variant="link">Careers</Button>
-                <Button variant="link">FAQs</Button>
+                <Button variant="link" onClick={() => {
+                  navigate("/");
+                }}>Syberio</Button>
+                <Button variant="link" onClick={() => {
+                  navigate("/support");
+                }}>Support</Button>
               </Stack>
             </Stack>
-            <Stack spacing="4" minW="36" flex="1">
-              <Text fontSize="sm" fontWeight="semibold" color="subtle">
-                Product
-              </Text>
-              <Stack spacing="3" shouldWrapChildren>
-                <Button variant="link">How it works</Button>
-                <Button variant="link">Pricing</Button>
-                <Button variant="link">Use Cases</Button>
-              </Stack>
-            </Stack>
+
             <Stack spacing="4" minW="36" flex="1">
               <Text fontSize="sm" fontWeight="semibold" color="subtle">
                 Legal
@@ -55,20 +49,12 @@ const Footer = () => {
                 <Button variant={'link'} onClick={() => {
                   navigate("/terms");
                 }}>Terms</Button>
-                <Button variant="link">License</Button>
               </Stack>
             </Stack>
           </Stack>
           <Stack spacing="4">
-            <Text fontSize="sm" fontWeight="semibold" color="subtle">
-              Stay up to date
-            </Text>
-            <Stack spacing="4" direction={{ base: 'column', sm: 'row' }} maxW={{ lg: '360px' }} >
-              <Input placeholder="Enter your email" type="email" required size={'md'} width={'-moz-max-content'} />
-              <Button type="submit" size={'lg'} colorScheme='blue'>
-                Subscribe
-              </Button>
-            </Stack>
+
+
           </Stack>
         </Stack>
       </Stack>

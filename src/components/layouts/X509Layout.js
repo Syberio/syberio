@@ -8,6 +8,6 @@ export default function X509Layout() {
     return (
         <><><Flex align={'center'} direction='column' >
             <AuthenticatedNavbar />
-        </Flex><X509></X509></><Footer></Footer></>
+        </Flex><X509></X509></></>
     );
 }

@@ -8,7 +8,7 @@ export default function PgPConfidentialityLayout() {
 
         <><><Flex align={'center'} direction='column' >
             <AuthenticatedNavbar />
-        </Flex><PgPConfidentiality></PgPConfidentiality></><Footer></Footer></>
+        </Flex><PgPConfidentiality></PgPConfidentiality></></>
 
     );
 }

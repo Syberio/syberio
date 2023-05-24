@@ -4,6 +4,7 @@ import envelope from '../../../components/assets/envelope.png';
 import IPFS2 from '../../../components/assets/IPFS.png';
 import IPFSLogic from '../../../components/assets/ipfs_logic.png';
 import Hash from '../../../components/assets/hashtag.png';
+import Ipfs_install from '../../../components/assets/ipfs_install.png';
 import '../../../utils/X.509.css';
 import '../../../utils/style.css';
 import { useNavigate } from "react-router-dom";
@@ -26,17 +27,49 @@ import {
     Container,
 } from '@chakra-ui/react';
 import { MdApproval } from 'react-icons/md';
+import { useAuth } from '../useAuth';
+import { useState, useEffect } from 'react';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 function IPFS() {
     const navigate = useNavigate();
 
+    const [currentTab, setCurrentTab] = useState(0);
+    const totalTabs = 4;
+    const auth = useAuth();
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (auth.currentUser) {
+                const { uid } = auth.currentUser;
+                console.log(uid);
+                const courseName = "Share Messages with IPFS";
+                const progress = (currentTab / totalTabs) * 100;
+
+                const userDocRef = firebase.firestore().collection("users").doc(uid);
+
+                userDocRef.set({
+                    lastVisitedCourse: courseName,
+                    progress: {
+                        [courseName]: progress
+                    }
+                }, { merge: true })
+                    .then(() => console.log("User progress updated"))
+                    .catch(error => console.log("Error updating user progress: ", error));
+            }
+        }, 500); // 100 ms delay
+
+        // This cleanup function will be called if the component unmounts before the timeout
+        return () => clearTimeout(timeoutId);
+    }, [currentTab, auth]);
+
     return (
 
 
-        <><Box className='bodybox' h='100vh' py={[0, 10, 20]} position='center' marginBottom='400px'>
+        <><Box className='bodybox' h='100vh' py={[0, 10, 20]} position='center' marginBottom='700px'>
             <Box marginLeft='150px' marginTop='0px' position='absolute' fontSize='29px' color='rgb(71, 129, 200)'><b>IPFS Basics</b></Box>
 
-            <Tabs variant='soft-rounded' colorScheme='blue' orientation='horizontal'>
+            <Tabs variant='soft-rounded' colorScheme='blue' orientation='horizontal' onChange={(index) => setCurrentTab(index + 1)}>
                 <TabList marginLeft='100px' marginTop='90px' orientation='horizontal'>
 
                     <br></br>
@@ -61,7 +94,7 @@ function IPFS() {
                                 <TabPanel>
                                     IPFS (InterPlanetary File System) is a peer-to-peer distributed system for storing and sharing files. <br></br>
                                     It was created with the goal of providing a decentralized, permanent, and resilient web.
-                                    <Box className='image' marginLeft='80px' marginTop='100px' boxSize={800}>
+                                    <Box marginLeft='80px' marginTop='100px' boxSize={800}>
                                         {<Image src={IPFSLogic} alt='' />}
                                     </Box>
 
@@ -181,17 +214,18 @@ function IPFS() {
                                         </AccordionButton>
                                     </h2>
                                     <AccordionPanel pb={4}>
-                                        Once IPFS is installed, you need to initialize a new repository.<br></br>
-                                        This is where IPFS will store the files that you add to the network. To initialize a repository, run the following command in your terminal:<br></br>
-                                        <br></br>
-                                        <Card>
+                                        <Text maxW="lg">Once IPFS is installed, you need to initialize a new repository.
+                                            This is where IPFS will store the files that you add to the network. To initialize a repository, run the following command in your terminal:</Text>
 
+                                        <br></br>
+                                        <Card maxW="md">
                                             <CardBody color={"white"} backgroundColor={"black"}>
                                                 <Text> $ ipfs init</Text>
                                             </CardBody>
                                         </Card>
                                         <br></br>
-                                        This will create a new repository in your home directory.
+                                        This will create a new repository in your home directory. And provide you a path.
+
                                     </AccordionPanel>
                                 </AccordionItem>
 
@@ -207,19 +241,68 @@ function IPFS() {
                                         </AccordionButton>
                                     </h2>
                                     <AccordionPanel pb={4}>
-                                        Next, you need to start the IPFS daemon, which will allow you to interact with the IPFS network.<br></br>
-                                        To start the daemon, run the following command in your terminal:<br></br>
+                                        <Text maxW="lg">
+                                            Next, you need to start the IPFS daemon, which will allow you to interact with the IPFS network.
+                                            To start the daemon, run the following command in your terminal:
+                                        </Text>
                                         <br></br>
-                                        <Card>
+                                        <Card maxW="md">
                                             <CardBody color={"white"} backgroundColor={"black"}>
                                                 <Text> $ ipfs daemon</Text>
                                             </CardBody>
                                         </Card>
                                         <br></br>
-                                        This will start the IPFS daemon, and you should see logs indicating that it is connecting to the network.
+                                        <Text maxW="lg">
+                                            This will start the IPFS daemon, and you should see logs indicating that it is connecting to the network.
+                                        </Text>
+
+
+                                        <br></br>
+                                        Run the ipfs cat command with the path you got from the init message:
+                                        <Card maxW="md">
+                                            <CardBody color={"white"} backgroundColor={"black"}>
+                                                <Text> pfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme</Text>
+                                            </CardBody>
+                                        </Card>
+                                        <br></br>
+                                        You should see something like this:
+                                        <Image src={Ipfs_install} alt="" />
                                     </AccordionPanel>
                                 </AccordionItem>
 
+                                <AccordionItem>
+                                    <h2>
+                                        <AccordionButton>
+                                            <Box as="span" flex='1' textAlign='left'>
+                                                <b>Step 4: Locate where IPFS Stores the Repository Contents on your Machine</b>
+                                            </Box>
+                                            <AccordionIcon />
+                                        </AccordionButton>
+                                    </h2>
+                                    <AccordionPanel pb={4}>
+                                        ipfs stores its local object repository in ~/.ipfs<br></br>
+                                        <br></br>
+                                        <Card maxW="md">
+                                            <CardBody color={"white"} backgroundColor={"black"}>
+                                                <Text>$ ls ~/.ipfs</Text>
+                                            </CardBody>
+                                        </Card>
+                                        <br></br>
+                                        The contents of that directory look like this:
+
+                                        <br></br>
+
+                                        <Card maxW="md">
+                                            <CardBody color={"white"} backgroundColor={"black"}>
+                                                <Text> blocks		config		datastore	version</Text>
+                                            </CardBody>
+                                        </Card>
+                                        <br></br>
+                                        <Text maxW="md"> All of the contents of your IPFS repository are stored within this directory. For example, the readme file from above is stored in here, along with the other files it links to. You can run a grep to find out the exact location.</Text>
+
+
+                                    </AccordionPanel>
+                                </AccordionItem>
 
                             </Accordion>
 
@@ -480,7 +563,7 @@ function IPFS() {
                                                 >
 
                                                     <Text fontSize="md" lineHeight="tall">
-                                                    One of the main challenges facing IPFS is adoption. While IPFS has gained traction in certain communities and use cases, it is still a relatively new technology that is not yet widely adopted or integrated into mainstream web infrastructure.
+                                                        One of the main challenges facing IPFS is adoption. While IPFS has gained traction in certain communities and use cases, it is still a relatively new technology that is not yet widely adopted or integrated into mainstream web infrastructure.
                                                     </Text>
                                                 </Container>
 
@@ -498,7 +581,7 @@ function IPFS() {
                                                 >
 
                                                     <Text fontSize="md" lineHeight="tall">
-                                                    IPFS can be complex to set up and use, particularly for those who are not familiar with decentralized or peer-to-peer networks. Users may need to familiarize themselves with new concepts and tools, such as content addressing and distributed hash tables, in order to use IPFS effectively.
+                                                        IPFS can be complex to set up and use, particularly for those who are not familiar with decentralized or peer-to-peer networks. Users may need to familiarize themselves with new concepts and tools, such as content addressing and distributed hash tables, in order to use IPFS effectively.
                                                     </Text>
                                                 </Container>
                                             </TabPanel>
@@ -513,7 +596,7 @@ function IPFS() {
                                                 >
 
                                                     <Text fontSize="md" lineHeight="tall">
-                                                    IPFS uses a distributed network of nodes to store files, which means that files may not always be available or accessible if a node goes offline or stops hosting the file. While IPFS provides redundancy and fault tolerance, there is still some risk that files may be lost or unavailable.
+                                                        IPFS uses a distributed network of nodes to store files, which means that files may not always be available or accessible if a node goes offline or stops hosting the file. While IPFS provides redundancy and fault tolerance, there is still some risk that files may be lost or unavailable.
                                                     </Text>
                                                 </Container>
                                             </TabPanel>
@@ -528,7 +611,7 @@ function IPFS() {
                                                 >
 
                                                     <Text fontSize="md" lineHeight="tall">
-                                                    As with any distributed network, IPFS may be vulnerable to certain types of security threats, such as denial-of-service attacks or Sybil attacks. Users and network operators may need to take extra steps to ensure the security and integrity of the network.
+                                                        As with any distributed network, IPFS may be vulnerable to certain types of security threats, such as denial-of-service attacks or Sybil attacks. Users and network operators may need to take extra steps to ensure the security and integrity of the network.
                                                     </Text>
                                                 </Container>
                                             </TabPanel>

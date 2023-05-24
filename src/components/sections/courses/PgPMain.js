@@ -14,6 +14,10 @@ import encrypted_Text from '../../../components/assets/encrypted-data.png';
 import '../../../utils/X.509.css';
 import '../../../utils/style.css';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../useAuth';
+import { useEffect, useState } from 'react';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import {
 
     Tabs,
@@ -31,13 +35,42 @@ import {
 
 function PgPMain() {
     const navigate = useNavigate();
+
+    const [currentTab, setCurrentTab] = useState(0);
+    const totalTabs = 4;
+    const auth = useAuth();
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (auth.currentUser) {
+                const { uid } = auth.currentUser;
+                console.log(uid);
+                const courseName = "Use PGP Services";
+                const progress = (currentTab / totalTabs) * 100;
+
+                const userDocRef = firebase.firestore().collection("users").doc(uid);
+
+                userDocRef.set({
+                    lastVisitedCourse: courseName,
+                    progress: {
+                        [courseName]: progress
+                    }
+                }, { merge: true })
+                    .then(() => console.log("User progress updated"))
+                    .catch(error => console.log("Error updating user progress: ", error));
+            }
+        }, 500); // 100 ms delay
+
+        // This cleanup function will be called if the component unmounts before the timeout
+        return () => clearTimeout(timeoutId);
+    }, [currentTab, auth]);
     return (
 
 
         <><Box className='bodybox' h='100vh' py={[0, 10, 20]} position='center' marginBottom='400px'>
             <Box marginLeft='150px' marginTop='0px' position='absolute' fontSize='29px' color='rgb(71, 129, 200)'><b>PGP (Pretty Good Privacy)</b></Box>
 
-            <Tabs variant='soft-rounded' colorScheme='blue' orientation='vertical'>
+            <Tabs variant='soft-rounded' colorScheme='blue' orientation='vertical' onChange={(index) => setCurrentTab(index + 1)}>
                 <TabList marginLeft='100px' marginTop='90px' orientation='vertical'>
                     <Tab width='400px'>What is PGP (Pretty Good Privacy)?</Tab>
                     <Tab>PGP Authentication</Tab>
@@ -76,7 +109,7 @@ function PgPMain() {
                             </TabPanels>
                         </Tabs>
 
-                        <Box className='image' width='500px' marginLeft='80px' marginTop='100px' boxSize={200}>
+                        <Box width='500px' marginLeft='80px' marginTop='100px' boxSize={200}>
                             {<Image src={pgp_icon} alt='' />}
                         </Box>
                     </TabPanel>
@@ -393,10 +426,6 @@ function PgPMain() {
                                     </Tabs>
 
                                 </TabPanel>
-
-
-
-
                             </TabPanels>
                         </Tabs>
 

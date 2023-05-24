@@ -8,6 +8,6 @@ export default function IPFSLayout() {
     return (
         <><><Flex align={'center'} direction='column' >
             <AuthenticatedNavbar />
-        </Flex><IPFS></IPFS></><Footer></Footer></>
+        </Flex><IPFS></IPFS></></>
     );
 }

@@ -118,7 +118,7 @@ export default function Courses() {
 
                         <CardFooter>
                             <Button variant='solid' colorScheme='blue' onClick={() => {
-                                navigate("/man-in-middle-attack")
+                                navigate("/courses/encrypt-and-check-files")
                             }}>
                                 Go to Course
                             </Button>

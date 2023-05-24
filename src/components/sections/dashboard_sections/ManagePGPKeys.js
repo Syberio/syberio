@@ -81,27 +81,13 @@ export default function ManagePGPKeys() {
     }, [keyring]);
     return (
         <Box flex="1" bg="white" borderRadius={"20"} p="6" borderRightWidth={{ md: "1px" }} overflow="scroll">
-            <Heading size="md">
-                Search Any User
-            </Heading>
-            <HStack>
-                <InputGroup my="4">
-                    <Input
-                        placeholder="Search by email..."
-                        value={searchEmail}
-                        onChange={(e) => setSearchEmail(e.target.value)}
-                    />
-                </InputGroup>
-                <Button h="2.75rem" size="sm" colorScheme="blue" onClick={handleSearch}>
-                    Search
-                </Button>
 
-            </HStack>
             {keyring.length === 0 && loading ? (
                 <Flex justify="center" align="center" h="100%">
                     <Spinner size="xl" />
                 </Flex>
             ) : keyring.length === 0 ? (
+
                 <Flex justify="center" align="center" h="100%">
                     <VStack>
                         <Text fontSize={20} fontWeight="bold">
@@ -112,102 +98,115 @@ export default function ManagePGPKeys() {
 
                 </Flex>
             ) : (
-                <TableContainer py="4" display={keyring.length <= 0 ? "none" : ""}>
-                    <Heading size="md" mb="4">
-                        My Keyring
-                    </Heading>
-                    <Table variant='simple'>
-                        <Thead>
-                            <Tr>
-                                <Th>Primary</Th>
-                                <Th>Key Name</Th>
-                                <Th>Email</Th>
-                                <Th>Public Key</Th>
-                                <Th>Time Created<br />(mm/dd/yyyy)</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {keyring.map((key) => (
-                                <Tr key={key.id}>
-                                    <Td>
-                                        {key.id === primaryKey ? (
-                                            <AiFillStar size={23} color="gold" />
-                                        ) : (
-                                            <AiOutlineStar size={23} color="gold" onClick={() => handleSetPrimary(key)} />
-                                        )}
-                                    </Td>
-                                    <Td>{key.userName ?? "null"}</Td>
-                                    <Td>{key.email ?? "null"}</Td>
-                                    <Td onClick={() => {
-                                        navigator.clipboard.writeText(key.publicKey)
-                                        toast({
-                                            title: 'Success!',
-                                            description: "Copied to clipboard!",
-                                            status: 'success',
-                                            duration: 3500,
-                                            isClosable: true,
-                                        })
-                                    }}>{key.publicKey.slice(37, 70) + "..." ?? "null"}</Td>
-                                    <Td>{key.createdAt ? key.createdAt.toDate().toLocaleDateString() : "null"}</Td>
-                                    <Td>
-                                        <Button size="sm" colorScheme="blue" onClick={() => {
-                                            downloadFile(key.privateKey, "privateKey.txt", key.userName);
-                                            downloadFile(key.publicKey, "publicKey.txt", key.userName);
-                                        }}>
-                                            Export
-                                        </Button>
-                                    </Td>
+                <><Heading size="md">
+                    Search Any User
+                </Heading><HStack>
+                        <InputGroup my="4">
+                            <Input
+                                placeholder="Search by email..."
+                                value={searchEmail}
+                                onChange={(e) => setSearchEmail(e.target.value)} />
+                        </InputGroup>
+                        <Button h="2.75rem" size="sm" colorScheme="blue" onClick={handleSearch}>
+                            Search
+                        </Button>
+
+                    </HStack><TableContainer py="4" display={keyring.length <= 0 ? "none" : ""}>
+                        <Heading size="md" mb="4">
+                            My Keyring
+                        </Heading>
+                        <Table variant='simple'>
+                            <Thead>
+                                <Tr>
+                                    <Th>Primary</Th>
+                                    <Th>Key Name</Th>
+                                    <Th>Email</Th>
+                                    <Th>Public Key</Th>
+                                    <Th>Time Created<br />(mm/dd/yyyy)</Th>
                                 </Tr>
-                            ))}
-                        </Tbody>
-                    </Table>
-                    {/* Add this after the closing tag of the first Table component */}
-                    {searchKeyring !== null && (
-                        <>
-                            <Heading size="md" my="4">
-                                Search Result
-                            </Heading>
-                            <Table variant="simple">
-                                <Thead>
-                                    <Tr>
-                                        <Th>Email</Th>
-                                        <Th>Public Key</Th>
-                                        <Th>
-                                            Time Created
-                                            <br />(mm/dd/yyyy)
-                                        </Th>
+                            </Thead>
+                            <Tbody>
+                                {keyring.map((key) => (
+                                    <Tr key={key.id}>
+                                        <Td>
+                                            {key.id === primaryKey ? (
+                                                <AiFillStar size={23} color="gold" />
+                                            ) : (
+                                                <AiOutlineStar size={23} color="gold" onClick={() => handleSetPrimary(key)} />
+                                            )}
+                                        </Td>
+                                        <Td>{key.userName ?? "null"}</Td>
+                                        <Td>{key.email ?? "null"}</Td>
+                                        <Td onClick={() => {
+                                            navigator.clipboard.writeText(key.publicKey);
+                                            toast({
+                                                title: 'Success!',
+                                                description: "Copied to clipboard!",
+                                                status: 'success',
+                                                duration: 3500,
+                                                isClosable: true,
+                                            });
+                                        }}>{key.publicKey.slice(37, 70) + "..." ?? "null"}</Td>
+                                        <Td>{key.createdAt ? key.createdAt.toDate().toLocaleDateString() : "null"}</Td>
+                                        <Td>
+                                            <Button size="sm" colorScheme="blue" onClick={() => {
+                                                downloadFile(key.privateKey, "privateKey.txt", key.userName);
+                                                downloadFile(key.publicKey, "publicKey.txt", key.userName);
+                                            }}>
+                                                Export
+                                            </Button>
+                                        </Td>
                                     </Tr>
-                                </Thead>
-                                <Tbody>
-                                    {searchKeyring.map((key) => (
-                                        <Tr key={key.id}>
-                                            <Td>{key.email ?? "null"}</Td>
-                                            <Td
-                                                onClick={() => {
-                                                    navigator.clipboard.writeText(key.publicKey);
-                                                    toast({
-                                                        title: "Success!",
-                                                        description: "Copied to clipboard!",
-                                                        status: "success",
-                                                        duration: 3500,
-                                                        isClosable: true,
-                                                    });
-                                                }}
-                                            >
-                                                {key.publicKey.slice(37, 70) + "..." ?? "null"}
-                                            </Td>
-                                            <Td>
-                                                {key.createdAt
-                                                    ? key.createdAt.toDate().toLocaleDateString()
-                                                    : "null"}
-                                            </Td>
+                                ))}
+                            </Tbody>
+                        </Table>
+                        {/* Add this after the closing tag of the first Table component */}
+                        {searchKeyring !== null && (
+                            <>
+                                <Heading size="md" my="4">
+                                    Search Result
+                                </Heading>
+                                <Table variant="simple">
+                                    <Thead>
+                                        <Tr>
+                                            <Th>Email</Th>
+                                            <Th>Public Key</Th>
+                                            <Th>
+                                                Time Created
+                                                <br />(mm/dd/yyyy)
+                                            </Th>
                                         </Tr>
-                                    ))}
-                                </Tbody>
-                            </Table>
-                        </>
-                    )}
-                </TableContainer>
+                                    </Thead>
+                                    <Tbody>
+                                        {searchKeyring.map((key) => (
+                                            <Tr key={key.id}>
+                                                <Td>{key.email ?? "null"}</Td>
+                                                <Td
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(key.publicKey);
+                                                        toast({
+                                                            title: "Success!",
+                                                            description: "Copied to clipboard!",
+                                                            status: "success",
+                                                            duration: 3500,
+                                                            isClosable: true,
+                                                        });
+                                                    }}
+                                                >
+                                                    {key.publicKey.slice(37, 70) + "..." ?? "null"}
+                                                </Td>
+                                                <Td>
+                                                    {key.createdAt
+                                                        ? key.createdAt.toDate().toLocaleDateString()
+                                                        : "null"}
+                                                </Td>
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                </Table>
+                            </>
+                        )}
+                    </TableContainer></>
             )}
         </Box>
     );

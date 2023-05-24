@@ -12,6 +12,7 @@ import {
   Code,
   Container,
   Button,
+  theme,
   Icon,
 } from '@chakra-ui/react';
 import { FiLock, FiCheckCircle, FiEdit, FiKey } from "react-icons/fi";
@@ -27,7 +28,9 @@ import { useNavigate } from "react-router-dom";
 const PgPAuthConf = () => {
   const navigate = useNavigate();
   const [isContainerVisible, setIsContainerVisible] = useState(false);
-
+  const bgColor = theme.colors.blue[200];
+  const StepsContainerColor = theme.colors.blue[300];
+  const ContainerColor = theme.colors.blue[400];
 
   const handleButtonClick = () => {
     setIsContainerVisible(!isContainerVisible);
@@ -54,36 +57,42 @@ const PgPAuthConf = () => {
   const [highlightedItem, setHighlightedItem] = useState(null);
 
   const MouseEnterHightLight = (item) => {
+    setIsHovered(true);
+    setHoveredItem(item);
     setHighlightedItem(item);
     HighlightStepItems(item);
   };
 
   const MouseExitHightLight = (item) => {
+    setIsHovered(false);
+    setHighlightedItem(null);
     setHighlightedItem(null);
     RemoveHighlightStepItems(item);
   };
 
+
   const HighlightStepItems = (item) => {
     const element = document.getElementById(item);
     if (element) {
-      element.style.backgroundColor = 'blue';
+      element.style.backgroundColor = theme.colors.blue[300];
     }
   };
   const RemoveHighlightStepItems = (item) => {
     const element = document.getElementById(item);
     if (element) {
       element.style.backgroundColor = '';
+      element.style.borderRadius = '10px'; 
     }
   };
-
+  
   const RemoveHighlightallItems = () => {
     const items = document.querySelectorAll('[id]');
-
+  
     items.forEach((item) => {
       item.style.backgroundColor = '';
+      item.style.borderRadius = '10px'; 
     });
   };
-
   const items = [
     {
       id: 1,
@@ -109,7 +118,7 @@ const PgPAuthConf = () => {
     {
       id: 4,
       code: "Zip",
-      title: "Zip the message",
+      title: "Compress the message",
       description:
         "Generated message is zipped Z to reduce transmission size over the internet.",
     },
@@ -136,7 +145,7 @@ const PgPAuthConf = () => {
     },
     {
       id: 8,
-      code: "Concatanate 2",
+      code: "Concatanate_two",
       title: "Concatenate the encrypted session key and message",
       description:
         "The encrypted session key (EP(Ks)) and the encrypted message (EC(M,Ks)) are concatenated together and sent to the receiver.",
@@ -177,7 +186,7 @@ const PgPAuthConf = () => {
       code: "Hash Function",
       title: "Obtain Hash code of the message",
       description:
-        "Message part of the packet is dezipped Z⁻¹ and Hash code H is obtained",
+        "Message part of the packet is Decompressed Z⁻¹ and Hash code H is obtained",
 
     },
     {
@@ -192,7 +201,7 @@ const PgPAuthConf = () => {
       code: "Compare",
       title: "Compare hash values H/H",
       description:
-        "  In this last step Hash value H obtained from decrypted signatureis compared with the obtained message's M hash code H.If The hash codes are identical Process is completed and Reciever can assume that themessage is authentic and has not been tampered with.",
+        "  In this last step Hash value H obtained from decrypted signature is compared with the obtained message's M hash code H.If The hash codes are identical Process is completed and Reciever can assume that the message is authentic and has not been tampered with.",
 
     },
   ];
@@ -215,7 +224,7 @@ const PgPAuthConf = () => {
         return <p>Zip the message to reduce transmission size.</p>;
       case "Symmetric Encryption Algorithm":
         return <p>Encrypt the message using the randomly created session key.</p>;
-      case "Concatanate 2":
+      case "Concatanate_two":
         return <p>Concatanate the message and signature.</p>;
       case "A random Session Key created for Symmetric Encryption purpose":
         return <p>Generate random session key.</p>;
@@ -312,24 +321,24 @@ const PgPAuthConf = () => {
         <Box>
           <Flex justify="center">
 
-            <Container width="16%" h="600" borderRadius="md" borderColor="gray.200" bg="blue.500" border="1px solid black" marginLeft style=
-              {{ position: 'absolute', top: '220px', left: '700px' }}>
+            <Container width="16%" h="600" marginLeft style=
+              {{ position: 'absolute', top: '220px', left: '40%' }}>
 
               <Box style=
-                {{ position: 'absolute', top: '0px', left: '-200px' }}
+                {{ position: 'absolute', top: '0px' ,left: '-70%'}}
               >
-                <Flex style={{ position: 'absolute', top: "60px", left: "260px", transform: 'translate(-50%, -50%)' }}
+                <Flex id='compose' style={{ position: 'absolute', top: "60px", left: "260px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("compose")}
-                  onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
-                    <Icon as={FiEdit} w="8" h="8" />
+                  onMouseLeave={handleMouseLeave} >
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                    <Icon as={FiEdit} w="8" h="8" pointerEvents="all"></Icon>
                   </Box>
                 </Flex>
 
                 <Flex id='public-key-encryption' style={{ position: 'absolute', top: "130px", left: "355px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("public-key-encryption")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <Icon as={FiLock} w="8" h="8" pointerEvents="none" />
                   </Box>
                 </Flex>
@@ -339,7 +348,7 @@ const PgPAuthConf = () => {
                   onMouseEnter={() => handleMouseEnter("private-key-sender")}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <Icon as={IoMdKey} w="8" h="8" style={{ pointerEvents: "none" }} />
                   </Box>
                 </Flex>
@@ -347,7 +356,7 @@ const PgPAuthConf = () => {
                 <Flex id='Concatanate' style={{ position: 'absolute', top: "220px", left: "354px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Concatanate")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <img src={ConcatIcon} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -355,7 +364,7 @@ const PgPAuthConf = () => {
                 <Flex id='Zip' style={{ position: 'absolute', top: "300px", left: "350px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Zip")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <img src={ZipIcon} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -363,15 +372,15 @@ const PgPAuthConf = () => {
                 <Flex id='Symmetric Encryption Algorithm' style={{ position: 'absolute', top: "400px", left: "350px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Symmetric Encryption Algorithm")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <Icon as={FiLock} w="8" h="8" pointerEvents="none" />
                   </Box>
                 </Flex>
 
-                <Flex id='Concatanate 2' style={{ position: 'absolute', top: "500px", left: "350px", transform: 'translate(-50%, -50%)' }}
-                  onMouseEnter={() => handleMouseEnter("Concatanate 2")}
+                <Flex id='Concatanate_two' style={{ position: 'absolute', top: "500px", left: "350px", transform: 'translate(-50%, -50%)' }}
+                  onMouseEnter={() => handleMouseEnter("Concatanate_two")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center">
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <img src={ConcatIcon} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -379,7 +388,7 @@ const PgPAuthConf = () => {
                 <Flex id='Public-Key Encryption Algorithm' style={{ position: 'absolute', top: "500px", left: "450px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Public-Key Encryption Algorithm")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <Icon as={FiLock} w="8" h="8" pointerEvents="none" />
                   </Box>
                 </Flex>
@@ -388,7 +397,7 @@ const PgPAuthConf = () => {
                 <Flex id='A random Session Key created for Symmetric Encryption purpose' style={{ position: 'absolute', top: "400px", left: "450px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("A random Session Key created for Symmetric Encryption purpose")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <Icon as={FiKey} w="8" h="8" pointerEvents="none" />
                   </Box>
                 </Flex>
@@ -579,16 +588,16 @@ const PgPAuthConf = () => {
               </Box>
             </Container>
 
-            <Container width="16%" h="600" borderRadius="md" borderColor="gray.200" bg="blue.500" border="1px solid black" marginLeft style=
-              {{ position: 'absolute', top: '920px', left: '700px' }}>
+            <Container width="16%" h="600" marginLeft style=
+              {{ position: 'absolute', top: '920px',left: '40%' }}>
 
               <Box style=
-                {{ position: 'absolute', top: '-550px', left: '-200px' }}
+               {{ position: 'absolute', top: '-90%' ,left: '-70%'}}
               >
                 <Flex style={{ position: 'absolute', top: "600px", left: "325px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Message Packet")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center">
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center">
                     <img src={Text_Icon} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -596,7 +605,7 @@ const PgPAuthConf = () => {
                 <Flex style={{ position: 'absolute', top: "600px", left: "375px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Certificate Message")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center">
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center">
                     <img src={Certificate_Icon} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -605,7 +614,7 @@ const PgPAuthConf = () => {
                 <Flex id='Public-Key Decryption Algorithm' style={{ position: 'absolute', top: "700px", left: "400px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Public-Key Decryption Algorithm")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <img src={Open_Lock} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -613,7 +622,7 @@ const PgPAuthConf = () => {
                 <Flex id='Asymmetric Decryption Algorithm' style={{ position: 'absolute', top: "700px", left: "300px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Asymmetric Decryption Algorithm")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <img src={Open_Lock} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -621,7 +630,7 @@ const PgPAuthConf = () => {
                 <Flex id='Decompression Function' style={{ position: 'absolute', top: "800px", left: "300px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Decompression Function")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <img src={dezipIcon} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -629,7 +638,7 @@ const PgPAuthConf = () => {
                 <Flex id='' style={{ position: 'absolute', top: "900px", left: "300px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Message Packet")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center">
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center">
                     <img src={Text_Icon} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -637,7 +646,7 @@ const PgPAuthConf = () => {
                 <Flex id='' direction="row" style={{ position: 'absolute', top: "900px", left: "350px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Certificate Message")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" >
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" >
                     <img src={Certificate_Icon} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -645,7 +654,7 @@ const PgPAuthConf = () => {
                 <Flex id='Public-Key Decryption Algorithm Private' style={{ position: 'absolute', top: "1000px", left: "350px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Public-Key Decryption Algorithm Private")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <img src={Open_Lock} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -654,7 +663,7 @@ const PgPAuthConf = () => {
                 <Flex id='Hash Function' style={{ position: 'absolute', top: "1000px", left: "300px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Hash Function")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <img src={Open_Lock} alt="dezip-icon" width="30" height="30" />
                   </Box>
                 </Flex>
@@ -663,7 +672,7 @@ const PgPAuthConf = () => {
                 <Flex id='Compare' style={{ position: 'absolute', top: "1100px", left: "325px", transform: 'translate(-50%, -50%)' }}
                   onMouseEnter={() => handleMouseEnter("Compare")}
                   onMouseLeave={handleMouseLeave}>
-                  <Box w={50} h={50} bgColor="blue.700" display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
+                  <Box w={50} h={50} bgColor={bgColor} display="flex" alignItems="center" justifyContent="center" style={{ borderRadius: '80%' }}>
                     <Icon as={FiCheckCircle} w="8" h="8" pointerEvents="none" />
                   </Box>
                 </Flex>
@@ -786,23 +795,22 @@ const PgPAuthConf = () => {
 
 
             {isHovered && (
-              <Box
-                position="fixed"
-                top="25%"
-                left="60%"
-
-                width="10%"
-                height="100px"
-                bg="blue.600"
-                borderRadius="md"
-                borderColor="gray.200"
-                border="1px solid black"
-                opacity={0.9}
-                pointerEvents="auto"
-              >
-                <Box p="1rem">{getHoveredItemInfo()}</Box>
-              </Box>
-            )}
+         <Box
+         position="fixed"
+         top="12%"
+         left="65%"
+         width="10%"
+         height="auto" 
+         bg={ContainerColor}
+         borderRadius="md"
+         borderColor="gray.200"
+         border="1px solid black"
+         opacity={0.9}
+         pointerEvents="auto"
+       >
+          <Box p="1rem">{getHoveredItemInfo()}</Box>
+        </Box>
+      )}
           </Flex>
 
         </Box>
@@ -815,8 +823,8 @@ const PgPAuthConf = () => {
       </Button>
       <Button onClick={handleButtonClick} marginLeft style={{ position: 'absolute', top: '210px', left: '580px' }}>Show Steps</Button>
       {isContainerVisible && (
-        <Container maxW="sm" borderRadius="md" borderColor="gray.200" bg="blue.800" border="1px solid black" marginLeft
-          style={{ position: 'fixed', top: '400px', left: '1050px' }}>
+        <Container maxW="sm" borderRadius="md" borderColor="gray.200" background={StepsContainerColor} border="1px solid black" marginLeft
+        style={{ position: 'fixed', top: "25%", left: "65%" }}>
           <Text color="white" fontSize="lg">M – Message</Text>
           <Text color="white" fontSize="lg">H – Hash Function</Text>
           <Text color="white" fontSize="lg">Ks – A random Session Key created for Symmetric Encryption purpose</Text>

@@ -15,7 +15,7 @@ import userb from '../../../components/assets/userb.jpg';
 import usera from '../../../components/assets/usera.jpg';
 import key from '../../../components/assets/key.jpg';
 import { useState } from "react";
-import suitcase from '../../../components/assets/suitcase.jpg';
+import suitcase from '../../../components/assets/suitcase.png';
 import user2 from '../../../components/assets/user2.jpg';
 import ex from '../../../components/assets/ex.jpg';
 import encry from '../../../components/assets/encry.jpg';
@@ -28,6 +28,7 @@ import trick from '../../../components/assets/trick.png';
 import mitm from '../../../components/assets/mitm.png';
 import step6_1 from '../../../components/assets/step6-1.png';
 import step6_2 from '../../../components/assets/step6-2.png';
+import { useEffect } from 'react';
 import dwayarrow from '../../../components/assets/twowayarrow.png';
 import redx from '../../../components/assets/reddx.png';
 import '../../../utils/ManInMiddle.css';
@@ -50,9 +51,10 @@ import {
     Container, useClipboard
 } from '@chakra-ui/react';
 import { useAuth } from '../useAuth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 export default function ManInMiddle() {
-
 
     // const { onCopy, value, setValue, hasCopied } = useClipboard("");
     const [isAlertVisible2, setIsAlertVisible2] = React.useState(false);
@@ -61,6 +63,34 @@ export default function ManInMiddle() {
     const [isAlertVisible5, setIsAlertVisible5] = React.useState(false);
     const [isAlertVisible6, setIsAlertVisible6] = React.useState(false);
 
+    const totalTabs = 8;
+    const [currentTab, setCurrentTab] = useState(0);
+    const auth = useAuth();
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (auth.currentUser) {
+                const { uid } = auth.currentUser;
+                console.log(uid);
+                const courseName = "Man in Middle Attack";
+                const progress = (currentTab / totalTabs) * 100;
+    
+                const userDocRef = firebase.firestore().collection("users").doc(uid);
+    
+                userDocRef.set({
+                    lastVisitedCourse: courseName,
+                    progress: {
+                        [courseName]: progress
+                    }
+                }, { merge: true })
+                    .then(() => console.log("User progress updated"))
+                    .catch(error => console.log("Error updating user progress: ", error));
+            }
+        }, 500); // 100 ms delay
+    
+        // This cleanup function will be called if the component unmounts before the timeout
+        return () => clearTimeout(timeoutId);
+    }, [currentTab, auth]);
+    
 
     // const userButton = document.querySelector('.user-button');
     // const userMessage = document.querySelector('.user-input');
@@ -219,7 +249,7 @@ export default function ManInMiddle() {
         <><Box className='bodybox' h='100vh' py={[0, 10, 20]} position='center' marginBottom='40%'>
             <Box marginLeft='10%' marginTop='0%' fontSize='29px' color='rgb(71, 129, 200)'><b>Man In The Middle Attack</b></Box>
 
-            <Tabs variant='soft-rounded' colorScheme='blue' orientation='vertical'>
+            <Tabs variant='soft-rounded' colorScheme='blue' orientation='vertical' onChange={(index) => setCurrentTab(index + 1)}>
                 <TabList marginLeft='10%' marginTop='5%' orientation='vertical'>
                     <Tab width='220%'>What is Man In The Middle Attack?</Tab>
                     <Tab width='220%'>Types of Man In The Middle Attacks</Tab>
@@ -683,7 +713,7 @@ export default function ManInMiddle() {
                                         <Image className='usr' src={user2} alt='' />
                                     </Box>
 
-                                    {isAlertVisible4 && <Box marginLeft="20%" id='arrow' className='arrow-1'></Box>}
+                                    {isAlertVisible4 && <Box marginLeft="20%" id='arrow' className='arrow-333'></Box>}
                                     {isAlertVisible3 && <Box marginLeft="3%" id='arrow' className='arrow-2'></Box>}
                                     <Box marginLeft="18%" id='arrow' className='arrow-3'></Box>
                                     {isAlertVisible2 && <Box marginLeft="5%" id='arrow' className='arrow-4'></Box>}
@@ -878,11 +908,11 @@ export default function ManInMiddle() {
                                     </Box>
                                     <Image src={usera} alt='' marginLeft="-5.56%" marginTop="9.78%" width="13.89%" position="absolute" zIndex="-1" />
                                     <Image src={userb} alt='' marginLeft="33.33%" marginTop="9.78%" width="13.89%" position="absolute" />
-                                    <Image src={suitcase} alt='' marginLeft="13.47%" marginTop="29.78%" width="33.89%" />
-                                    <Box position='absolute' marginLeft="0%" marginTop="5%" color="blue" fontSize="1em">
+                                    <Image src={suitcase} alt='' marginLeft="13.47%" marginTop="29.78%" width="15.89%" />
+                                    <Box position='absolute' marginLeft="0%" marginTop="9%" color="blue" fontSize="1em">
                                         Person A
                                     </Box>
-                                    <Box position='absolute' marginLeft="39%" marginTop="5%" color="red">
+                                    <Box position='absolute' marginLeft="39%" marginTop="9%" color="red">
                                         Person B
                                     </Box>
 
@@ -899,7 +929,7 @@ export default function ManInMiddle() {
                                     </Box>
                                     <Image src={usera} alt='' marginLeft="-5.56%" marginTop="5.56%" width="13.89%" position="absolute" zIndex="-1" />
                                     <Image src={userb} alt='' marginLeft="33.33%" marginTop="5.56%" width="13.89%" position="absolute" zIndex="-1" />
-                                    <Image id='bag' src={suitcase} alt='' marginLeft="7.47%" marginTop="9.56%" width="33.89%" />
+                                    <Image id='bag' src={suitcase} alt='' marginLeft="13.47%" marginTop="17.56%" width="15.89%" />
                                     <Box marginLeft="10.42%" marginTop="10%">
                                         <div class="wrapper">
                                             <div class="base">
@@ -932,7 +962,7 @@ export default function ManInMiddle() {
                                     </Box>
                                     <Image src={usera} alt='' style={{ marginLeft: '-5.56%', marginTop: '5.56%', width: '13.89%', position: 'absolute', zIndex: '-1' }} />
                                     <Image src={userb} alt='' style={{ marginLeft: '33.33%', marginTop: '5.56%', width: '13.89%', position: 'absolute', zIndex: '-1' }} />
-                                    <Image id='bag2' src={suitcase} alt='' style={{ marginLeft: '53.92%', marginTop: '9.56%', width: '33.89%' }} />
+                                    <Image id='bag2' src={suitcase} alt='' style={{ marginLeft: '59.92%', marginTop: '17.56%', width: "15.89%" }} />
                                     <Box style={{ marginTop: '11.11%', marginLeft: '0.83%' }}>
                                         <div class="wrapper">
                                             <div class="base">
@@ -984,7 +1014,7 @@ export default function ManInMiddle() {
                                     </Box>
                                     <Image src={usera} alt='' style={{ marginLeft: '-5.56%', marginTop: '5.56%', width: '13.89%', position: 'absolute', zIndex: '-1' }} />
                                     <Image src={userb} alt='' style={{ marginLeft: '33.33%', marginTop: '5.56%', width: '13.89%', position: 'absolute', zIndex: '-1' }} />
-                                    <Image id='bag' src={suitcase} alt='' style={{ marginLeft: '6.92%', marginTop: '9.56%', width: '33.89%' }} />
+                                    <Image id='bag' src={suitcase} alt='' style={{ marginLeft: '13.92%', marginTop: '17.56%', width: " 15.89%" }} />
 
                                     {/* <Image src={lock2} alt='' marginLeft="130px" marginTop="10px" width="70px" style={imageStyle2} /> */}
                                     <Box style={{ marginTop: '11.11%', marginLeft: '0.83%' }}>
@@ -1037,7 +1067,7 @@ export default function ManInMiddle() {
                                     </Box>
                                     <Image src={usera} alt='' style={{ marginLeft: '-5.56%', marginTop: '5.56%', width: '13.89%', position: 'absolute', zIndex: '-1' }} />
                                     <Image src={userb} alt='' style={{ marginLeft: '33.33%', marginTop: '5.56%', width: '13.89%', position: 'absolute', zIndex: '-1' }} />
-                                    <Image src={suitcase} alt='' marginLeft="55%" marginTop="8%" width="33.89%" />
+                                    <Image src={suitcase} alt='' marginLeft="55%" marginTop="15%" width="15.89%" />
                                     <Box marginLeft="45%" marginTop="13%">
                                         <div class="wrapper">
                                             <div class="base2">
@@ -1196,7 +1226,7 @@ export default function ManInMiddle() {
                                 <TabPanel>
                                     <Box fontSize="1.17vw">
                                         Everything looks fine.. However, there is a huge security threat which can leads to Man in the Middle Attack.
-                                        <br></br> <br></br>Insecure channel and lack of authentication protocol creates a risky situation for both User A and User B.
+                                        <br></br> <br></br>Insecure channel and lack of authentication protocol create a risky situation for both User A and User B.
                                     </Box>
                                     <Image src={usera} alt='' marginLeft="-5.56%" marginTop="5.56%" width="13.89%" position="absolute" zIndex="-1" />
                                     <Image src={userb} alt='' marginLeft="33.33%" marginTop="5.56%" width="13.89%" position="absolute" zIndex="-1" />
