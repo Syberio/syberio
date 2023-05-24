@@ -58,7 +58,10 @@ export default function Profile() {
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [currentPasswordError, setCurrentPasswordError] = useState('');
-
+    const [errors, setErrors] = useState({
+        name: null,
+        surname: null
+    });
 
     const colorOptions = [
         "gray.300",
@@ -87,11 +90,39 @@ export default function Profile() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        if (name === 'name' && value.trim().length === 0) {
+            setErrors(errors => ({ ...errors, name: 'Name cannot be empty.' }));
+        } else if (name === 'surname' && value.trim().length === 0) {
+            setErrors(errors => ({ ...errors, surname: 'Surname cannot be empty.' }));
+        } else {
+            setErrors(errors => ({ ...errors, [name]: null }));
+        }
         setUserData(prevState => ({ ...prevState, [name]: value }));
     };
 
     const toggleEditMode = () => {
         if (editMode) {
+            if (userData.name.trim().length === 0) {
+                toast({
+                    title: "Error.",
+                    description: "Name cannot be empty.",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                });
+                return;
+            }
+            if (userData.surname.trim().length === 0) {
+                toast({
+                    title: "Error.",
+                    description: "Surname cannot be empty.",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                });
+                return;
+            }
+    
             userRef.update(userData).then(() => {
                 toast({
                     title: "Success.",
@@ -106,6 +137,7 @@ export default function Profile() {
         }
         setEditMode(!editMode);
     };
+    
 
     const handlePasswordChange = () => {
         if (newPassword === '' || confirmPassword === '' || currentPassword === '') {
@@ -224,7 +256,6 @@ export default function Profile() {
                 </HStack>
                     <VStack spacing={5} alignItems="start" pl={100} pt={50}>
                         <HStack spacing={5}>
-
                             <VStack>
                                 <Avatar size="2xl" name={userData.name + " " + userData.surname} bg={userData.bgColor} color="white" />
                                 <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
@@ -260,11 +291,17 @@ export default function Profile() {
                                         <Text fontSize="xl" fontWeight="bold">
                                             Name
                                         </Text>
-                                        <Input type="text" value={userData.name} id="name" name="name" onChange={handleChange} />
+                                        <FormControl isInvalid={!!errors.name}>
+                                            <Input type="text" value={userData.name} id="name" name="name" onChange={handleChange} />
+                                            <FormErrorMessage>{errors.name}</FormErrorMessage>
+                                        </FormControl>
                                         <Text fontSize="xl" fontWeight="bold">
                                             Surname
                                         </Text>
-                                        <Input type="text" value={userData.surname} id="surname" name="surname" onChange={handleChange} />
+                                        <FormControl isInvalid={!!errors.surname}>
+                                            <Input type="text" value={userData.surname} id="surname" name="surname" onChange={handleChange} />
+                                            <FormErrorMessage>{errors.surname}</FormErrorMessage>
+                                        </FormControl>
                                     </>
                                 ) : (
                                     <Text fontSize="2xl" fontWeight="bold">
@@ -277,7 +314,6 @@ export default function Profile() {
                                         <><Text fontSize="xl" fontWeight="bold">
                                             Country
                                         </Text><Select
-                                            placeholder="Select"
                                             value={userData.country}
                                             onChange={handleChange}
                                             size="md"
@@ -343,7 +379,6 @@ export default function Profile() {
                                     <FormLabel htmlFor="gender" fontSize={editMode ? '2xl' : ''} fontWeight={'bold'}>Gender</FormLabel>
                                     {editMode ? (
                                         <Select
-                                            placeholder="Select"
                                             value={userData.gender}
                                             onChange={handleChange}
                                             size="md"
@@ -362,7 +397,7 @@ export default function Profile() {
                                     <FormLabel htmlFor="email" fontWeight={'bold'}>Email</FormLabel>
                                     <Text fontWeight="bold">{userData.email}</Text>
                                 </Stack>
-                                {!editMode ? <Text fontWeight="bold">Enable Edit Mode to change password.</Text> : ''}
+                                {!editMode ? <Text fontWeight="bold">Enable Edit Mode to change password or edit profile.</Text> : ''}
                             </Stack>
                         </Stack>
                     </VStack></>

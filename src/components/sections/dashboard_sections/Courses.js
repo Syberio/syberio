@@ -166,7 +166,7 @@ export default function Courses() {
                     />
                     <Stack>
                         <CardBody>
-                            <Heading size='md'>Share Messages with IPFS</Heading>
+                            <Heading size='md'>IPFS Principles</Heading>
                             <Text py='2'>
                                 InterPlanetary File System (IPFS) allows for decentralized sharing of messages by storing the message on a distributed network of nodes rather than a centralized server, and the message can be accessed by its hash value.                        </Text>
                         </CardBody>

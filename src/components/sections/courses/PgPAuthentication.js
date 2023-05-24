@@ -253,7 +253,7 @@ const PgPAuthentication = () => {
         </Box>
 
         <Button variant='solid' colorScheme='blue' onClick={() => {
-          navigate("/PgP-Main")
+          navigate("/courses/pgp-main")
         }}>
           Back to pgp main page
         </Button>

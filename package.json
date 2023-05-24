@@ -1,7 +1,7 @@
 {
   "name": "landing-page",
   "version": "0.1.0",
-  "homepage": "https://caganpnr.github.io/syberio",
+  "homepage": "https://diveinfosec.info",
   "private": false,
   "dependencies": {
     "@chakra-ui/icons": "^2.0.15",

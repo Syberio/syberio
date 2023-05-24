@@ -64,7 +64,7 @@ export default function Dashboard() {
             description: "X.509 certificates are digital documents used to authenticate the identity of an entity in a network, and they can be managed and checked to ensure that they have not been tampered with and are still valid.",
             navigatePath: "/courses/x509"
         },
-        "Share Messages with IPFS": {
+        "IPFS Principles": {
             imageSrc: envelopeimg,
             description: "InterPlanetary File System (IPFS) allows for decentralized sharing of messages by storing the message on a distributed network of nodes rather than a centralized server, and the message can be accessed by its hash value.",
             navigatePath: "/courses/ipfs"
@@ -400,11 +400,9 @@ export default function Dashboard() {
                     <Heading size="xl">{activeTab}</Heading>
                     <Box bg="white" borderRadius="300" p="4" borderRightWidth={{ md: "1px" }} display="flex" alignItems="center">
                         <InputGroup borderRadius={20} w="100%" mr="4" ml={2}>
-                            <InputLeftElement
-                                pointerEvents="none"
-                                children={<FaSearch color="gray.300" />}
-                            />
-                            <Input borderRadius={20} placeholder="Search..." />
+                            <Text>
+                                You have {totalUnreadMessages} new message{totalUnreadMessages > 1 ? 's' : ''}
+                            </Text>
                         </InputGroup>
                         <Popover>
                             <PopoverTrigger>
@@ -428,8 +426,9 @@ export default function Dashboard() {
                             <MenuList >
                                 <Text align={'center'}>Welcome, {userData.name}!</Text>
                                 <MenuDivider />
-                                <MenuItem>Profile</MenuItem>
-                                <MenuItem>Preferences</MenuItem>
+                                <MenuItem onClick={() => {
+                                    navigate('/dashboard/profile');
+                                }}>Profile</MenuItem>
                                 <MenuItem onClick={() => {
                                     handleLogout();
                                     navigate('/');

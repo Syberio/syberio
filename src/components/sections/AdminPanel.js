@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Heading, Stack, Text, Button, Divider, Avatar, HStack, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuDivider, MenuItem, MenuList, CircularProgress, CircularProgressLabel, VStack, Card, CardBody, CardFooter, Image, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, useToast, Table, Thead, Tbody, Tr, Th, Td, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, ModalFooter, Checkbox, Select } from "@chakra-ui/react";
+import { Box, Flex, Heading, Stack, Text, Button, Divider, Avatar, HStack, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuDivider, MenuItem, MenuList, CircularProgress, CircularProgressLabel, VStack, Card, CardBody, CardFooter, Image, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, useToast, Table, Thead, Tbody, Tr, Th, Td, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, ModalFooter, Checkbox, Select, FormErrorMessage } from "@chakra-ui/react";
 import { FaBell, FaHome, FaUser, FaQuestion, FaBook, FaUserLock, FaSignOutAlt, FaSearch, FaMailBulk } from "react-icons/fa";
 import Logo from "../ui/Logo";
 import firebase from 'firebase/compat/app';
@@ -47,7 +47,6 @@ export default function AdminPanel() {
 
         fetchTickets();
     }, []);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -132,26 +131,6 @@ export default function AdminPanel() {
         }
     }
 
-    const checkPassword = async () => {
-        try {
-            const user = currentUser;
-            const credential = firebase.auth.EmailAuthProvider.credential(
-                user.email,
-                password
-            );
-            await user.reauthenticateWithCredential(credential);
-
-            onClose();
-        } catch (error) {
-            toast({
-                title: 'An error occured.',
-                description: "Incorrect password.",
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            })
-        }
-    };
     const handleReply = (ticketId) => {
         const ticket = tickets.find(ticket => ticket.id === ticketId);
         setSelectedTicket(ticket);
@@ -160,32 +139,32 @@ export default function AdminPanel() {
 
     const handleSendReply = async () => {
         if (selectedTicket) {
-          // Find the user's document based on their email
-          const userSnapshot = await firestore.collection("users").where("email", "==", selectedTicket.email).get();
-      
-          if (!userSnapshot.empty) {
-            const user = userSnapshot.docs[0];
-      
-            // Send the reply
-            await firestore
-              .collection("users")
-              .doc(user.id) // Use the ID of the first matching user document
-              .collection("notifications")
-              .add({
-                title: replyTitle,
-                message: replyMessage,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              });
-      
-            setReplyTitle("");
-            setReplyMessage("");
-            onReplyClose();
-          } else {
-            console.log("No user with that email found!");
-          }
+            // Find the user's document based on their email
+            const userSnapshot = await firestore.collection("users").where("email", "==", selectedTicket.email).get();
+
+            if (!userSnapshot.empty) {
+                const user = userSnapshot.docs[0];
+
+                // Send the reply
+                await firestore
+                    .collection("users")
+                    .doc(user.id) // Use the ID of the first matching user document
+                    .collection("notifications")
+                    .add({
+                        title: replyTitle,
+                        message: replyMessage,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    });
+
+                setReplyTitle("");
+                setReplyMessage("");
+                onReplyClose();
+            } else {
+                console.log("No user with that email found!");
+            }
         }
-      };
-      
+    };
+
 
     return (
         <Flex
@@ -198,39 +177,6 @@ export default function AdminPanel() {
             gap={5}
             overflow={'scroll'}
         >
-            <AlertDialog
-                isOpen={isOpen}
-                leastDestructiveRef={undefined}
-                onClose={onClose}
-            >
-                <AlertDialogOverlay>
-                    <AlertDialogContent>
-                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                            Manage PGP Keys
-                        </AlertDialogHeader>
-
-                        <AlertDialogBody>
-                            Please enter your password to proceed.
-                            <Input
-                                mt={4}
-                                placeholder="Password"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </AlertDialogBody>
-
-                        <AlertDialogFooter>
-                            <Button onClick={onClose}>
-                                Cancel
-                            </Button>
-                            <Button colorScheme="blue" onClick={checkPassword} ml={3}>
-                                Confirm
-                            </Button>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialogOverlay>
-            </AlertDialog>
             <AlertDialog
                 isOpen={isDeleteOpen}
                 leastDestructiveRef={undefined}
@@ -263,22 +209,24 @@ export default function AdminPanel() {
                     <ModalBody>
                         {selectedUser && (
                             <>
-                                <FormControl>
+                                <FormControl isInvalid={selectedUser.email === ''}>
                                     <FormLabel>Email</FormLabel>
                                     <Input placeholder="Email" value={selectedUser.email} onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })} />
+                                    <FormErrorMessage>Email is required</FormErrorMessage>
                                 </FormControl>
-                                <FormControl>
+                                <FormControl isInvalid={selectedUser.name === ''}>
                                     <FormLabel>Name</FormLabel>
                                     <Input placeholder="Name" value={selectedUser.name} onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })} />
+                                    <FormErrorMessage>Name is required</FormErrorMessage>
                                 </FormControl>
-                                <FormControl>
+                                <FormControl isInvalid={selectedUser.surname === ''}>
                                     <FormLabel>Surname</FormLabel>
                                     <Input placeholder="Surname" value={selectedUser.surname} onChange={(e) => setSelectedUser({ ...selectedUser, surname: e.target.value })} />
+                                    <FormErrorMessage>Surname is required</FormErrorMessage>
                                 </FormControl>
                                 <FormControl>
                                     <FormLabel>Country</FormLabel>
                                     <Select
-                                        placeholder="Select country"
                                         value={selectedUser.country}
                                         onChange={(e) => setSelectedUser({ ...selectedUser, country: e.target.value })}
                                         size="md"
@@ -293,7 +241,6 @@ export default function AdminPanel() {
                                 <FormControl>
                                     <FormLabel>Gender</FormLabel>
                                     <Select
-                                        placeholder="Select your gender"
                                         value={selectedUser.gender}
                                         onChange={(e) => setSelectedUser({ ...selectedUser, gender: e.target.value })}
                                         size="md"
@@ -311,7 +258,13 @@ export default function AdminPanel() {
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={onEditModalClose}>Cancel</Button>
-                        <Button colorScheme="blue" onClick={handleUpdateUser} ml={3}>Save</Button>
+                        <Button
+                            colorScheme="blue"
+                            onClick={handleUpdateUser}
+                            ml={3}
+                            isDisabled={selectedUser?.email === '' || selectedUser?.name === '' || selectedUser?.surname === '' || selectedUser?.country === '' || selectedUser?.gender === ''}>
+                            Save
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -321,21 +274,28 @@ export default function AdminPanel() {
                     <ModalHeader>Reply to {selectedTicket?.title}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Input
-                            placeholder="Reply title"
-                            value={replyTitle}
-                            onChange={(e) => setReplyTitle(e.target.value)}
-                        />
-                        <Input
-                            mt={4}
-                            placeholder="Reply message"
-                            value={replyMessage}
-                            onChange={(e) => setReplyMessage(e.target.value)}
-                        />
+                        <FormControl isInvalid={replyTitle === ''}>
+                            <FormLabel>Title</FormLabel>
+                            <Input
+                                placeholder="Reply title"
+                                value={replyTitle}
+                                onChange={(e) => setReplyTitle(e.target.value)}
+                            />
+                            <FormErrorMessage>Title is required</FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={replyMessage === ''}>
+                            <FormLabel>Message</FormLabel>
+                            <Input
+                                placeholder="Reply message"
+                                value={replyMessage}
+                                onChange={(e) => setReplyMessage(e.target.value)}
+                            />
+                            <FormErrorMessage>Message is required</FormErrorMessage>
+                        </FormControl>
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={onReplyClose}>Cancel</Button>
-                        <Button colorScheme="blue" onClick={handleSendReply} ml={3}>Send Reply</Button>
+                        <Button colorScheme="blue" onClick={handleSendReply} isDisabled={replyTitle === '' || replyMessage === ''} ml={3} >Send Reply</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -426,7 +386,7 @@ export default function AdminPanel() {
                                 onChange={(e) => setMessage(e.target.value)}
                             />
                             <HStack>
-                                <Button onClick={() => {
+                                <Button colorScheme="blue" isDisabled={title === '' || message === ''} onClick={() => {
                                     firestore.collection("users").get().then((querySnapshot) => {
                                         querySnapshot.forEach((doc) => {
                                             firestore
@@ -444,7 +404,7 @@ export default function AdminPanel() {
                                         setSelectedUsers([]);
                                     });
                                 }}>Send message to all users</Button>
-                                <Button onClick={() => {
+                                <Button colorScheme="blue" isDisabled={selectedUsers <= 0 || title === '' || message === ''} onClick={() => {
                                     selectedUsers.forEach(userId => {
                                         firestore
                                             .collection("users")
@@ -464,7 +424,6 @@ export default function AdminPanel() {
 
                         </VStack>
                     </Box>
-
                 </Stack>
                 <Box flex="1" bg="gray.200" borderRadius={"20"} p="6" borderRightWidth={{ md: "1px" }} width={"100%"}>
                     <Heading as="h2" size="md" mb={6}>Support Tickets</Heading>
@@ -474,7 +433,7 @@ export default function AdminPanel() {
                             <Text><strong>Title:</strong> {ticket.title}</Text>
                             <Text><strong>Problem:</strong> {ticket.problem}</Text>
                             <Text><strong>Message:</strong> {ticket.message}</Text>
-                            <Button onClick={() => handleReply(ticket.id)}>Reply</Button>
+                            <Button colorScheme="blue" onClick={() => handleReply(ticket.id)}>Reply</Button>
                         </Box>
                     ))}
                 </Box>

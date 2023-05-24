@@ -43,7 +43,7 @@ function IPFS() {
             if (auth.currentUser) {
                 const { uid } = auth.currentUser;
                 console.log(uid);
-                const courseName = "Share Messages with IPFS";
+                const courseName = "IPFS Principles";
                 const progress = (currentTab / totalTabs) * 100;
 
                 const userDocRef = firebase.firestore().collection("users").doc(uid);

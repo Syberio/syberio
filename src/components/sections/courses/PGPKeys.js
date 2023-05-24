@@ -36,7 +36,7 @@ function PGPKeys() {
             if (auth.currentUser) {
                 const { uid } = auth.currentUser;
                 console.log(uid);
-                const courseName = "Use PGP Services";
+                const courseName = "Create Public and Private Key";
                 const progress = (currentTab / totalTabs) * 100;
 
                 const userDocRef = firebase.firestore().collection("users").doc(uid);
@@ -68,7 +68,7 @@ function PGPKeys() {
                 >
                     <b>Generate Public and Private Keys</b>
                 </Box>
-                <Tabs variant="soft-rounded" colorScheme="blue" orientation="vertical">
+                <Tabs variant="soft-rounded" colorScheme="blue" orientation="vertical" onChange={(index) => setCurrentTab(index + 1)}>
                     <TabList marginLeft="100px" marginTop="100px" orientation="vertical">
                         <Tab width="400px">What is a Public Key?</Tab>
                         <Tab>What is a Private Key?</Tab>

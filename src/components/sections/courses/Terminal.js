@@ -143,12 +143,16 @@ const Terminal = () => {
               await printToTerminal('RSA keys may be  2048 or 4096 bits long.');
               keySize = await askForInput('What keysize do you want?');
               var firstChar = keySize.trim().substring(0, 4);
+
               console.log(choice);
             } while (
               keySize.length !== 4 ||
               !['2048', '4096'].includes(firstChar)
             );
-            keySize = parseInt(choice);
+            console.log(`${parseInt(keySize)} key size`);
+            keySize = parseInt(keySize);
+            console.log(`${typeof(keySize)} key size`);
+
             break;
           case 2:
             await printToTerminal('DSA keys 2048 bit long.');
@@ -201,7 +205,7 @@ const Terminal = () => {
 
         console.log(choice);
         if (choice === 1) {
-          createRSAKeys(newName, newEmail, password);
+          createRSAKeys(newName, newEmail, password, keySize);
           const coolSign = printCoolOutput('Key created');
           printToTerminal(coolSign);
           printToTerminal('You can check it from Manage keys PGP Keys');
@@ -397,11 +401,12 @@ const Terminal = () => {
 
     return coolSign;
   }
-  async function createRSAKeys(userName, email, password) {
+  async function createRSAKeys(userName, email, password,rsaBits) {
+    rsaBits = parseInt(rsaBits);
     const { privateKey, publicKey, revocationCertificate } =
       await openpgp.generateKey({
         type: 'rsa',
-        rsaBits: 4096,
+        rsaBits: rsaBits,
         userIDs: [{ name: userName, email: email }],
         passphrase: password,
       });

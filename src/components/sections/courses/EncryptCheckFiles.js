@@ -228,7 +228,7 @@ function EncryptCheckFiles() {
                                                     </AccordionButton>
                                                 </h2>
                                                 <AccordionPanel pb={4}>
-                                                    <Text>Generate a hash value for the original file using a hash function like SHA-256 or MD5. Various tools and programming libraries provide functions to compute hash values.</Text>
+                                                    <Text>Generate a hash value for the original file using a hash function like SHA-256 or SHA-512. Various tools and programming libraries provide functions to compute hash values.</Text>
                                                 </AccordionPanel>
                                             </AccordionItem>
 
@@ -342,7 +342,7 @@ function EncryptCheckFiles() {
                                                     </AccordionButton>
                                                 </h2>
                                                 <AccordionPanel pb={4}>
-                                                    <Text>The document or message to be signed is subjected to a hash function, which produces a fixed-size output known as a hash value or message digest. Commonly used hash functions include SHA-256 and MD5. The purpose of the hash function is to create a unique and compact representation of the document, regardless of its size.</Text>
+                                                    <Text>The document or message to be signed is subjected to a hash function, which produces a fixed-size output known as a hash value or message digest. Commonly used hash functions include SHA-256 and SHA-512. The purpose of the hash function is to create a unique and compact representation of the document, regardless of its size.</Text>
                                                 </AccordionPanel>
                                             </AccordionItem>
 
